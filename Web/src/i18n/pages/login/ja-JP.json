@@ -1,0 +1,23 @@
+{
+  "login": {
+    "account": "アカウント",
+    "password": "パスワード",
+    "captcha": "認証コード",
+    "btnLogin": "ログイン",
+    "rememberMe": "ログイン情報を記憶する",
+    "loginSuccess": "ログインに成功しました",
+    "loginTimeOut": "ログイン状態の有効期限が切れました。再度ログインしてください",
+    "reLogin": "再ログイン",
+    "invalidSession": "セッションが無効、または期限切れです。再度ログインしてください。",
+    "otherLoginWay": "他のログイン方法",
+    "register": "新規登録",
+    "forgotPwd": "パスワードを忘れた場合",
+    "phoneCode": "SMS認証コードを入力してください",
+    "sendPhoneCode": "認証コード送信",
+    "loginway1": "アカウントログイン",
+    "loginway2": "電話番号ログイン",
+    "loginway3": "QRコードログイン",
+    "input_phoneNum": "電話番号を入力してください",
+    "tip_scan_code": "モバイルアプリでQRコードをスキャンしてログインしてください"
+  }
+}

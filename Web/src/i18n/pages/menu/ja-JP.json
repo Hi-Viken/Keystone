@@ -1,0 +1,24 @@
+{
+  "m": {
+    "menuName": "メニュー名",
+    "menuState": "メニュー状態",
+    "icon": "メニューアイコン",
+    "menuid": "メニューID",
+    "menuType": "メニュータイプ",
+    "sort": "表示順",
+    "authorityID": "権限ID",
+    "componentPath": "コンポーネントパス",
+    "isShow": "表示するか",
+    "parentMenu": "親メニュー",
+    "directory": "ディレクトリ",
+    "menu": "メニュー",
+    "button": "ボタン",
+    "link": "リンク",
+    "isFrame": "外部リンクか",
+    "routePath": "ルートパス",
+    "permissionStr": "権限識別子",
+    "isCache": "キャッシュするか",
+    "menuNameKey": "メニューキー",
+    "route_query": "ルートパラメータ"
+  }
+}

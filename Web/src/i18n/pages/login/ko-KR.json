@@ -1,0 +1,23 @@
+{
+  "login": {
+    "account": "계정",
+    "password": "비밀번호",
+    "captcha": "인증코드",
+    "btnLogin": "로그인",
+    "rememberMe": "로그인 정보 기억하기",
+    "loginSuccess": "로그인 성공",
+    "loginTimeOut": "로그인 상태가 만료되었습니다. 다시 로그인해 주세요",
+    "reLogin": "다시 로그인",
+    "invalidSession": "세션이 유효하지 않거나 만료되었습니다. 다시 로그인해 주세요.",
+    "otherLoginWay": "다른 로그인 방법",
+    "register": "회원가입",
+    "forgotPwd": "비밀번호 찾기",
+    "phoneCode": "문자 인증코드를 입력하세요",
+    "sendPhoneCode": "인증코드 발송",
+    "loginway1": "계정 로그인",
+    "loginway2": "휴대폰 로그인",
+    "loginway3": "QR코드 로그인",
+    "input_phoneNum": "휴대폰 번호를 입력하세요",
+    "tip_scan_code": "모바일 앱으로 QR코드를 스캔하여 로그인하세요"
+  }
+}

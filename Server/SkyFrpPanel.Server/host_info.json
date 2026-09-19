@@ -1,0 +1,13 @@
+{
+  "hostname": "vm-Debian-host",
+  "ip": "192.168.31.41",
+  "cpu": "13th Gen Intel(R) Core(TM) i5-13400",
+  "ram": 4072538112,
+  "disks": [{"device":"sda","size":21474836480}],
+  "os": {
+    "name": "Debian GNU/Linux",
+    "version": "13",
+    "kernel": "6.12.57+deb13-amd64",
+    "boot_mode": "BIOS"
+  }
+}

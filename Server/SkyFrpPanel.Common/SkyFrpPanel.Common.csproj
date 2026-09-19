@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommonRelyOn\CommonRelyOn.csproj" />
+    <ProjectReference Include="..\SkyFrpPanel.Infrastructure\SkyFrpPanel.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

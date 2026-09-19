@@ -1,0 +1,11 @@
+global using SkyFrpPanel.Common;
+global using Microsoft.AspNetCore.Authorization;
+global using SkyFrpPanel.Infrastructure;
+global using SkyFrpPanel.Infrastructure.Attribute;
+global using SkyFrpPanel.Infrastructure.Enums;
+global using SkyFrpPanel.Infrastructure.Model;
+global using Mapster;
+global using SkyFrpPanel.Infrastructure.Extensions;
+global using SkyFrpPanel.Infrastructure.Controllers;
+global using SkyFrpPanel.ServiceCore.Middleware;
+global using SkyFrpPanel.ServiceCore.Services;

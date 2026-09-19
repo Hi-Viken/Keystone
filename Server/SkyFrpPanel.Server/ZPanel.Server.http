@@ -1,0 +1,6 @@
+@ZPanel.Server_HostAddress = http://localhost:5156
+
+GET {{ZPanel.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

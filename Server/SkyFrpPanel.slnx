@@ -1,0 +1,23 @@
+<Solution>
+  <Folder Name="/Kep/">
+    <Project Path="Kep/KepClientCore/KepClientCore.csproj" />
+    <Project Path="Kep/KepDevSmartMeter/KepDevSmartMeter.csproj" />
+    <Project Path="Kep/KepServerCore/KepServerCore.csproj" />
+    <Project Path="Kep/KepServerHub/KepServerHub.csproj" />
+    <Project Path="Kep/ZepCommon/KepCommon.csproj" />
+  </Folder>
+  <Folder Name="/Kep/Demo/">
+    <Project Path="Kep/Demo/KepDevSwitch/KepDevSwitch.csproj" />
+  </Folder>
+  <Project Path="CommonRelyOn/CommonRelyOn.csproj" />
+  <Project Path="SkyFrpPanel.CodeGenerator/SkyFrpPanel.CodeGenerator.csproj" />
+  <Project Path="SkyFrpPanel.Common/SkyFrpPanel.Common.csproj" />
+  <Project Path="SkyFrpPanel.Infrastructure/SkyFrpPanel.Infrastructure.csproj" />
+  <Project Path="SkyFrpPanel.Mall/SkyFrpPanel.Mall.csproj" />
+  <Project Path="SkyFrpPanel.Model/SkyFrpPanel.Model.csproj" />
+  <Project Path="SkyFrpPanel.Repository/SkyFrpPanel.Repository.csproj" />
+  <Project Path="SkyFrpPanel.Server/SkyFrpPanel.Server.csproj" />
+  <Project Path="SkyFrpPanel.Service/SkyFrpPanel.Service.csproj" />
+  <Project Path="SkyFrpPanel.ServiceCore/SkyFrpPanel.ServiceCore.csproj" />
+  <Project Path="SkyFrpPanel.Tasks/SkyFrpPanel.Tasks.csproj" />
+</Solution>

@@ -1,0 +1,13 @@
+global using SkyFrpPanel.Model;
+global using SkyFrpPanel.Repository;
+global using SkyFrpPanel.ServiceCore;
+global using SqlSugar;
+global using MiniExcelLibs.Attributes;
+global using Newtonsoft.Json;
+global using System.ComponentModel.DataAnnotations;
+global using SkyFrpPanel.Infrastructure;
+global using SkyFrpPanel.Infrastructure.Attribute;
+global using SkyFrpPanel.Infrastructure.Controllers;
+global using SkyFrpPanel.Infrastructure.Enums;
+global using Mapster;
+global using SkyFrpPanel.ServiceCore.Middleware;

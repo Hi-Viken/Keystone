@@ -1,0 +1,54 @@
+# ============================================================
+# Keystone / SkyFrpPanel - 根 .gitignore
+# 说明：Server/.gitignore 与 Web/.gitignore 已覆盖各自子树的
+#       bin/obj/.vs/node_modules/dist 等；本文件补充根级覆盖
+#       与“敏感信息 / 运行时数据”的忽略规则。
+# ============================================================
+
+# ---------- 构建产物（.NET / VS / 前端） ----------
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+*.dll
+*.exe
+*.pdb
+
+# ---------- 依赖与前端的构建输出 ----------
+node_modules/
+dist/
+
+# ---------- 日志 / 系统文件 ----------
+*.log
+NLog/Logs/
+.DS_Store
+Thumbs.db
+
+# ---------- 运行时数据（不纳入版本库） ----------
+# 项目由 ZPanel.Server 重命名为 SkyFrpPanel.Server，旧忽略路径失效，此处修正
+Server/SkyFrpPanel.Server/wwwroot/uploads/
+Server/SkyFrpPanel.Server/wwwroot/avatar/
+Server/SkyFrpPanel.Server/wwwroot/export/
+DataProtection/
+
+# ---------- 密钥 / 证书 / 配置（严禁提交） ----------
+*.pfx
+*.pem
+*.key
+*.crt
+id_rsa*
+appsettings.json
+appsettings.*.json
+!appsettings.Example.json
+
+# ---------- 前端环境变量（保留示例） ----------
+Web/.env
+Web/.env.*
+!Web/.env.example
