@@ -1,9 +1,3 @@
-.el-menu-item,
-.el-sub-menu {
-  .svg-icon + span {
-    margin-left: 5px;
-  }
-}
 #app {
   .sidebar {
     position: relative;
@@ -25,11 +19,42 @@
       border: none;
     }
 
-    // [class^='el-icon'] {
-    //   width: 1em;
-    //   height: 1em;
-    //   font-size: unset;
-    // }
+    [class^='el-icon'] {
+      width: 1em;
+      height: 1em;
+      font-size: unset;
+    }
+
+    // 选中菜单项焦点高亮：左侧指示条 + 半透明背景 + 加粗
+    // 颜色使用 currentColor，自动跟随 el-menu 的 active-text-color（即主题色），
+    // 在深色 / 浅色 / 黑色侧边栏背景下均能清晰突出当前焦点
+    .el-menu-item.is-active {
+      position: relative;
+      font-weight: 600;
+      background-color: color-mix(in srgb, currentColor 16%, transparent) !important;
+      transition: background-color 0.2s ease;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: currentColor;
+        border-radius: 0 3px 3px 0;
+      }
+
+      &:hover {
+        background-color: color-mix(in srgb, currentColor 22%, transparent) !important;
+      }
+    }
+
+    // hover 态轻微背景，提升整体可读性
+    .el-menu-item:not(.is-active):hover,
+    .el-sub-menu__title:hover {
+      background-color: color-mix(in srgb, currentColor 8%, transparent) !important;
+    }
   }
 
   // 展开sidebar状态设置svg-icon边距
@@ -37,7 +62,11 @@
     .sidebar {
       transform: translate(0);
     }
+    .sidebar .svg-icon {
+      margin-right: 5px;
+    }
   }
+
   // 隐藏侧边栏样式
   .hideSidebar {
     .el-aside {
@@ -53,11 +82,23 @@
         }
       }
     }
-
     // 折叠状态下
     .el-menu--collapse {
-      .menu-icon {
+      [class^='el-icon'] {
+        width: auto;
+        font-size: medium;
         margin-right: 0;
+      }
+      .el-sub-menu {
+        & > .el-sub-menu__title {
+          & > span {
+            height: 3000px;
+            width: 0;
+            overflow: hidden;
+            visibility: hidden;
+            display: inline-block;
+          }
+        }
       }
     }
   }
@@ -76,10 +117,39 @@
 
     &.hideSidebar {
       .sidebar {
-        pointer-events: none;
-        transform: translate3d(-220px, 0, 0);
-        transition-duration: 0.3s;
+        display: none;
       }
     }
+  }
+}
+
+// when menu collapsed
+.el-menu--vertical {
+  // the scroll bar appears when the subMenu is too long
+  > .el-menu--popup {
+    max-height: 100vh;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+  }
+}
+
+// 折叠态弹出子菜单选中项高亮，与侧边栏保持一致
+.el-menu--popup .el-menu-item.is-active {
+  position: relative;
+  font-weight: 600;
+  background-color: color-mix(in srgb, currentColor 16%, transparent) !important;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: currentColor;
+    border-radius: 0 3px 3px 0;
   }
 }
