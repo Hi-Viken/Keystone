@@ -135,12 +135,6 @@ export default defineConfig(({ mode, command }) => {
           ws: true,
           rewrite: (path) => path.replace(/^\/msgHub/, '')
         }
-        ,
-        '/kephub': {
-          target: env.VITE_APP_API_HOST,
-          ws: true,
-          rewrite: (path) => path.replace(/^\/kepHub/, '')
-        }
       }
     }
   }

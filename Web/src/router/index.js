@@ -90,31 +90,6 @@ export const constantRoutes = [
         meta: { title: '个人中心', icon: 'user', titleKey: 'menu.personalCenter' }
       }
     ]
-  },
-    {
-    path: '/Kepsss',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/Kep/Client/index.vue'),
-        name: 'Kep',
-        meta: { title: '实时交互', icon: 'index' }
-      }
-    ]
-  },
-  {
-    path: '/kep/material/detail',
-    component: () => import('@/views/Kep/Material/DetailView.vue'),
-    hidden: true,
-    children: [
-      {
-        path: ':id',
-        component: () => import('@/views/Kep/Material/DetailView.vue'),
-        name: 'MaterialDetail',
-        meta: { title: '材料详情', activeMenu: '/kep/material' }
-      }
-    ]
   }
 ]
 

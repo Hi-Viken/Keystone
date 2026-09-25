@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CommonRelyOn\CommonRelyOn.csproj" />
-    <ProjectReference Include="..\Kep\KepServerCore\KepServerCore.csproj" />
     <ProjectReference Include="..\SkyFrpPanel.Common\SkyFrpPanel.Common.csproj" />
     <ProjectReference Include="..\SkyFrpPanel.Repository\SkyFrpPanel.Repository.csproj" />
   </ItemGroup>

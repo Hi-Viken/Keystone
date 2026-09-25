@@ -25,7 +25,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using SkyFrpPanel.Service;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -247,8 +247,6 @@ app.UseIpRateLimiting();
 app.UseRateLimiter();
 //设置socket连接
 
-//设置socket连接
-app.MapHub<KepHub>("/kepHub");
 
 app.MapHub<MessageHub>("/msgHub");
 

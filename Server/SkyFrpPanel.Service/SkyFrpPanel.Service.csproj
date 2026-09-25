@@ -10,9 +10,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CommonRelyOn\CommonRelyOn.csproj" />
-    <ProjectReference Include="..\Kep\KepServerCore\KepServerCore.csproj" />
     <ProjectReference Include="..\SkyFrpPanel.Common\SkyFrpPanel.Common.csproj" />
     <ProjectReference Include="..\SkyFrpPanel.ServiceCore\SkyFrpPanel.ServiceCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Content\IService\" />
+    <Folder Include="Public\IPublicService\" />
   </ItemGroup>
 
 </Project>

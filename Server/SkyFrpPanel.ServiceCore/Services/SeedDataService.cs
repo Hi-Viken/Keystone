@@ -185,40 +185,7 @@ namespace SkyFrpPanel.ServiceCore.Services
             return (msg, x.ErrorList, x.IgnoreList);
         }
 
-        /// <summary>
-        /// 文章目录
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public (string, object, object) InitArticleCategoryData(List<ArticleCategory> data)
-        {
-            var db = DbScoped.SugarScope;
-            var x = db.Storageable(data)
-                //.SplitInsert(it => it.NotAny())
-                .WhereColumns(it => it.Name)
-                .ToStorage();
-            x.AsInsertable.ExecuteCommand();
-            x.AsUpdateable.ExecuteCommand();
-            string msg = $"[文章目录] 插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
-            return (msg, x.ErrorList, x.IgnoreList);
-        }
 
-        /// <summary>
-        /// 文章话题
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public (string, object, object) InitArticleTopicData(List<ArticleTopic> data)
-        {
-            var db = DbScoped.SugarScope;
-            var x = db.Storageable(data)
-                .WhereColumns(it => it.TopicName)
-                .ToStorage();
-            x.AsInsertable.ExecuteCommand();
-            x.AsUpdateable.ExecuteCommand();
-            string msg = $"[文章话题] 插入{x.InsertList.Count} 更新{x.UpdateList.Count} 错误{x.ErrorList.Count} 总共{x.TotalList.Count}";
-            return (msg, x.ErrorList, x.IgnoreList);
-        }
 
         /// <summary>
         /// 任务
@@ -322,13 +289,6 @@ namespace SkyFrpPanel.ServiceCore.Services
             var result10 = InitDeptData(sysDept);
             result.Add(result10.Item1);
 
-            var sysArticleCategory = MiniExcel.Query<ArticleCategory>(path, sheetName: "article_category").ToList();
-            var result11 = InitArticleCategoryData(sysArticleCategory);
-            result.Add(result11.Item1);
-
-            var sysArticleTopic = MiniExcel.Query<ArticleTopic>(path, sheetName: "article_topic").ToList();
-            var result13 = InitArticleTopicData(sysArticleTopic);
-            result.Add(result13.Item1);
 
             var sysNotice = MiniExcel.Query<SysNotice>(path, sheetName: "notice").ToList();
             var result12 = InitNoticeData(sysNotice);

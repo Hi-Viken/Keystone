@@ -23,6 +23,7 @@
     <Folder Include="File\Dto\" />
     <Folder Include="File\Model\" />
     <Folder Include="File\Vo\" />
+    <Folder Include="Public\Dto\" />
   </ItemGroup>
 
   <ItemGroup>
