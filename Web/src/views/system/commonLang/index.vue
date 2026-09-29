@@ -106,9 +106,9 @@
       highlight-current-row @sort-change="sortChange" @selection-change="handleSelectionChange">
       <el-table-column prop="langKey" :label="$t('languageKey')" align="center" :show-overflow-tooltip="true" />
 
-      <el-table-column prop="zh-cn" :label="$t('common.chinese')" align="center" :show-overflow-tooltip="true" />
-      <el-table-column prop="en" :label="$t('common.english')" align="center" :show-overflow-tooltip="true" />
-      <el-table-column prop="zh-tw" :label="$t('common.traditionalChinese')" align="center"
+      <el-table-column prop="zh-CN" :label="$t('common.chinese')" align="center" :show-overflow-tooltip="true" />
+      <el-table-column prop="en-US" :label="$t('common.english')" align="center" :show-overflow-tooltip="true" />
+      <el-table-column prop="zh-TW" :label="$t('common.traditionalChinese')" align="center"
         :show-overflow-tooltip="true" />
 
       <el-table-column :label="$t('btn.operate')" align="center" width="140">
@@ -272,17 +272,17 @@ function reset() {
     langKey: undefined,
     langList: [
       {
-        langCode: 'zh-cn',
+        langCode: 'zh-CN',
         label: proxy.$t('common.chinese'),
         langName: undefined
       },
       {
-        langCode: 'zh-tw',
+        langCode: 'zh-TW',
         label: proxy.$t('common.traditionalChinese'),
         langName: undefined
       },
       {
-        langCode: 'en',
+        langCode: 'en-US',
         label: proxy.$t('common.english'),
         langName: undefined
       }

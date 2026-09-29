@@ -3,9 +3,23 @@ import { createI18n } from 'vue-i18n'
 import { listLangByLocale } from '@/api/system/commonlang.js'
 import defaultSettings from '@/settings'
 import cache from '@/plugins/cache'
+
+const localeMap = {
+  'zh-cn': 'zh-CN',
+  'zh-tw': 'zh-TW',
+  'en': 'en-US',
+  'en-us': 'en-US',
+  'ja-jp': 'ja-JP',
+  'ko-kr': 'ko-KR'
+}
+function normalizeLocale(lang) {
+  if (!lang) return defaultSettings.defaultLang
+  return localeMap[lang.toLowerCase()] || lang
+}
+
 const language = computed(() => {
   // return useAppStore().lang
-  return cache.local.get('lang') || defaultSettings.defaultLang
+  return normalizeLocale(cache.local.get('lang') || defaultSettings.defaultLang)
 })
 
 import zhCn from './lang/zh-CN.json'

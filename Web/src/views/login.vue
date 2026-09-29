@@ -9,8 +9,8 @@
       <div style="padding: 0 25px 5px 25px">
         <el-tabs v-model="loginType" @tab-click="handleLoginType">
           <el-tab-pane :label="$t('login.loginway1')" :name="1"></el-tab-pane>
-          <el-tab-pane :label="$t('login.loginway2')" :name="2" v-if="defaultSettings.showPhoneLogin"></el-tab-pane>
-          <el-tab-pane :label="$t('login.loginway3')" :name="3" v-if="defaultSettings.showQrLogin"></el-tab-pane>
+          <el-tab-pane :label="$t('login.loginway2')" :name="2" v-if="showPhoneLogin"></el-tab-pane>
+          <el-tab-pane :label="$t('login.loginway3')" :name="3" v-if="showQrLogin"></el-tab-pane>
         </el-tabs>
       </div>
 
@@ -71,7 +71,7 @@
 </template>
 
 <script setup name="login">
-import { getCodeImg, GetLoginRecord } from '@/api/system/login'
+import { getCodeImg, GetLoginRecord, getLoginConfig } from '@/api/system/login'
 import Cookies from 'js-cookie'
 import { encrypt, decrypt } from '@/utils/jsencrypt'
 import defaultSettings from '@/settings'
@@ -115,6 +115,18 @@ const loading = ref(false)
 const captchaOnOff = ref('off')
 // 注册开关
 const register = ref(false)
+// 登录方式开关（从后端配置读取）
+const showPhoneLogin = ref(false)
+const showQrLogin = ref(false)
+getLoginConfig().then((res) => {
+  const data = res.data
+  captchaOnOff.value = data.captchaOff
+  showPhoneLogin.value = data.mobileNumberLogin === 'on'
+  showQrLogin.value = data.scanToLogin === 'on'
+  if (data.captchaOff !== 'off') {
+    getCode()
+  }
+})
 const redirect = ref()
 redirect.value = route.query.redirect
 // Get the visitor identifier when you need it.
@@ -275,13 +287,9 @@ function handleForgetPwd() {
 }
 
 function handleLoginType(t) {
-  // const val = t.paneName
-
-  if (userStore.loginType == 3) {
-    nextTick(() => {
-      proxy.$refs.qrLoginRef.clearQr()
-    })
-  }
+  nextTick(() => {
+    proxy.$refs.qrLoginRef?.clearQr()
+  })
 }
 watch(
   () => userStore.loginType,
@@ -296,10 +304,9 @@ watch(
 )
 function handleShowQrLogin() {
   nextTick(() => {
-    proxy.$refs.qrLoginRef.generateCode()
+    proxy.$refs.qrLoginRef?.generateCode()
   })
 }
-getCode()
 getCookie()
 </script>
 

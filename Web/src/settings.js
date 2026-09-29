@@ -79,7 +79,7 @@ export default {
   /**
    * 默认语言
    */
-  defaultLang: 'zh-cn',
+  defaultLang: 'zh-CN',
   /**
    * 左侧菜单是否显示New标记
    */

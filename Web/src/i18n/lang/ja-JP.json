@@ -362,14 +362,15 @@
   },
   "notice": {
     "notification": "通知",
-    "privateMsg": "私信",
-    "system": "系统",
-    "markPageRead": "标记当前页已读",
-    "goToCenter": "前往通知中心",
-    "reply": "回复：",
-    "read": "已读",
-    "next": "下一条",
-    "iHaveRead": "我已阅读"
+    "privateMsg": "メッセージ",
+    "system": "システム",
+    "markPageRead": "すべて既読にする",
+    "goToCenter": "通知センターへ",
+    "reply": "返信：",
+    "read": "既読",
+    "next": "次へ",
+    "iHaveRead": "確認しました",
+    "empty": "データなし"
   },
   "iconSelect": {
     "inputName": "请输入图标名称",

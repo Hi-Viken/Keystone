@@ -15,11 +15,19 @@ onMounted(() => {
 })
 function initStars() {
   let starArr = proxy.$refs.star
-  starArr.forEach((item) => {
+  const styles = starArr.map(() => {
     let speed = 0.2 + Math.random() * 1
     let thisDistance = distance.value + Math.random() * 300
-    item.style.transformOrigin = `0 0 ${thisDistance}px`
-    item.style.transform = `translate3d(0, 0, -${thisDistance}px) rotateY(${Math.random() * 360}deg) rotateX(${Math.random() * -50}deg) scale(${speed}, ${speed})`
+    return {
+      transformOrigin: `0 0 ${thisDistance}px`,
+      transform: `translate3d(0, 0, -${thisDistance}px) rotateY(${Math.random() * 360}deg) rotateX(${Math.random() * -50}deg) scale(${speed}, ${speed})`
+    }
+  })
+  requestAnimationFrame(() => {
+    starArr.forEach((item, i) => {
+      item.style.transformOrigin = styles[i].transformOrigin
+      item.style.transform = styles[i].transform
+    })
   })
 }
 </script>

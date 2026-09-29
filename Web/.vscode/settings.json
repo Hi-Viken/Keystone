@@ -50,7 +50,7 @@
       }
     }
   },
-  "i18n-ally.displayLanguage": "zh-cn",
+  "i18n-ally.displayLanguage": "zh-CN",
   "i18n-ally.enabledParsers": [
     "json",
     "js"

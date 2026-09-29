@@ -8,7 +8,7 @@
     {{ $t('buildView.selfIntegrate') }}
   </div>
 </template>
-<style>
+<style scoped>
 a {
   color: aquamarine;
 }

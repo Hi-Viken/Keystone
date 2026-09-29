@@ -82,9 +82,11 @@ function handleDetails(item, type) {
 
 function onReadClick() {
   open.value = false
+  const store = useSocketStore()
   openNoticeList.value.forEach((item) => {
-    useSocketStore().readPromptNotice(item.noticeId)
+    store.readPromptNotice(item.noticeId)
   })
+  store.readAll('0')
 }
 defineExpose({
   handleOpen

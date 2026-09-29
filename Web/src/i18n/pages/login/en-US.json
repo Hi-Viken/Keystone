@@ -15,6 +15,17 @@
     "phoneCode": "Please enter SMS verification code",
     "sendPhoneCode": "Send",
     "input_phoneNum": "Please enter phone number",
-    "tip_scan_code": "Please use the mobile app to scan the code to log in"
+    "tip_scan_code": "Please use the mobile app to scan the code to log in",
+    "langSetting": "Language setting",
+    "phoneNumRequired": "Please enter phone number",
+    "phoneCodeRequired": "Please enter phone verification code",
+    "captchaRequired": "Please enter captcha",
+    "qrGenerating": "Generating QR code...",
+    "logging": "Logging in...",
+    "success": "Success",
+    "welcomeBack": "Welcome back",
+    "qrExpired": "QR code expired, please refresh",
+    "currentLogin": "Current login",
+    "lastLogin": "Last login"
   }
 }

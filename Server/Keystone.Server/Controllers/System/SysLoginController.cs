@@ -47,6 +47,29 @@ namespace Keystone.Controllers.System
             roleService = sysRoleService;
         }
 
+
+
+        /// <summary>
+        /// 获取登录基础信息
+        /// </summary>
+        /// <param name="loginBody">登录对象</param>
+        /// <returns></returns>
+        [Route("getLoginConfig")]
+        [HttpGet]
+        [Log(Title = "获取登录基础信息")]
+        [AllowAnonymous]
+        public IActionResult getLoginConfig()
+        {
+            SysConfig captchaOnOff = sysConfigService.GetSysConfigByKey("sys.account.captchaOnOff");
+            SysConfig mobileNumberLogin = sysConfigService.GetSysConfigByKey("sys.account.mobileNumberLogin");
+            SysConfig scanToLogin = sysConfigService.GetSysConfigByKey("sys.account.scanToLogin");
+            return SUCCESS(new {
+                captchaOff= captchaOnOff?.ConfigValue,
+                mobileNumberLogin=mobileNumberLogin?.ConfigValue,
+                scanToLogin=scanToLogin?.ConfigValue,
+            });
+        }
+
         /// <summary>
         /// 登录
         /// </summary>

@@ -15,6 +15,17 @@
     "loginway2": "手机号",
     "loginway3": "扫码登录",
     "input_phoneNum": "请输入手机号",
-    "tip_scan_code": "请使用移动端app扫码登录"
+    "tip_scan_code": "请使用移动端app扫码登录",
+    "langSetting": "语言设置",
+    "phoneNumRequired": "请输入手机号",
+    "phoneCodeRequired": "请输入手机验证码",
+    "captchaRequired": "请输入图形验证码",
+    "qrGenerating": "二维码生成中...",
+    "logging": "登录中...",
+    "success": "操作成功",
+    "welcomeBack": "欢迎回来",
+    "qrExpired": "二维码已过期，请刷新",
+    "currentLogin": "当前登录",
+    "lastLogin": "上次登录"
   }
 }

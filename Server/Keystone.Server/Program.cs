@@ -115,7 +115,6 @@ var xmlFiles = new[]
     Path.Combine(AppContext.BaseDirectory, "Keystone.Model.xml"),
     Path.Combine(AppContext.BaseDirectory, "Keystone.ServiceCore.xml"),
     Path.Combine(AppContext.BaseDirectory, "Keystone.Infrastructure.xml"),
-    Path.Combine(AppContext.BaseDirectory, "Keystone.Mall.xml"),
     Path.Combine(AppContext.BaseDirectory, "Keystone.Service.xml"),
     Path.Combine(AppContext.BaseDirectory, "CommonRelyOn.xml")
 };

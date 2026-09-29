@@ -7,11 +7,13 @@
 import useUserStore from './store/modules/user'
 import useAppStore from './store/modules/app'
 import { ElConfigProvider } from 'element-plus'
-import zhCn from 'element-plus/dist/locale/zh-cn' // 中文语言
-import en from 'element-plus/dist/locale/en' // 英文语言
-import thTw from 'element-plus/dist/locale/zh-tw' //繁体
+import { useI18n } from 'vue-i18n'
+import zhCn from 'element-plus/dist/locale/zh-cn'
+import en from 'element-plus/dist/locale/en'
+import thTw from 'element-plus/dist/locale/zh-tw'
 import defaultSettings from '@/settings'
 const { proxy } = getCurrentInstance()
+const { locale: i18nLocale } = useI18n()
 
 const token = computed(() => {
   return useUserStore().userId
@@ -43,9 +45,10 @@ watch(
 watch(
   lang,
   (val) => {
-    if (val == 'en') {
+    i18nLocale.value = val
+    if (val == 'en-US') {
       locale.value = en
-    } else if (val == 'zh-tw') {
+    } else if (val == 'zh-TW') {
       locale.value = thTw
     } else {
       locale.value = zhCn

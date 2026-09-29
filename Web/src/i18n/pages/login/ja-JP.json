@@ -15,6 +15,17 @@
     "loginway2": "電話番号ログイン",
     "loginway3": "QRコードログイン",
     "input_phoneNum": "電話番号を入力してください",
-    "tip_scan_code": "モバイルアプリでQRコードをスキャンしてログインしてください"
+    "tip_scan_code": "モバイルアプリでQRコードをスキャンしてログインしてください",
+    "langSetting": "言語設定を変更する",
+    "phoneNumRequired": "電話番号を入力してください",
+    "phoneCodeRequired": "携帯電話の認証コードを入力してください",
+    "captchaRequired": "画像認証コードを入力してください",
+    "qrGenerating": "QRコードを生成しています...",
+    "logging": "ログイン中...",
+    "success": "操作成功",
+    "welcomeBack": "ようこそ",
+    "qrExpired": "QRコードが过期しました。再入力してください。",
+    "currentLogin": "現在のログイン",
+    "lastLogin": "前回のログイン"
   }
 }

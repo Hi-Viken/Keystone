@@ -29,7 +29,7 @@
                 </div> -->
               </div>
             </el-scrollbar>
-            <el-empty v-if="noticeList.length <= 0" :image-size="60"></el-empty>
+            <el-empty v-if="noticeList.length <= 0" :image-size="60" :description="$t('notice.empty')"></el-empty>
           </div>
           <div class="foot-box">
             <div class="read" @click="onAllReadClick" v-show="dotNumInfo.noticeNum > 0">{{ $t('notice.markPageRead') }}</div>
@@ -53,7 +53,7 @@
                   <div class="content-box-time">{{ formatTime(item.chatTime) }}</div>
                 </div>
               </div>
-              <el-empty v-if="chatList.length <= 0" :image-size="60"></el-empty>
+              <el-empty v-if="chatList.length <= 0" :image-size="60" :description="$t('notice.empty')"></el-empty>
             </el-scrollbar>
           </div>
           <div class="foot-box">
@@ -81,7 +81,7 @@
                   <el-button text @click="handleRead(item)">{{ $t('notice.read') }}</el-button>
                 </div>
               </div>
-              <el-empty v-if="sysList.length <= 0" :image-size="60"></el-empty>
+              <el-empty v-if="sysList.length <= 0" :image-size="60" :description="$t('notice.empty')"></el-empty>
             </el-scrollbar>
           </div>
           <div class="foot-box">
@@ -142,8 +142,14 @@ function handleDetails(item, type) {
  * @param {*} item
  */
 function handleRead(item) {
-  readSysUserMsg(item.msgId, 1).then(() => {
-    init()
+  readSysUserMsg(item.msgId, 1).then((res) => {
+    if (res.data > 0) {
+      socketStore.newSysMsg = Math.max(0, socketStore.newSysMsg - 1)
+      init()
+    }
+  }).catch((err) => {
+    console.error('标记已读失败:', err)
+    proxy.$modal.msgError('标记已读失败')
   })
 }
 // 全部已读点击

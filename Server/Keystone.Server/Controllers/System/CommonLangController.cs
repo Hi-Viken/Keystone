@@ -181,9 +181,9 @@ namespace Keystone.Controllers
 
         //        foreach (var item in rows)
         //        {
-        //            list.Add(new CommonLang() { LangCode = "zh-cn", LangKey = item.A, LangName = item.B, Addtime = nowTime });
-        //            list.Add(new CommonLang() { LangCode = "en", LangKey = item.A, LangName = item.C, Addtime = nowTime });
-        //            list.Add(new CommonLang() { LangCode = "zh-tw", LangKey = item.A, LangName = item.D, Addtime = nowTime });
+//            list.Add(new CommonLang() { LangCode = "zh-CN", LangKey = item.A, LangName = item.B, Addtime = nowTime });
+//            list.Add(new CommonLang() { LangCode = "en-US", LangKey = item.A, LangName = item.C, Addtime = nowTime });
+//            list.Add(new CommonLang() { LangCode = "zh-TW", LangKey = item.A, LangName = item.D, Addtime = nowTime });
         //        }
         //    }
 

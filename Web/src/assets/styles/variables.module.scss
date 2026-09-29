@@ -30,6 +30,15 @@ $panGreen: #30b08f;
   --vxe-table-column-padding-default: 7px 0 !important;
 }
 
+// vxe-table 跟随全局主题（需要匹配 [data-vxe-ui-theme] 的选择器权重才能覆盖内置样式）
+[data-vxe-ui-theme='light'] {
+  --vxe-ui-layout-background-color: var(--el-bg-color-page, #f2f3f5);
+  --vxe-ui-table-header-background-color: var(--el-bg-color, #fff);
+  --vxe-ui-table-border-color: var(--el-border-color-lighter, #e4e7ed);
+  --vxe-ui-table-row-hover-background-color: var(--el-fill-color-light, #f5f7fa);
+  --vxe-ui-table-row-striped-background-color: var(--el-fill-color-lighter, #fafafa);
+}
+
 /***侧边栏深色配置***/
 [data-theme='theme-black'] {
   --base-menu-background: #324157;
@@ -52,18 +61,6 @@ html.dark {
   --base-menu-background: #000;
   --base-topBar-background: #000;
 
-  // vxe-table黑色样式
-  --vxe-font-color: #98989e;
-  --vxe-primary-color: #2c7ecf;
-  --vxe-icon-background-color: #98989e;
-  --vxe-table-font-color: #98989e;
-  --vxe-table-resizable-color: #95969a;
-  --vxe-table-header-background-color: #28282a;
-  --vxe-table-body-background-color: #151518;
-  --vxe-table-background-color: #4a5663;
-  --vxe-table-border-width: 1px;
-  --vxe-table-border-color: #37373a;
-
   .current-row {
     color: #e65d6e;
   }
@@ -84,6 +81,20 @@ html.dark {
   --w-e-toolbar-active-bg-color: #111;
   /* ...其他... */
 }
+
+// vxe-table 深色主题覆盖
+[data-vxe-ui-theme='dark'] {
+  --vxe-ui-font-color: #98989e;
+  --vxe-ui-font-primary-color: #2c7ecf;
+  --vxe-ui-layout-background-color: #151518;
+  --vxe-ui-table-header-background-color: #28282a;
+  --vxe-ui-table-border-color: #37373a;
+  --vxe-ui-table-row-hover-background-color: #262727;
+  --vxe-ui-table-row-striped-background-color: #1d1d1d;
+  --vxe-ui-table-column-hover-background-color: #242f3b;
+  --vxe-ui-loading-background-color: rgba(255, 255, 255, 0.1);
+}
+
 html.cafe {
   filter: sepia(0.9) hue-rotate(315deg) brightness(0.9);
 }

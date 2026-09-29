@@ -1,16 +1,33 @@
 // import Cookies from 'js-cookie'
 import cache from '@/plugins/cache'
 import defaultSettings from '@/settings'
+
+const localeMap = {
+  'zh-cn': 'zh-CN',
+  'zh-tw': 'zh-TW',
+  'en': 'en-US',
+  'en-us': 'en-US',
+  'ja-jp': 'ja-JP',
+  'ko-kr': 'ko-KR'
+}
+function normalizeLocale(lang) {
+  if (!lang) return defaultSettings.defaultLang
+  const normalized = localeMap[lang.toLowerCase()] || lang
+  if (normalized !== lang) {
+    cache.local.set('lang', normalized)
+  }
+  return normalized
+}
+
 const useAppStore = defineStore('app', {
   state: () => ({
     sidebar: {
-      opened: false, // Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
-      // withoutAnimation: false,
+      opened: false,
       hide: false
     },
     device: 'desktop',
     size: cache.local.get('size') || defaultSettings.defaultSize,
-    lang: cache.local.get('lang') || defaultSettings.defaultLang
+    lang: normalizeLocale(cache.local.get('lang') || defaultSettings.defaultLang)
   }),
   actions: {
     toggleSideBar() {
@@ -30,8 +47,9 @@ const useAppStore = defineStore('app', {
       this.sidebar.hide = status
     },
     setLang(lang) {
-      this.lang = lang
-      cache.local.set('lang', lang)
+      const normalized = normalizeLocale(lang)
+      this.lang = normalized
+      cache.local.set('lang', normalized)
     }
   }
 })

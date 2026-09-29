@@ -123,3 +123,10 @@ export function GetLoginRecord() {
     method: 'get'
   })
 }
+
+export function getLoginConfig() {
+  return request({
+    url: '/getLoginConfig',
+    method: 'get'
+  })
+}

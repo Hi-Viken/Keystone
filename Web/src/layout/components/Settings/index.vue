@@ -255,6 +255,7 @@ watch(
   () => mode,
   (val) => {
     settingsStore.changeSetting({ key: 'codeMode', value: val.value })
+    document.documentElement.setAttribute('data-vxe-ui-theme', val.value === 'dark' ? 'dark' : 'light')
     if (val.value === 'dark') {
       handleSideTheme('')
     }

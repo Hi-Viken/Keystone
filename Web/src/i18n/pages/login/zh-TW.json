@@ -15,6 +15,17 @@
     "phoneCode": "請輸入短信驗證碼",
     "sendPhoneCode": "發送驗證碼",
     "input_phoneNum": "請輸入手機號",
-    "tip_scan_code": "請使用移動端app掃碼登錄"
+    "tip_scan_code": "請使用移動端app掃碼登錄",
+    "langSetting": "語言設置",
+    "phoneNumRequired": "請輸入手機號",
+    "phoneCodeRequired": "請輸入手機驗證碼",
+    "captchaRequired": "請輸入圖形驗證碼",
+    "qrGenerating": "QR碼產生中...",
+    "logging": "登入中...",
+    "success": "操作成功",
+    "welcomeBack": "歡迎回來",
+    "qrExpired": "QR碼已過期，請重新整理",
+    "currentLogin": "當前登錄",
+    "lastLogin": "上次登錄"
   }
 }

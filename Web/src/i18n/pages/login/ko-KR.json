@@ -15,6 +15,17 @@
     "loginway2": "휴대폰 로그인",
     "loginway3": "QR코드 로그인",
     "input_phoneNum": "휴대폰 번호를 입력하세요",
-    "tip_scan_code": "모바일 앱으로 QR코드를 스캔하여 로그인하세요"
+    "tip_scan_code": "모바일 앱으로 QR코드를 스캔하여 로그인하세요",
+    "langSetting": "언어 설정",
+    "phoneNumRequired": "휴대폰 번호를 입력하세요",
+    "phoneCodeRequired": "휴대폰 인증코드를 입력해 주세요",
+    "captchaRequired": "캡차 코드를 입력해 주세요",
+    "qrGenerating": "QR코드 생성 중...",
+    "logging": "로그인 중...",
+    "success": "로그인 성공",
+    "welcomeBack": "환영합니다",
+    "qrExpired": "QR코드가 만료되었습니다. 다시 입력해 주세요.",
+    "currentLogin": "현재 로그인",
+    "lastLogin": "마지막 로그인"
   }
 }

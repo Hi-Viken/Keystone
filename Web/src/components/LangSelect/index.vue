@@ -1,7 +1,9 @@
 <template>
   <div>
     <el-dropdown trigger="hover" @command="handleLanguageChange" style="vertical-align: middle">
-      <svg-icon class-name="size-icon" name="language" :color="props.color" />
+      <span>
+        <svg-icon class-name="size-icon" name="language" :color="props.color" />
+      </span>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item v-for="item of langOptions" :key="item.value" :disabled="lang === item.value"

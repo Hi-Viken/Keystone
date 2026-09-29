@@ -2,8 +2,8 @@
   <div class="other-login" v-if="defaultSettings.showOtherLogin">
     <div class="other-tip">{{ $t('login.otherLoginWay') }}</div>
 
-    <span @click="onAuth('GITHUB')" title="github"><svg-icon name="github" className="login-icon"></svg-icon></span>
-    <span @click="onAuth('GITEE')" title="gitee"><svg-icon name="gitee" className="login-icon"></svg-icon></span>
+    <!-- <span @click="onAuth('GITHUB')" title="github"><svg-icon name="github" className="login-icon"></svg-icon></span>
+    <span @click="onAuth('GITEE')" title="gitee"><svg-icon name="gitee" className="login-icon"></svg-icon></span> -->
   </div>
 </template>
 <script setup>
