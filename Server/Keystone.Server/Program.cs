@@ -3,7 +3,6 @@ using Keystone.Common.Cache;
 using Keystone.Common.DynamicApiSimple.Extens;
 using Keystone.Infrastructure;
 using Keystone.Infrastructure.WebExtensions;
-using Keystone.Mall;
 using Keystone.ServiceCore.Signalr;
 using Keystone.ServiceCore.SqlSugar;
 using Keystone.Extensions;
@@ -179,7 +178,6 @@ InternalApp.Configuration = builder.Configuration;
 InternalApp.WebHostEnvironment = app.Environment;
 //初始化db
 builder.Services.AddDb(app.Environment);
-builder.Services.InitDb(app.Environment);
 // 启动时立即实例化所有标记了 EagerInit = true 的单例服务（需在DB初始化之后）
 app.Services.InitEagerServices();
 var workId = builder.Configuration["workId"].ParseToInt();

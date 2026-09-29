@@ -3,7 +3,6 @@
   <Project Path="Keystone.CodeGenerator/Keystone.CodeGenerator.csproj" />
   <Project Path="Keystone.Common/Keystone.Common.csproj" />
   <Project Path="Keystone.Infrastructure/Keystone.Infrastructure.csproj" />
-  <Project Path="Keystone.Mall/Keystone.Mall.csproj" />
   <Project Path="Keystone.Model/Keystone.Model.csproj" />
   <Project Path="Keystone.Repository/Keystone.Repository.csproj" />
   <Project Path="Keystone.Server/Keystone.Server.csproj" />

@@ -19,7 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CommonRelyOn\CommonRelyOn.csproj" />
     <ProjectReference Include="..\Keystone.CodeGenerator\Keystone.CodeGenerator.csproj" />
-    <ProjectReference Include="..\Keystone.Mall\Keystone.Mall.csproj" />
     <ProjectReference Include="..\Keystone.Tasks\Keystone.Tasks.csproj" />
   </ItemGroup>
 
