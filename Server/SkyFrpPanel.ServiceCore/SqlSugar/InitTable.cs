@@ -55,9 +55,6 @@ namespace SkyFrpPanel.ServiceCore.SqlSugar
             db.CodeFirst.InitTables(typeof(EmailLog));
             db.CodeFirst.InitTables(typeof(SysUserMsg));
             db.CodeFirst.InitTables(typeof(SysFileGroup));
-            //db.CodeFirst.InitTables(typeof(SocialFans));
-            //db.CodeFirst.InitTables(typeof(SocialFansInfo));
-            //db.CodeFirst.InitTables(typeof(UserOnlineLog));
         }
         public static void InitNewTb()
         {

@@ -20,7 +20,6 @@
     <ProjectReference Include="..\CommonRelyOn\CommonRelyOn.csproj" />
     <ProjectReference Include="..\SkyFrpPanel.CodeGenerator\SkyFrpPanel.CodeGenerator.csproj" />
     <ProjectReference Include="..\SkyFrpPanel.Mall\SkyFrpPanel.Mall.csproj" />
-    <ProjectReference Include="..\SkyFrpPanel.Service\SkyFrpPanel.Service.csproj" />
     <ProjectReference Include="..\SkyFrpPanel.Tasks\SkyFrpPanel.Tasks.csproj" />
   </ItemGroup>
 

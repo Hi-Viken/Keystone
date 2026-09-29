@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using SkyFrpPanel.Common;
 using SkyFrpPanel.Model.System;
 using SkyFrpPanel.ServiceCore.Services;
-
+using SkyFrpPanel.ServiceCore;
 namespace SkyFrpPanel.Tasks
 {
     public class JobBase
@@ -48,7 +48,7 @@ namespace SkyFrpPanel.Tasks
                 };
                 status = 1;
                 logMsg = $"Job Run Fail，Exception：{ex.Message}";
-                WxNoticeHelper.SendMsg("任务执行出错", logMsg);
+                //WxNoticeHelper.SendMsg("任务执行出错", logMsg);
             }
 
             var logModel = new SysTasksLog()
@@ -93,7 +93,7 @@ namespace SkyFrpPanel.Tasks
                 };
                 status = 1;
                 logMsg = $"Job Run Fail，Exception：{ex.Message}";
-                WxNoticeHelper.SendMsg("任务执行出错", logMsg);
+                //WxNoticeHelper.SendMsg("任务执行出错", logMsg);
             }
 
             var logModel = new SysTasksLog()

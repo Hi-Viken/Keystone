@@ -1,6 +1,6 @@
 using SkyFrpPanel.Model.System;
 
-namespace SkyFrpPanel.ServiceCore.Services
+namespace SkyFrpPanel.ServiceCore
 {
     public interface ISysTasksLogService : IBaseService<SysTasksLog>
     {

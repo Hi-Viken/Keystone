@@ -7,7 +7,6 @@
   <Project Path="SkyFrpPanel.Model/SkyFrpPanel.Model.csproj" />
   <Project Path="SkyFrpPanel.Repository/SkyFrpPanel.Repository.csproj" />
   <Project Path="SkyFrpPanel.Server/SkyFrpPanel.Server.csproj" />
-  <Project Path="SkyFrpPanel.Service/SkyFrpPanel.Service.csproj" />
   <Project Path="SkyFrpPanel.ServiceCore/SkyFrpPanel.ServiceCore.csproj" />
   <Project Path="SkyFrpPanel.Tasks/SkyFrpPanel.Tasks.csproj" />
 </Solution>

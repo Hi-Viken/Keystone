@@ -6,6 +6,7 @@ using Quartz.Impl;
 using Quartz.Impl.Triggers;
 using SqlSugar.IOC;
 using System.Threading.Tasks;
+using SkyFrpPanel.ServiceCore;
 using SkyFrpPanel.ServiceCore.Services;
 
 namespace SkyFrpPanel.Tasks.TaskScheduler

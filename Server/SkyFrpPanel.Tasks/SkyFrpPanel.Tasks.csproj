@@ -9,7 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CommonRelyOn\CommonRelyOn.csproj" />
     <ProjectReference Include="..\SkyFrpPanel.Model\SkyFrpPanel.Model.csproj" />
-    <ProjectReference Include="..\SkyFrpPanel.Service\SkyFrpPanel.Service.csproj" />
+    <ProjectReference Include="..\SkyFrpPanel.ServiceCore\SkyFrpPanel.ServiceCore.csproj" />
   </ItemGroup>
 
 </Project>

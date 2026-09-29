@@ -14,11 +14,6 @@ export default function createVitePlugins(viteEnv, isBuild = false) {
   vitePlugins.push(createSvgIcon(isBuild))
   isBuild && vitePlugins.push(...createCompression(viteEnv))
 
-  // vitePlugins.push(
-  //   createStyleImportPlugin({
-  //     resolves: [VxeTableResolve()]
-  //   })
-  // )
 
   // Vxe 按需导入
   vitePlugins.push(

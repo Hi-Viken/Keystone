@@ -15,9 +15,4 @@ namespace SkyFrpPanel.Model.System.Dto
         public DateTime? BeginTime { get; set; }
         public DateTime? EndTime { get; set; }
     }
-
-    public class TasksLogDto
-    {
-
-    }
 }

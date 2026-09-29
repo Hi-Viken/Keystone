@@ -3,6 +3,7 @@ using SqlSugar;
 using SkyFrpPanel.Model;
 using SkyFrpPanel.Model.System;
 using SkyFrpPanel.Model.System.Dto;
+using SkyFrpPanel.ServiceCore;
 
 namespace SkyFrpPanel.Controllers.System
 {

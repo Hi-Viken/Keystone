@@ -19,7 +19,6 @@ namespace SkyFrpPanel.Infrastructure.Model
         /// 初始化db
         /// </summary>
         public bool InitDb { get; set; }
-        public string[] InitTables { get; set; }
         /// <summary>
         /// 邮箱配置
         /// </summary>
