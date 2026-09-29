@@ -26,7 +26,29 @@ namespace Keystone.Infrastructure
                     policy.WithOrigins(corsUrls ?? Array.Empty<string>())
                     .AllowAnyHeader()//允许任意头
                     .AllowCredentials()//允许cookie
-                    .AllowAnyMethod();//允许任意方法
+                    .AllowAnyMethod()//允许任意方法
+                    .WithExposedHeaders(
+                        "Content-Disposition",
+                        "Content-Encoding",
+                        "Content-Range",
+                        "Date",
+                        "Server",
+                        "Transfer-Encoding",
+                        "ETag",
+                        "Last-Modified",
+                        "Vary",
+                        "X-Total-Count",
+                        "X-Page-Index",
+                        "X-Page-Size",
+                        "X-Request-Id",
+                        "X-Powered-By",
+                        "Authorization",
+                        "WWW-Authenticate",
+                        "Location",
+                        "Retry-After",
+                        "Set-Cookie",
+                        "Access-Control-Expose-Headers"
+                    );//暴露响应头给前端（CORS默认只暴露6个安全头）
                 });
             });
         }

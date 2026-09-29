@@ -225,6 +225,22 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseCors("Policy");//要放在app.UseEndpoints前。
 
+// 动态暴露所有响应头（API调试工具需要查看所有响应头）
+//app.Use(async (context, next) =>
+//{
+//    context.Response.OnStarting(() =>
+//    {
+//        var origin = context.Request.Headers.Origin.ToString();
+//        if (!string.IsNullOrEmpty(origin))
+//        {
+//            var allHeaders = context.Response.Headers.Select(h => h.Key).Distinct();
+//            context.Response.Headers["Access-Control-Expose-Headers"] = string.Join(", ", allHeaders);
+//        }
+//        return Task.CompletedTask;
+//    });
+//    await next();
+//});
+
 app.UseAuthentication();
 app.UseMiddleware<JwtAuthMiddleware>();
 app.UseAuthorization();

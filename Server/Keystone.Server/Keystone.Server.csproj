@@ -12,6 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\File\**" />
+    <Content Remove="Controllers\File\**" />
+    <EmbeddedResource Remove="Controllers\File\**" />
+    <None Remove="Controllers\File\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.9" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
   </ItemGroup>
@@ -24,7 +31,6 @@
 
   <ItemGroup>
     <Folder Include="Controllers\Content\" />
-    <Folder Include="Controllers\File\" />
     <Folder Include="Controllers\Public\" />
     <Folder Include="data\" />
   </ItemGroup>

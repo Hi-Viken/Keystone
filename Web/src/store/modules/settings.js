@@ -35,7 +35,12 @@ const useSettingsStore = defineStore('layout-setting', {
       'tagsViewPersist',
       'codeMode',
       'tagsShowIcon',
-      'navType'
+      'navType',
+      'componentStyle',
+      'layoutDensity',
+      'shadowStyle',
+      'fontSize',
+      'animationSpeed'
     ] //存储指定key
   },
   state: () => ({
@@ -54,7 +59,12 @@ const useSettingsStore = defineStore('layout-setting', {
     tagsViewPersist: storageSetting.tagsViewPersist === undefined ? tagsViewPersist : storageSetting.tagsViewPersist,
     codeMode: storageSetting.codeMode === undefined ? codeMode : storageSetting.codeMode,
     tagsShowIcon: storageSetting.tagsShowIcon === undefined ? tagsShowIcon : storageSetting.tagsShowIcon,
-    navType: storageSetting.navType === undefined ? navType : storageSetting.navType
+    navType: storageSetting.navType === undefined ? navType : storageSetting.navType,
+    componentStyle: storageSetting.componentStyle || 'default',
+    layoutDensity: storageSetting.layoutDensity || 'default',
+    shadowStyle: storageSetting.shadowStyle || 'light',
+    fontSize: storageSetting.fontSize || 'medium',
+    animationSpeed: storageSetting.animationSpeed || 'normal'
   }),
   actions: {
     // 修改布局设置

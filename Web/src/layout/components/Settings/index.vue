@@ -3,6 +3,23 @@
     <!-- <div class="setting-drawer-title">
       <h3 class="drawer-title">导航模式</h3>
     </div> -->
+    <el-divider>{{ $t('layout.themePresets') }}</el-divider>
+    <div class="preset-wrap">
+      <div
+        v-for="preset in presetThemes"
+        :key="preset.name"
+        class="preset-card"
+        :class="{ activePreset: currentPreset === preset.name }"
+        @click="applyPreset(preset)">
+        <div class="preset-preview" :style="{ background: preset.previewBg }">
+          <div class="preset-sidebar" :style="{ background: preset.sidebarColor }"></div>
+          <div class="preset-content">
+            <div class="preset-header" :style="{ background: preset.primaryColor }"></div>
+          </div>
+        </div>
+        <span class="preset-label">{{ preset.label }}</span>
+      </div>
+    </div>
     <el-divider>{{ $t('layout.navMode') }}</el-divider>
     <div class="nav-wrap">
       <el-tooltip :content="$t('layout.leftMenu')" placement="bottom">
@@ -53,6 +70,87 @@
       <span class="comp-style quick-color-wrap">
         <el-color-picker v-model="theme" :predefine="predefineColors" @change="themeChange" />
       </span>
+    </div>
+    <div class="drawer-item">
+      <span>{{ $t('layout.componentStyle') }}</span>
+    </div>
+    <div class="style-preset-wrap">
+      <div
+        v-for="style in stylePresets"
+        :key="style.name"
+        class="style-preset-card"
+        :class="{ activeStyle: componentStyle === style.name }"
+        @click="applyComponentStyle(style)">
+        <div class="style-preview">
+          <div class="preview-btn" :style="{ borderRadius: style.radius }"></div>
+          <div class="preview-input" :style="{ borderRadius: style.radius }"></div>
+        </div>
+        <span class="style-label">{{ style.label }}</span>
+      </div>
+    </div>
+    <div class="drawer-item">
+      <span>{{ $t('layout.layoutDensity') }}</span>
+    </div>
+    <div class="style-preset-wrap">
+      <div
+        v-for="item in densityPresets"
+        :key="item.name"
+        class="style-preset-card"
+        :class="{ activeStyle: layoutDensity === item.name }"
+        @click="applyDensity(item)">
+        <div class="style-preview">
+          <div class="preview-row" v-for="n in 3" :key="n" :style="{ height: item.rowHeight, marginBottom: item.gap }"></div>
+        </div>
+        <span class="style-label">{{ item.label }}</span>
+      </div>
+    </div>
+    <div class="drawer-item">
+      <span>{{ $t('layout.shadowStyle') }}</span>
+    </div>
+    <div class="style-preset-wrap">
+      <div
+        v-for="item in shadowPresets"
+        :key="item.name"
+        class="style-preset-card"
+        :class="{ activeStyle: shadowStyle === item.name }"
+        @click="applyShadow(item)">
+        <div class="style-preview">
+          <div class="preview-shadow-box" :style="{ boxShadow: item.preview }"></div>
+        </div>
+        <span class="style-label">{{ item.label }}</span>
+      </div>
+    </div>
+    <div class="drawer-item">
+      <span>{{ $t('layout.fontSize') }}</span>
+    </div>
+    <div class="style-preset-wrap">
+      <div
+        v-for="item in fontSizePresets"
+        :key="item.name"
+        class="style-preset-card"
+        :class="{ activeStyle: fontSize === item.name }"
+        @click="applyFontSize(item)">
+        <div class="style-preview">
+          <span class="preview-font" :style="{ fontSize: item.previewSize }">Aa</span>
+        </div>
+        <span class="style-label">{{ item.label }}</span>
+      </div>
+    </div>
+    <div class="drawer-item">
+      <span>{{ $t('layout.animationSpeed') }}</span>
+    </div>
+    <div class="style-preset-wrap">
+      <div
+        v-for="item in animationPresets"
+        :key="item.name"
+        class="style-preset-card"
+        :class="{ activeStyle: animationSpeed === item.name }"
+        @click="applyAnimation(item)">
+        <div class="style-preview">
+          <div class="preview-anim-bar" :style="{ animationDuration: item.preview }"></div>
+        </div>
+        <span class="style-label">{{ item.label }}</span>
+      </div>
     </div>
     <el-divider />
 
@@ -134,6 +232,132 @@ const theme = ref(settingsStore.theme)
 const sideTheme = ref(settingsStore.sideTheme)
 const storeSettings = computed(() => settingsStore)
 const predefineColors = ref(['#409EFF', '#ff4500', '#ff8c00', '#00ced1', '#1e90ff', '#c71585'])
+const currentPreset = ref('')
+const componentStyle = ref(settingsStore.componentStyle || 'default')
+const stylePresets = [
+  { name: 'sharp', label: '锐利', radius: '2px', borderRadiusBase: '2px', borderRadiusSmall: '1px', borderRadiusRound: '10px' },
+  { name: 'default', label: '默认', radius: '4px', borderRadiusBase: '4px', borderRadiusSmall: '2px', borderRadiusRound: '20px' },
+  { name: 'rounded', label: '圆润', radius: '8px', borderRadiusBase: '8px', borderRadiusSmall: '4px', borderRadiusRound: '20px' },
+  { name: 'capsule', label: '胶囊', radius: '20px', borderRadiusBase: '20px', borderRadiusSmall: '12px', borderRadiusRound: '20px' },
+]
+function applyComponentStyle(style) {
+  componentStyle.value = style.name
+  settingsStore.changeSetting({ key: 'componentStyle', value: style.name })
+  const root = document.documentElement
+  root.style.setProperty('--el-border-radius-base', style.borderRadiusBase)
+  root.style.setProperty('--el-border-radius-small', style.borderRadiusSmall)
+  root.style.setProperty('--el-border-radius-round', style.borderRadiusRound)
+  root.style.setProperty('--el-input-border-radius', style.borderRadiusBase)
+  root.style.setProperty('--el-tag-border-radius', style.borderRadiusSmall)
+  root.style.setProperty('--el-dialog-border-radius', style.borderRadiusBase)
+  root.style.setProperty('--el-card-border-radius', style.borderRadiusBase)
+  root.style.setProperty('--el-messagebox-border-radius', style.borderRadiusBase)
+  root.style.setProperty('--el-popover-border-radius', style.borderRadiusBase)
+  root.style.setProperty('--el-tooltip-border-radius', style.borderRadiusBase)
+  root.style.setProperty('--el-dropdown-menuItem-border-radius', style.borderRadiusSmall)
+  root.style.setProperty('--el-table-border-radius', style.borderRadiusBase)
+  root.style.setProperty('--el-pagination-border-radius', style.borderRadiusBase)
+  root.style.setProperty('--el-select-border-radius', style.borderRadiusBase)
+  root.style.setProperty('--el-cascader-border-radius', style.borderRadiusBase)
+  root.style.setProperty('--el-color-picker-border-radius', style.borderRadiusBase)
+  root.style.setProperty('--el-date-picker-border-radius', style.borderRadiusBase)
+  root.style.setProperty('--el-switch-border-radius', style.borderRadiusRound)
+}
+
+const layoutDensity = ref(settingsStore.layoutDensity || 'default')
+const densityPresets = [
+  { name: 'compact', label: '紧凑', rowHeight: '6px', gap: '2px', size: 'small' },
+  { name: 'default', label: '默认', rowHeight: '8px', gap: '3px', size: 'default' },
+  { name: 'comfortable', label: '宽松', rowHeight: '12px', gap: '5px', size: 'large' },
+]
+function applyDensity(item) {
+  layoutDensity.value = item.name
+  settingsStore.changeSetting({ key: 'layoutDensity', value: item.name })
+  const root = document.documentElement
+  root.style.setProperty('--el-component-size', item.size === 'small' ? '24px' : item.size === 'large' ? '40px' : '32px')
+  root.style.setProperty('--el-form-item-margin-bottom', item.name === 'compact' ? '12px' : item.name === 'comfortable' ? '26px' : '18px')
+}
+
+const shadowStyle = ref(settingsStore.shadowStyle || 'light')
+const shadowPresets = [
+  { name: 'none', label: '无阴影', preview: 'none' },
+  { name: 'light', label: '轻阴影', preview: '0 2px 12px 0 rgba(0,0,0,0.06)' },
+  { name: 'heavy', label: '重阴影', preview: '0 4px 20px 0 rgba(0,0,0,0.15)' },
+]
+function applyShadow(item) {
+  shadowStyle.value = item.name
+  settingsStore.changeSetting({ key: 'shadowStyle', value: item.name })
+  const root = document.documentElement
+  if (item.name === 'none') {
+    root.style.setProperty('--el-box-shadow', 'none')
+    root.style.setProperty('--el-box-shadow-light', 'none')
+    root.style.setProperty('--el-box-shadow-lighter', 'none')
+    root.style.setProperty('--el-box-shadow-dark', 'none')
+  } else if (item.name === 'heavy') {
+    root.style.setProperty('--el-box-shadow', '0 4px 20px 0 rgba(0,0,0,0.15)')
+    root.style.setProperty('--el-box-shadow-light', '0 2px 12px 0 rgba(0,0,0,0.12)')
+    root.style.setProperty('--el-box-shadow-lighter', '0 1px 6px 0 rgba(0,0,0,0.08)')
+    root.style.setProperty('--el-box-shadow-dark', '0 6px 24px 0 rgba(0,0,0,0.22)')
+  } else {
+    root.style.removeProperty('--el-box-shadow')
+    root.style.removeProperty('--el-box-shadow-light')
+    root.style.removeProperty('--el-box-shadow-lighter')
+    root.style.removeProperty('--el-box-shadow-dark')
+  }
+}
+
+const fontSize = ref(settingsStore.fontSize || 'medium')
+const fontSizePresets = [
+  { name: 'small', label: '小', previewSize: '11px', value: '12px' },
+  { name: 'medium', label: '中', previewSize: '14px', value: '14px' },
+  { name: 'large', label: '大', previewSize: '17px', value: '16px' },
+]
+function applyFontSize(item) {
+  fontSize.value = item.name
+  settingsStore.changeSetting({ key: 'fontSize', value: item.name })
+  document.documentElement.style.setProperty('--el-font-size-base', item.value)
+}
+
+const animationSpeed = ref(settingsStore.animationSpeed || 'normal')
+const animationPresets = [
+  { name: 'fast', label: '快速', preview: '0.6s', duration: '0.15s', fast: '0.1s' },
+  { name: 'normal', label: '正常', preview: '1.2s', duration: '0.3s', fast: '0.2s' },
+  { name: 'slow', label: '缓慢', preview: '2.4s', duration: '0.6s', fast: '0.4s' },
+]
+function applyAnimation(item) {
+  animationSpeed.value = item.name
+  settingsStore.changeSetting({ key: 'animationSpeed', value: item.name })
+  const root = document.documentElement
+  root.style.setProperty('--el-transition-duration', item.duration)
+  root.style.setProperty('--el-transition-duration-fast', item.fast)
+}
+
+const presetThemes = [
+  { name: 'default', label: '默认蓝', primaryColor: '#409EFF', mode: 'light', sideTheme: '', componentStyle: 'default', density: 'default', shadow: 'light', font: 'medium', anim: 'normal', previewBg: '#f0f2f5', sidebarColor: '#fff' },
+  { name: 'dark', label: '暗夜黑', primaryColor: '#409EFF', mode: 'dark', sideTheme: '', componentStyle: 'sharp', density: 'compact', shadow: 'heavy', font: 'medium', anim: 'fast', previewBg: '#141414', sidebarColor: '#000' },
+  { name: 'techBlue', label: '科技蓝', primaryColor: '#2F54EB', mode: 'light', sideTheme: 'theme-black', componentStyle: 'sharp', density: 'compact', shadow: 'light', font: 'small', anim: 'fast', previewBg: '#f0f2f5', sidebarColor: '#001529' },
+  { name: 'freshGreen', label: '清新绿', primaryColor: '#52C41A', mode: 'light', sideTheme: '', componentStyle: 'rounded', density: 'comfortable', shadow: 'light', font: 'medium', anim: 'normal', previewBg: '#f0f2f5', sidebarColor: '#fff' },
+  { name: 'elegantPurple', label: '优雅紫', primaryColor: '#722ED1', mode: 'light', sideTheme: 'theme-black', componentStyle: 'rounded', density: 'default', shadow: 'heavy', font: 'large', anim: 'slow', previewBg: '#f0f2f5', sidebarColor: '#1f1f2e' },
+  { name: 'warmOrange', label: '活力橙', primaryColor: '#FA541C', mode: 'light', sideTheme: '', componentStyle: 'capsule', density: 'comfortable', shadow: 'none', font: 'large', anim: 'normal', previewBg: '#f0f2f5', sidebarColor: '#fff' },
+]
+function applyPreset(preset) {
+  currentPreset.value = preset.name
+  mode.value = preset.mode
+  nextTick(() => {
+    themeChange(preset.primaryColor)
+    handleSideTheme(preset.sideTheme)
+    const style = stylePresets.find((s) => s.name === preset.componentStyle)
+    if (style) applyComponentStyle(style)
+    const density = densityPresets.find((d) => d.name === preset.density)
+    if (density) applyDensity(density)
+    const shadow = shadowPresets.find((s) => s.name === preset.shadow)
+    if (shadow) applyShadow(shadow)
+    const font = fontSizePresets.find((f) => f.name === preset.font)
+    if (font) applyFontSize(font)
+    const anim = animationPresets.find((a) => a.name === preset.anim)
+    if (anim) applyAnimation(anim)
+  })
+}
 const sideColors = ref([
   { color: '#324157', name: 'theme-black' },
   { color: '#fff', name: '' }
@@ -231,6 +455,17 @@ const changeWatermark = () => {
 }
 // 开启水印
 changeWatermark()
+// 初始化样式设置
+const savedStyle = stylePresets.find((s) => s.name === componentStyle.value)
+if (savedStyle) applyComponentStyle(savedStyle)
+const savedDensity = densityPresets.find((d) => d.name === layoutDensity.value)
+if (savedDensity) applyDensity(savedDensity)
+const savedShadow = shadowPresets.find((s) => s.name === shadowStyle.value)
+if (savedShadow) applyShadow(savedShadow)
+const savedFont = fontSizePresets.find((f) => f.name === fontSize.value)
+if (savedFont) applyFontSize(savedFont)
+const savedAnim = animationPresets.find((a) => a.name === animationSpeed.value)
+if (savedAnim) applyAnimation(savedAnim)
 // 监控主题颜色
 watch(
   () => theme,
@@ -419,6 +654,123 @@ defineExpose({
   }
 }
 
+.style-preset-wrap {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0 12px;
+
+  .style-preset-card {
+    flex: 1;
+    cursor: pointer;
+    text-align: center;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    padding: 6px 4px;
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-color: var(--el-color-primary-light-5);
+    }
+  }
+  .activeStyle {
+    border-color: var(--el-color-primary);
+  }
+  .style-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+
+    .preview-btn {
+      width: 32px;
+      height: 12px;
+      background: var(--el-color-primary);
+    }
+    .preview-input {
+      width: 40px;
+      height: 10px;
+      border: 1px solid var(--el-border-color);
+    }
+    .preview-row {
+      width: 80%;
+      background: var(--el-border-color-light);
+      border-radius: 2px;
+    }
+    .preview-shadow-box {
+      width: 32px;
+      height: 24px;
+      border-radius: 4px;
+      background: var(--el-bg-color);
+    }
+    .preview-font {
+      font-weight: 600;
+      color: var(--base-text-color-rgba);
+    }
+    .preview-anim-bar {
+      width: 80%;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--el-color-primary);
+      animation: animPulse infinite alternate ease-in-out;
+    }
+  }
+  .style-label {
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
+    color: var(--base-text-color-rgba);
+  }
+}
+
+.preset-wrap {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+
+  .preset-card {
+    cursor: pointer;
+    text-align: center;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    padding: 4px;
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-color: var(--el-color-primary-light-5);
+    }
+  }
+  .activePreset {
+    border-color: var(--el-color-primary);
+  }
+  .preset-preview {
+    height: 48px;
+    border-radius: 4px;
+    display: flex;
+    overflow: hidden;
+
+    .preset-sidebar {
+      width: 30%;
+      height: 100%;
+    }
+    .preset-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      .preset-header {
+        height: 30%;
+      }
+    }
+  }
+  .preset-label {
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
+    color: var(--base-text-color-rgba);
+  }
+}
+
 .drawer-item {
   color: var(--base-text-color-rgba);
   padding: 12px 0;
@@ -459,5 +811,34 @@ defineExpose({
       cursor: pointer;
     }
   }
+}
+
+@keyframes animPulse {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+</style>
+
+<style lang="scss">
+.el-tag {
+  --el-tag-border-radius: var(--el-border-radius-base) !important;
+}
+.el-input__wrapper {
+  border-radius: var(--el-border-radius-base);
+}
+.el-select .el-input__wrapper {
+  border-radius: var(--el-border-radius-base);
+}
+.el-textarea__inner {
+  border-radius: var(--el-border-radius-base);
+}
+.el-pagination {
+  --el-pagination-button-border-radius: var(--el-border-radius-base) !important;
+}
+.el-date-picker {
+  --el-date-picker-border-radius: var(--el-border-radius-base) !important;
+}
+.el-cascader .el-input__wrapper {
+  border-radius: var(--el-border-radius-base);
 }
 </style>
