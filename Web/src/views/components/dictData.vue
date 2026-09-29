@@ -1,31 +1,31 @@
 <template>
   <el-form :model="queryParams" ref="queryForm" :inline="true">
-    <el-form-item label="字典名称" prop="dictType">
+    <el-form-item :label="$t('dict.dictName')" prop="dictType">
       <el-select v-model="queryParams.dictType">
         <el-option v-for="item in typeOptions" :key="item.dictId" :label="item.dictName" :value="item.dictType" />
       </el-select>
     </el-form-item>
-    <el-form-item label="状态" prop="status">
-      <el-radio-group v-model="queryParams.status" placeholder="数据状态" @change="handleQuery()">
-        <el-radio-button label="全部" value="" />
+    <el-form-item :label="$t('dict.status')" prop="status">
+      <el-radio-group v-model="queryParams.status" :placeholder="$t('dict.dataStatus')" @change="handleQuery()">
+        <el-radio-button :label="$t('dict.all')" value="" />
         <el-radio-button v-for="dict in statusOptions" :key="dict.dictValue" :label="dict.dictLabel" :value="dict.dictValue" />
       </el-radio-group>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" icon="search" @click="handleQuery">搜索</el-button>
-      <el-button icon="refresh" @click="resetQuery">重置</el-button>
+      <el-button type="primary" icon="search" @click="handleQuery">{{ $t('btn.search') }}</el-button>
+      <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
     </el-form-item>
   </el-form>
 
   <el-row :gutter="10" class="mb8">
     <el-col :span="1.5">
-      <el-button type="primary" plain icon="plus" @click="handleAdd" v-hasPermi="['system:dict:add']">新增数据</el-button>
+      <el-button type="primary" plain icon="plus" @click="handleAdd" v-hasPermi="['system:dict:add']">{{ $t('dict.addData') }}</el-button>
     </el-col>
   </el-row>
   <el-table :data="dataList" border>
     <!-- <el-table-column type="selection" width="55" align="center" /> -->
-    <el-table-column label="字典编码" align="center" prop="dictCode" />
-    <el-table-column label="字典标签" align="center" prop="dictLabel" width="140">
+    <el-table-column :label="$t('dict.dictCode')" align="center" prop="dictCode" />
+    <el-table-column :label="$t('dict.dictLabel')" align="center" prop="dictLabel" width="140">
       <template #default="scope">
         <span v-if="scope.row.listClass == '' || scope.row.listClass == 'default'" :class="scope.row.cssClass">{{ scope.row.dictLabel }}</span>
         <el-tag v-else :type="scope.row.listClass == 'primary' ? '' : scope.row.listClass" :class="scope.row.cssClass"
@@ -33,24 +33,24 @@
         </el-tag>
       </template>
     </el-table-column>
-    <el-table-column label="翻译键值" align="center" prop="langKey" />
-    <el-table-column label="字典键值" align="center" prop="dictValue" sortable />
-    <el-table-column label="字典排序" align="center" prop="dictSort" sortable />
-    <el-table-column label="启用" align="center" prop="status" width="90">
+    <el-table-column :label="$t('dict.langKey')" align="center" prop="langKey" />
+    <el-table-column :label="$t('dict.dictValue')" align="center" prop="dictValue" sortable />
+    <el-table-column :label="$t('dict.dictSort')" align="center" prop="dictSort" sortable />
+    <el-table-column :label="$t('dict.enabled')" align="center" prop="status" width="90">
       <template #default="scope">
         <!-- <dict-tag :options="statusOptions" :value="scope.row.status" /> -->
         <el-switch
           v-model="scope.row.status"
           active-value="0"
           inactive-value="1"
-          active-text="是"
-          inactive-text="否"
+          :active-text="$t('common.yes')"
+          :inactive-text="$t('common.no')"
           inline-prompt
           @click="handleStatusChange(scope.row)"></el-switch>
       </template>
     </el-table-column>
-    <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
-    <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="90">
+    <el-table-column :label="$t('dict.remark')" align="center" prop="remark" :show-overflow-tooltip="true" />
+    <el-table-column :label="$t('dict.operate')" align="center" class-name="small-padding fixed-width" width="90">
       <template #default="scope">
         <div v-if="scope.row.dictCode > 0">
           <el-button text size="default" icon="edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:dict:edit']"></el-button>
@@ -66,28 +66,28 @@
     <el-form ref="formRef" :model="form" :rules="rules" label-width="80px">
       <el-row :gutter="20">
         <el-col :lg="24">
-          <el-form-item label="字典类型">
+          <el-form-item :label="$t('dict.dictType')">
             <el-input v-model="form.dictType" :disabled="true" />
           </el-form-item>
         </el-col>
 
         <el-col :lg="12">
-          <el-form-item label="字典标签" prop="dictLabel">
-            <el-input v-model="form.dictLabel" placeholder="请输入字典标签" />
+          <el-form-item :label="$t('dict.dictLabel')" prop="dictLabel">
+            <el-input v-model="form.dictLabel" :placeholder="$t('dict.inputDictLabel')" />
           </el-form-item>
         </el-col>
         <el-col :lg="12">
-          <el-form-item label="翻译键值" prop="langKey">
-            <el-input v-model="form.langKey" placeholder="请输入翻译键值" />
+          <el-form-item :label="$t('dict.langKey')" prop="langKey">
+            <el-input v-model="form.langKey" :placeholder="$t('dict.inputLangKey')" />
           </el-form-item>
         </el-col>
         <el-col :lg="24">
-          <el-form-item label="数据键值" prop="dictValue">
-            <el-input v-model="form.dictValue" placeholder="请输入数据键值" />
+          <el-form-item :label="$t('dict.dataValue')" prop="dictValue">
+            <el-input v-model="form.dictValue" :placeholder="$t('dict.inputDataValue')" />
           </el-form-item>
         </el-col>
         <el-col :lg="12">
-          <el-form-item label="样式属性" prop="cssClass">
+          <el-form-item :label="$t('dict.cssClass')" prop="cssClass">
             <el-select v-model="form.cssClass" allow-create filterable clearable="">
               <el-option v-for="dict in cssClassOptions" :class="dict.value" :key="dict.value" :label="dict.label" :value="dict.value">
                 <span style="float: left" :class="dict.value">{{ dict.label }}</span>
@@ -97,7 +97,7 @@
           </el-form-item>
         </el-col>
         <el-col :lg="12">
-          <el-form-item label="回显样式" prop="listClass">
+          <el-form-item :label="$t('dict.listClass')" prop="listClass">
             <el-select v-model="form.listClass">
               <el-option v-for="item in listClassOptions" :key="item.value" :label="item.label + '(' + item.value + ')'" :value="item.value">
               </el-option>
@@ -105,39 +105,39 @@
           </el-form-item>
         </el-col>
         <el-col :lg="12">
-          <el-form-item label="显示排序" prop="dictSort">
+          <el-form-item :label="$t('dict.showSort')" prop="dictSort">
             <el-input-number v-model="form.dictSort" controls-position="right" :min="0" />
           </el-form-item>
         </el-col>
         <el-col :lg="12">
-          <el-form-item label="状态" prop="status">
+          <el-form-item :label="$t('dict.status')" prop="status">
             <el-radio-group v-model="form.status">
               <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="dict.dictValue" :label="dict.dictLabel"> </el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
         <el-col :lg="12">
-          <el-form-item label="扩展1" prop="extend1">
-            <el-input v-model="form.extend1" placeholder="请输入扩展内容"></el-input>
+          <el-form-item :label="$t('dict.extend1')" prop="extend1">
+            <el-input v-model="form.extend1" :placeholder="$t('dict.inputExtend')"></el-input>
           </el-form-item>
         </el-col>
 
         <el-col :lg="12">
-          <el-form-item label="扩展2" prop="extend2">
-            <el-input v-model="form.extend2" placeholder="请输入扩展内容"></el-input>
+          <el-form-item :label="$t('dict.extend2')" prop="extend2">
+            <el-input v-model="form.extend2" :placeholder="$t('dict.inputExtend')"></el-input>
           </el-form-item>
         </el-col>
         <el-col :lg="24">
-          <el-form-item label="备注" prop="remark">
-            <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+          <el-form-item :label="$t('dict.remark')" prop="remark">
+            <el-input v-model="form.remark" type="textarea" :placeholder="$t('dict.inputRemark')"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
     </el-form>
     <template #footer>
       <div class="dialog-footer">
-        <el-button text @click="cancel">取 消</el-button>
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button text @click="cancel">{{ $t('btn.cancel') }}</el-button>
+        <el-button type="primary" @click="submitForm">{{ $t('common.ok') }}</el-button>
       </div>
     </template>
   </el-dialog>
@@ -185,70 +185,70 @@ const open = ref(false)
 const listClassOptions = ref([
   {
     value: 'default',
-    label: '默认'
+    label: proxy.$t('dict.classDefault')
   },
   {
     value: 'primary',
-    label: '主要'
+    label: proxy.$t('dict.classPrimary')
   },
   {
     value: 'success',
-    label: '成功'
+    label: proxy.$t('dict.classSuccess')
   },
   {
     value: 'info',
-    label: '信息'
+    label: proxy.$t('dict.classInfo')
   },
   {
     value: 'warning',
-    label: '警告'
+    label: proxy.$t('dict.classWarning')
   },
   {
     value: 'danger',
-    label: '危险'
+    label: proxy.$t('dict.classDanger')
   }
 ])
 
 const cssClassOptions = ref([
   {
     value: 'text-primary',
-    label: '主要'
+    label: proxy.$t('dict.classPrimary')
   },
   {
     value: 'text-success',
-    label: '成功'
+    label: proxy.$t('dict.classSuccess')
   },
   {
     value: 'text-info',
-    label: '信息'
+    label: proxy.$t('dict.classInfo')
   },
   {
     value: 'text-warning',
-    label: '警告'
+    label: proxy.$t('dict.classWarning')
   },
   {
     value: 'text-danger',
-    label: '危险'
+    label: proxy.$t('dict.classDanger')
   },
   {
     value: 'text-orange',
-    label: '橘红色'
+    label: proxy.$t('dict.colorOrange')
   },
   {
     value: 'text-hotpink',
-    label: '粉红色'
+    label: proxy.$t('dict.colorPink')
   },
   {
     value: 'text-green',
-    label: '绿色'
+    label: proxy.$t('dict.colorGreen')
   },
   {
     value: 'text-greenyellow',
-    label: '黄绿色'
+    label: proxy.$t('dict.colorYellowGreen')
   },
   {
     value: 'text-purple',
-    label: '紫色'
+    label: proxy.$t('dict.colorPurple')
   }
 ])
 // 状态数据字典
@@ -269,10 +269,10 @@ const formRef = ref()
 const state = reactive({
   form: {},
   rules: {
-    dictLabel: [{ required: true, message: '数据标签不能为空', trigger: 'blur' }],
-    dictValue: [{ required: true, message: '数据键值不能为空', trigger: 'blur' }],
-    dictSort: [{ required: true, message: '数据顺序不能为空', trigger: 'blur' }],
-    langKey: [{ pattern: /^[A-Za-z].+$/, message: '输入格式不正确,格式：login.ok', trigger: 'blur' }]
+    dictLabel: [{ required: true, message: proxy.$t('dict.dictLabelRequired'), trigger: 'blur' }],
+    dictValue: [{ required: true, message: proxy.$t('dict.dictValueRequired'), trigger: 'blur' }],
+    dictSort: [{ required: true, message: proxy.$t('dict.dictSortRequired'), trigger: 'blur' }],
+    langKey: [{ pattern: /^[A-Za-z].+$/, message: proxy.$t('dict.langKeyFormatIncorrect'), trigger: 'blur' }]
   }
 })
 
@@ -336,7 +336,7 @@ function resetQuery() {
 function handleAdd() {
   reset()
   open.value = true
-  title.value = '添加字典数据'
+  title.value = proxy.$t('dict.addDictData')
   form.value.dictType = queryParams.dictType
 }
 // 多选框选中数据
@@ -352,7 +352,7 @@ function handleUpdate(row) {
   getData(dictCode).then((response) => {
     form.value = response.data
     open.value = true
-    title.value = '修改字典数据'
+    title.value = proxy.$t('dict.editDictData')
   })
 }
 /** 提交按钮 */
@@ -361,13 +361,13 @@ function submitForm() {
     if (valid) {
       if (form.value.dictCode != undefined) {
         updateData(form.value).then(() => {
-          proxy.$modal.msgSuccess('修改成功')
+          proxy.$modal.msgSuccess(proxy.$t('common.updateSuccess'))
           open.value = false
           getList()
         })
       } else {
         addData(form.value).then(() => {
-          proxy.$modal.msgSuccess('新增成功')
+          proxy.$modal.msgSuccess(proxy.$t('common.addSuccess'))
           open.value = false
           getList()
         })
@@ -380,9 +380,9 @@ function submitForm() {
 function handleDelete(row) {
   const dictCodes = row.dictCode || ids.value
   proxy
-    .$confirm('是否确认删除字典编码为"' + dictCodes + '"的数据项?', '警告', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    .$confirm(proxy.$t('dict.confirmDelete') + dictCodes, proxy.$t('common.warning'), {
+      confirmButtonText: proxy.$t('common.ok'),
+      cancelButtonText: proxy.$t('btn.cancel'),
       type: 'warning'
     })
     .then(function () {
@@ -390,24 +390,24 @@ function handleDelete(row) {
     })
     .then(() => {
       getList()
-      proxy.$modal.msgSuccess('删除成功')
+      proxy.$modal.msgSuccess(proxy.$t('common.deleteSuccess'))
     })
 }
 
 function handleStatusChange(row) {
-  const text = row.status == '0' ? '启用' : '停用'
+  const text = row.status == '0' ? proxy.$t('dict.enable') : proxy.$t('dict.disable')
 
   proxy
-    .$confirm(`确认要${text} [${row.dictLabel}]吗?`, '警告', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    .$confirm(proxy.$t('dict.confirmStatus', { action: text, label: row.dictLabel }), proxy.$t('common.warning'), {
+      confirmButtonText: proxy.$t('common.ok'),
+      cancelButtonText: proxy.$t('btn.cancel'),
       type: 'warning'
     })
     .then(function () {
       return changeStatus(row.dictCode, row.status)
     })
     .then(() => {
-      proxy.$modal.msgSuccess(text + '成功')
+      proxy.$modal.msgSuccess(text + proxy.$t('common.successSuffix'))
     })
     .catch(function () {
       row.status = row.status == '0' ? '1' : '0'

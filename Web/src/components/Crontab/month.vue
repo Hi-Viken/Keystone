@@ -1,27 +1,27 @@
 <template>
   <el-form size="small">
     <el-form-item>
-      <el-radio v-model="radioValue" :label="1"> 月，允许的通配符[, - * /] </el-radio>
+      <el-radio v-model="radioValue" :label="1"> {{ $t('crontab.monthWildcard') }} </el-radio>
     </el-form-item>
 
     <el-form-item>
       <el-radio v-model="radioValue" :label="2">
-        周期从
-        <el-input-number v-model="cycle01" :min="1" :max="11" /> - <el-input-number v-model="cycle02" :min="cycle01 + 1" :max="12" /> 月
+        {{ $t('crontab.cycleFrom') }}
+        <el-input-number v-model="cycle01" :min="1" :max="11" /> - <el-input-number v-model="cycle02" :min="cycle01 + 1" :max="12" /> {{ $t('crontab.monthUnit') }}
       </el-radio>
     </el-form-item>
 
     <el-form-item>
       <el-radio v-model="radioValue" :label="3">
-        从
-        <el-input-number v-model="average01" :min="1" :max="11" /> 月开始，每
-        <el-input-number v-model="average02" :min="1" :max="maxMonth" /> 月执行一次
+        {{ $t('crontab.from') }}
+        <el-input-number v-model="average01" :min="1" :max="11" /> {{ $t('crontab.monthStart') }}
+        <el-input-number v-model="average02" :min="1" :max="maxMonth" /> {{ $t('crontab.monthExecute') }}
       </el-radio>
     </el-form-item>
 
     <el-form-item>
-      <el-radio v-model="radioValue" :label="4"> 指定 </el-radio>
-      <el-select clearable v-model="checkboxList" placeholder="可多选" multiple :multiple-limit="8" style="width: 80%">
+      <el-radio v-model="radioValue" :label="4"> {{ $t('crontab.specify') }} </el-radio>
+      <el-select clearable v-model="checkboxList" :placeholder="$t('crontab.multiSelect')" multiple :multiple-limit="8" style="width: 80%">
         <el-option v-for="item in monthList" :key="item.key" :label="item.value" :value="item.key" />
       </el-select>
     </el-form-item>
@@ -29,6 +29,7 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n'
 const emit = defineEmits(['update'])
 const props = defineProps({
   cron: {
@@ -48,6 +49,7 @@ const props = defineProps({
     default: () => {}
   }
 })
+const { t } = useI18n()
 const radioValue = ref(1)
 const cycle01 = ref(1)
 const cycle02 = ref(2)
@@ -55,19 +57,19 @@ const average01 = ref(1)
 const average02 = ref(1)
 const checkboxList = ref([])
 const checkCopy = ref([1])
-const monthList = ref([
-  { key: 1, value: '一月' },
-  { key: 2, value: '二月' },
-  { key: 3, value: '三月' },
-  { key: 4, value: '四月' },
-  { key: 5, value: '五月' },
-  { key: 6, value: '六月' },
-  { key: 7, value: '七月' },
-  { key: 8, value: '八月' },
-  { key: 9, value: '九月' },
-  { key: 10, value: '十月' },
-  { key: 11, value: '十一月' },
-  { key: 12, value: '十二月' }
+const monthList = computed(() => [
+  { key: 1, value: t('crontab.january') },
+  { key: 2, value: t('crontab.february') },
+  { key: 3, value: t('crontab.march') },
+  { key: 4, value: t('crontab.april') },
+  { key: 5, value: t('crontab.may') },
+  { key: 6, value: t('crontab.june') },
+  { key: 7, value: t('crontab.july') },
+  { key: 8, value: t('crontab.august') },
+  { key: 9, value: t('crontab.september') },
+  { key: 10, value: t('crontab.october') },
+  { key: 11, value: t('crontab.november') },
+  { key: 12, value: t('crontab.december') }
 ])
 const cycleTotal = computed(() => {
   cycle01.value = props.check(cycle01.value, 1, 11)

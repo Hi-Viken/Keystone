@@ -1,27 +1,27 @@
 <template>
   <el-form size="small">
     <el-form-item>
-      <el-radio v-model="radioValue" :label="1"> 秒，允许的通配符[, - * /] </el-radio>
+      <el-radio v-model="radioValue" :label="1"> {{ $t('crontab.secondWildcard') }} </el-radio>
     </el-form-item>
 
     <el-form-item>
       <el-radio v-model="radioValue" :label="2">
-        周期从
-        <el-input-number v-model="cycle01" :min="0" :max="58" /> - <el-input-number v-model="cycle02" :min="cycle01 + 1" :max="59" /> 秒
+        {{ $t('crontab.cycleFrom') }}
+        <el-input-number v-model="cycle01" :min="0" :max="58" /> - <el-input-number v-model="cycle02" :min="cycle01 + 1" :max="59" /> {{ $t('crontab.secondUnit') }}
       </el-radio>
     </el-form-item>
 
     <el-form-item>
       <el-radio v-model="radioValue" :label="3">
-        从
-        <el-input-number v-model="average01" :min="0" :max="58" /> 秒开始，每
-        <el-input-number v-model="average02" :min="1" :max="59 - average01" /> 秒执行一次
+        {{ $t('crontab.from') }}
+        <el-input-number v-model="average01" :min="0" :max="58" /> {{ $t('crontab.secondStart') }}
+        <el-input-number v-model="average02" :min="1" :max="59 - average01" /> {{ $t('crontab.secondExecute') }}
       </el-radio>
     </el-form-item>
 
     <el-form-item>
-      <el-radio v-model="radioValue" :label="4"> 指定 </el-radio>
-      <el-select clearable v-model="checkboxList" placeholder="可多选" multiple :multiple-limit="10">
+      <el-radio v-model="radioValue" :label="4"> {{ $t('crontab.specify') }} </el-radio>
+      <el-select clearable v-model="checkboxList" :placeholder="$t('crontab.multiSelect')" multiple :multiple-limit="10">
         <el-option v-for="item in 60" :key="item" :label="item - 1" :value="item - 1" />
       </el-select>
     </el-form-item>

@@ -1,21 +1,21 @@
 <template>
   <div class="app-container">
     <el-form ref="codeform" :inline="true" :model="queryParams">
-      <el-form-item label="表名" prop="tableName">
-        <el-input v-model="queryParams.tableName" style="width: 200px" clearable placeholder="输入要查询的表名" />
+      <el-form-item :label="$t('genView.tableName')" prop="tableName">
+        <el-input v-model="queryParams.tableName" style="width: 200px" clearable :placeholder="$t('genView.tableNamePh')" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="search" @click="getList()">查询</el-button>
-        <el-button icon="refresh" @click="handleReset()">重置</el-button>
+        <el-button type="primary" icon="search" @click="getList()">{{ $t('btn.search') }}</el-button>
+        <el-button icon="refresh" @click="handleReset()">{{ $t('btn.reset') }}</el-button>
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb10">
       <el-col :span="1.5">
-        <el-button type="info" plain icon="upload" @click="openImportTable" v-hasPermi="['tool:gen:import']">导入数据表</el-button>
+        <el-button type="info" plain icon="upload" @click="openImportTable" v-hasPermi="['tool:gen:import']">{{ $t('genView.importTable') }}</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="danger" :disabled="multiple" plain icon="delete" @click="handleDelete" v-hasPermi="['tool:gen:remove']"> 删除</el-button>
+        <el-button type="danger" :disabled="multiple" plain icon="delete" @click="handleDelete" v-hasPermi="['tool:gen:remove']"> {{ $t('btn.delete') }}</el-button>
       </el-col>
     </el-row>
     <el-table
@@ -28,18 +28,18 @@
       height="400px">
       <el-table-column type="selection" align="center" width="55"></el-table-column>
       <el-table-column prop="tableId" label="tableId" width="80" sortable="" />
-      <el-table-column prop="dbName" label="数据库名" width="90" :show-overflow-tooltip="true" />
-      <el-table-column prop="tplCategory" label="生成模板" width="90" sortable="" />
-      <el-table-column prop="tableName" label="表名" width="120" :show-overflow-tooltip="true" />
-      <el-table-column prop="tableComment" label="表描述" :show-overflow-tooltip="true" width="120" />
-      <el-table-column prop="className" label="实体" :show-overflow-tooltip="true" />
-      <el-table-column prop="createTime" label="创建时间" sortable />
-      <el-table-column prop="updateTime" label="更新时间" sortable />
-      <el-table-column label="操作" align="center" width="200">
+      <el-table-column prop="dbName" :label="$t('genView.dbName')" width="90" :show-overflow-tooltip="true" />
+      <el-table-column prop="tplCategory" :label="$t('genView.genTemplate')" width="90" sortable="" />
+      <el-table-column prop="tableName" :label="$t('genView.tableName')" width="120" :show-overflow-tooltip="true" />
+      <el-table-column prop="tableComment" :label="$t('genView.tableComment')" :show-overflow-tooltip="true" width="120" />
+      <el-table-column prop="className" :label="$t('genView.entity')" :show-overflow-tooltip="true" />
+      <el-table-column prop="createTime" :label="$t('common.createTime')" sortable />
+      <el-table-column prop="updateTime" :label="$t('common.updateTime')" sortable />
+      <el-table-column :label="$t('btn.operate')" align="center" width="200">
         <template #default="scope">
           <el-button-group>
-            <el-button text icon="view" @click="handlePreview(scope.row)" v-hasPermi="['tool:gen:preview']"> 预览 </el-button>
-            <el-button text icon="edit" @click="handleEditTable(scope.row)" v-hasPermi="['tool:gen:edit']"> 编辑 </el-button>
+            <el-button text icon="view" @click="handlePreview(scope.row)" v-hasPermi="['tool:gen:preview']"> {{ $t('common.preview') }} </el-button>
+            <el-button text icon="edit" @click="handleEditTable(scope.row)" v-hasPermi="['tool:gen:edit']"> {{ $t('btn.edit') }} </el-button>
 
             <el-dropdown @command="handleCommand($event, scope.row)">
               <el-button text>
@@ -53,17 +53,17 @@
                 <el-dropdown-menu>
                   <div v-hasPermi="['tool:gen:code']">
                     <el-dropdown-item command="generate">
-                      <el-button icon="download" link>生成代码</el-button>
+                      <el-button icon="download" link>{{ $t('genView.genCode') }}</el-button>
                     </el-dropdown-item>
                   </div>
                   <div v-hasPermi="['tool:gen:edit']">
                     <el-dropdown-item command="sync">
-                      <el-button icon="refresh" link> 同步 </el-button>
+                      <el-button icon="refresh" link> {{ $t('btn.synchronize') }} </el-button>
                     </el-dropdown-item>
                   </div>
                   <div v-hasPermi="['tool:gen:remove']">
                     <el-dropdown-item command="delete">
-                      <el-button icon="delete" type="danger" link> 删除 </el-button>
+                      <el-button icon="delete" type="danger" link> {{ $t('btn.delete') }} </el-button>
                     </el-dropdown-item>
                   </div>
                 </el-dropdown-menu>
@@ -80,7 +80,7 @@
       <el-tabs v-model="preview.activeName">
         <el-tab-pane v-for="(item, key) in preview.data" :label="item.title" :id="key" :name="key.toString()" :key="key">
           {{ item.path }}
-          <el-link :underline="false" icon="DocumentCopy" @click="onCopy(item.content)" class="btn-copy">复制 </el-link>
+          <el-link :underline="false" icon="DocumentCopy" @click="onCopy(item.content)" class="btn-copy">{{ $t('btn.copy') }} </el-link>
           <pre><code class="hljs" v-html="highlightedCode(item.content)"></code></pre>
         </el-tab-pane>
       </el-tabs>
@@ -120,7 +120,7 @@ const data = reactive({
   },
   preview: {
     open: false,
-    title: '代码预览',
+    title: proxy.$t('genView.codePreview'),
     data: {},
     activeName: '0'
   }
@@ -156,12 +156,12 @@ function handleQuery() {
 function handleGenTable(row) {
   currentSelected.value = row
   if (!currentSelected.value) {
-    proxy.$modal.msgError('请先选择要生成代码的数据表')
+    proxy.$modal.msgError(proxy.$t('genView.selectTableFirst'))
     return false
   }
   proxy.$refs['codeform'].validate((valid) => {
     if (valid) {
-      proxy.$modal.loading('正在生成代码...')
+      proxy.$modal.loading(proxy.$t('genView.generating'))
 
       codeGenerator({
         tableId: currentSelected.value.tableId,
@@ -172,9 +172,9 @@ function handleGenTable(row) {
           const { data } = res
           showGenerate.value = false
           if (row.genType === '1') {
-            proxy.$modal.msgSuccess('成功生成到自定义路径')
+            proxy.$modal.msgSuccess(proxy.$t('genView.genCustomPathSuccess'))
           } else {
-            proxy.$modal.msgSuccess('恭喜你，代码生成完成！')
+            proxy.$modal.msgSuccess(proxy.$t('genView.genComplete'))
             // proxy.download(data.path)
             await proxy.downFile('/common/downloadFile', { path: data.path })
           }
@@ -191,12 +191,12 @@ function handleGenTable(row) {
 function handleSynchDb(row) {
   const tableName = row.tableName
   proxy
-    .$confirm('确认要强制同步"' + tableName + '"表结构吗？')
+    .$confirm(proxy.$t('genView.syncConfirm', { name: tableName }))
     .then(function () {
       return synchDb(row.tableId, { tableName, dbName: row.dbName })
     })
     .then(() => {
-      proxy.$modal.msgSuccess('同步成功')
+      proxy.$modal.msgSuccess(proxy.$t('genView.syncSuccess'))
     })
     .catch(() => {})
 }
@@ -208,10 +208,10 @@ function openImportTable() {
 function handlePreview(row) {
   proxy.$refs['codeform'].validate((valid) => {
     if (!valid) {
-      proxy.$modal.msgError('请先完成表格内容')
+      proxy.$modal.msgError(proxy.$t('genView.completeFormFirst'))
       return
     }
-    proxy.$modal.loading('请稍后...')
+    proxy.$modal.loading(proxy.$t('genView.pleaseWait'))
     previewTable(row.tableId, { VueVersion: 3 })
       .then((res) => {
         if (res.code === 200) {
@@ -244,15 +244,15 @@ function handleEditTable(row) {
 function handleDelete(row) {
   const Ids = row.tableId || tableIds.value
   proxy
-    .$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    .$confirm(proxy.$t('genView.deleteConfirm'), proxy.$t('common.tips'), {
+      confirmButtonText: proxy.$t('common.ok'),
+      cancelButtonText: proxy.$t('common.cancel'),
       type: 'warning'
     })
     .then(() => {
       delTable(Ids.toString()).then((res) => {
         if (res.code == 200) {
-          proxy.$modal.msgSuccess('删除成功')
+          proxy.$modal.msgSuccess(proxy.$t('crud.deleteSuccess'))
 
           handleQuery()
         }
@@ -261,7 +261,7 @@ function handleDelete(row) {
     .catch(() => {
       proxy.$message({
         type: 'info',
-        message: '已取消删除'
+        message: proxy.$t('genView.deleteCanceled')
       })
     })
 }
@@ -275,9 +275,9 @@ const { copy, isSupported } = useClipboard()
 function onCopy(input) {
   if (isSupported) {
     copy(input)
-    proxy.$modal.msgSuccess('复制成功！')
+    proxy.$modal.msgSuccess(proxy.$t('common.copySuccess'))
   } else {
-    proxy.$modal.msgError('当前浏览器不支持')
+    proxy.$modal.msgError(proxy.$t('common.browserNotSupport'))
   }
 }
 function handleCommand(command, row) {

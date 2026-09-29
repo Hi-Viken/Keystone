@@ -1,5 +1,5 @@
 # ============================================================
-# Keystone / SkyFrpPanel - 根 .gitignore
+# Keystone - 根 .gitignore
 # 说明：Server/.gitignore 与 Web/.gitignore 已覆盖各自子树的
 #       bin/obj/.vs/node_modules/dist 等；本文件补充根级覆盖
 #       与“敏感信息 / 运行时数据”的忽略规则。
@@ -32,10 +32,9 @@ NLog/Logs/
 Thumbs.db
 
 # ---------- 运行时数据（不纳入版本库） ----------
-# 项目由 ZPanel.Server 重命名为 SkyFrpPanel.Server，旧忽略路径失效，此处修正
-Server/SkyFrpPanel.Server/wwwroot/uploads/
-Server/SkyFrpPanel.Server/wwwroot/avatar/
-Server/SkyFrpPanel.Server/wwwroot/export/
+Server/Keystone.Server/wwwroot/uploads/
+Server/Keystone.Server/wwwroot/avatar/
+Server/Keystone.Server/wwwroot/export/
 DataProtection/
 
 # ---------- 密钥 / 证书 / 配置（严禁提交） ----------

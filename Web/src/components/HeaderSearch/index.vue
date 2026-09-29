@@ -13,7 +13,7 @@
         remote
         popper-class="header-search-select"
         placement="bottom"
-        placeholder="菜单搜索，支持标题、URL模糊查询"
+        :placeholder="$t('headerSearch.placeholder')"
         @change="change">
         <template #prefix>
           <el-icon color="#409EFC" class="no-inherit">
@@ -170,17 +170,17 @@ function handleLove(item) {
 
   var len = 12
   if (arraryObjectLocal.length >= len) {
-    proxy.$modal.msgError(`最多可添加${len}个常用菜单`)
+    proxy.$modal.msgError(proxy.$t('headerSearch.maxMenu') + len)
     return
   }
   let index = findItem(arraryObjectLocal, 'path', item.path)
   if (index <= -1) {
     arraryObjectLocal.push({ ...item, color: color16() })
     proxy.$cache.local.setJSON('commonlyUseMenu', arraryObjectLocal)
-    proxy.$modal.msgSuccess('添加成功')
+    proxy.$modal.msgSuccess(proxy.$t('headerSearch.addSuccess'))
     usePermissionStore().setCommonlyUsedRoutes()
   } else {
-    proxy.$modal.msgError('该菜单已存在')
+    proxy.$modal.msgError(proxy.$t('headerSearch.menuExists'))
   }
 }
 

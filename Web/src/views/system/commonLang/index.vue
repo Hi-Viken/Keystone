@@ -10,23 +10,23 @@
   <div class="app-container">
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
       <el-form-item :label="$t('language')" prop="langCode">
-        <el-select v-model="queryParams.langCode" placeholder="请选择语言code">
+        <el-select v-model="queryParams.langCode" :placeholder="$t('commonLangView.selectLangCode')">
           <el-option v-for="item in options.sys_lang_type" :key="item.dictValue" :label="item.dictLabel"
             :value="item.dictValue"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('languageKey')" prop="langKey">
-        <el-input v-model="queryParams.langKey" placeholder="请输入语言key" />
+        <el-input v-model="queryParams.langKey" :placeholder="$t('commonLangView.inputLangKey')" />
       </el-form-item>
       <el-form-item :label="$t('showWay')">
         <el-radio-group v-model="queryParams.showMode">
-          <el-radio-button :value="1">表格</el-radio-button>
-          <el-radio-button :value="2">行列</el-radio-button>
+          <el-radio-button :value="1">{{ $t('commonLangView.tableView') }}</el-radio-button>
+          <el-radio-button :value="2">{{ $t('commonLangView.rowColView') }}</el-radio-button>
         </el-radio-group>
       </el-form-item>
       <el-form-item :label="$t('common.addTime')">
         <el-date-picker v-model="dateRangeAddtime" style="width: 240px" type="daterange" range-separator="-"
-          start-placeholder="开始日期" end-placeholder="结束日期" placeholder="请选择添加时间" value-format="YYYY-MM-DD HH:mm:ss"
+          :start-placeholder="$t('common.startDate')" :end-placeholder="$t('common.endDate')" :placeholder="$t('commonLangView.selectAddTime')" value-format="YYYY-MM-DD HH:mm:ss"
           :shortcuts="dateOptions">
         </el-date-picker>
       </el-form-item>
@@ -93,9 +93,9 @@
 
       <el-table-column :label="$t('btn.operate')" align="center" width="140">
         <template #default="scope">
-          <el-button v-hasPermi="['system:lang:edit']" text size="small" icon="edit" title="编辑"
+          <el-button v-hasPermi="['system:lang:edit']" text size="small" icon="edit" :title="$t('btn.edit')"
             @click="handleUpdate(scope.row)"></el-button>
-          <el-button v-hasPermi="['system:lang:delete']" text size="small" icon="delete" title="删除"
+          <el-button v-hasPermi="['system:lang:delete']" text size="small" icon="delete" :title="$t('btn.delete')"
             @click="handleDelete(scope.row)"></el-button>
         </template>
       </el-table-column>
@@ -113,11 +113,11 @@
 
       <el-table-column :label="$t('btn.operate')" align="center" width="140">
         <template #default="scope">
-          <el-button v-hasPermi="['system:lang:edit']" text size="small" icon="edit" title="编辑"
+          <el-button v-hasPermi="['system:lang:edit']" text size="small" icon="edit" :title="$t('btn.edit')"
             @click="handleUpdateP(scope.row)">
             {{ $t('btn.edit') }}
           </el-button>
-          <el-button v-hasPermi="['system:lang:delete']" text type="danger" icon="delete" title="删除"
+          <el-button v-hasPermi="['system:lang:delete']" text type="danger" icon="delete" :title="$t('btn.delete')"
             @click="handleDeleteByKey(scope.row)">
             {{ $t('btn.delete') }}
           </el-button>
@@ -136,7 +136,7 @@
             <el-form-item prop="langKey">
               <template #label>
                 <span>
-                  <el-tooltip content="翻译key，eg：message.title" placement="top">
+                  <el-tooltip :content="$t('commonLangView.langKeyTip')" placement="top">
                     <el-icon :size="15">
                       <questionFilled />
                     </el-icon>
@@ -144,7 +144,7 @@
                 </span>
                 {{ $t('languageKey') }}
               </template>
-              <el-input v-model="form.langKey" placeholder="请输入语言key" />
+              <el-input v-model="form.langKey" :placeholder="$t('commonLangView.inputLangKey')" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -216,10 +216,10 @@ const open = ref(false)
 const state = reactive({
   form: {},
   rules: {
-    id: [{ required: true, message: 'id不能为空', trigger: 'blur', type: 'number' }],
+    id: [{ required: true, message: proxy.$t('commonLangView.idRequired'), trigger: 'blur', type: 'number' }],
     // langCode: [{ required: true, message: '语言code不能为空', trigger: 'change' }],
-    langKey: [{ required: true, pattern: /^[A-Za-z].+$/, message: '语言key不能为空', trigger: 'change' }],
-    langName: [{ required: true, message: '内容不能为空', trigger: 'blur' }]
+    langKey: [{ required: true, pattern: /^[A-Za-z].+$/, message: proxy.$t('commonLangView.langKeyRequired'), trigger: 'change' }],
+    langName: [{ required: true, message: proxy.$t('commonLangView.contentRequired'), trigger: 'blur' }]
   },
   options: {}
 })
@@ -310,26 +310,26 @@ function handleDelete(row) {
   const Ids = row.id || ids.value
 
   proxy
-    .$confirm('是否确认删除参数编号为"' + Ids + '"的数据项？')
+    .$confirm(proxy.$t('crud.deleteConfirm', { id: Ids }))
     .then(function () {
       return delCommonLang(Ids)
     })
     .then(() => {
       handleQuery()
-      proxy.$modal.msgSuccess('删除成功')
+      proxy.$modal.msgSuccess(proxy.$t('crud.deleteSuccess'))
     })
     .catch(() => { })
 }
 
 function handleDeleteByKey(row) {
   proxy
-    .$confirm('是否确认删除key为"' + row.langKey + '"的数据项？')
+    .$confirm(proxy.$t('commonLangView.deleteByKeyConfirm', { key: row.langKey }))
     .then(function () {
       return delCommonLangByKey(row.langKey)
     })
     .then(() => {
       handleQuery()
-      proxy.$modal.msgSuccess('删除成功')
+      proxy.$modal.msgSuccess(proxy.$t('crud.deleteSuccess'))
     })
 }
 
@@ -341,7 +341,7 @@ function handleUpdate(row) {
     const { code, data } = res
     if (code == 200) {
       open.value = true
-      title.value = '修改数据'
+      title.value = proxy.$t('crud.editTitle')
       opertype.value = 2
 
       form.value = {
@@ -375,14 +375,14 @@ function submitForm() {
     }
   })
   if (!formValid.value) {
-    proxy.$modal.msgError(`请完成表格内容填写`)
+    proxy.$modal.msgError(proxy.$t('commonLangView.completeTableFill'))
     return
   }
   proxy.$refs['formRef'].validate((valid) => {
     if (valid) {
       updateCommonLang(form.value)
         .then((res) => {
-          proxy.$modal.msgSuccess('操作成功')
+          proxy.$modal.msgSuccess(proxy.$t('common.operationSuccess'))
           open.value = false
           getList()
         })
@@ -401,9 +401,9 @@ function resetQuery() {
 // 导出按钮操作
 function handleExport() {
   proxy
-    .$confirm('是否确认导出所有多语言配置数据项?', '警告', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    .$confirm(proxy.$t('common.confirmExport'), proxy.$t('common.warning'), {
+      confirmButtonText: proxy.$t('common.confirm'),
+      cancelButtonText: proxy.$t('common.cancel'),
       type: 'warning'
     })
     .then(function () {
@@ -440,7 +440,7 @@ const handleFileSuccess = (response) => {
   item2.forEach((item) => {
     error += item.storageMessage + ','
   })
-  proxy.$alert(item1 + '<p>' + error + '</p>', '导入结果', {
+  proxy.$alert(item1 + '<p>' + error + '</p>', proxy.$t('common.importResult'), {
     dangerouslyUseHTMLString: true
   })
   getList()

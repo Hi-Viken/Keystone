@@ -6,8 +6,8 @@
 <template>
   <div>
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
-      <el-form-item label="名称" prop="name">
-        <el-input v-model="queryParams.name" placeholder="请输入名称" />
+      <el-form-item :label="$t('common.name')" prop="name">
+        <el-input v-model="queryParams.name" :placeholder="$t('emailTplView.namePh')" />
       </el-form-item>
       <el-form-item>
         <el-button icon="search" type="primary" @click="handleQuery">{{ $t('btn.search') }}</el-button>
@@ -33,27 +33,27 @@
       highlight-current-row
       @sort-change="sortChange">
       <el-table-column prop="id" label="Id" align="center" />
-      <el-table-column prop="name" label="名称" align="center" :show-overflow-tooltip="true" />
-      <el-table-column prop="content" label="模板内容" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('content')" />
-      <el-table-column prop="createBy" label="创建人" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')" />
-      <el-table-column prop="createTime" label="创建时间" :show-overflow-tooltip="true" v-if="columns.showColumn('createTime')" />
-      <el-table-column prop="updateBy" label="更新人" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')" />
-      <el-table-column prop="updateTime" label="更新时间" :show-overflow-tooltip="true" v-if="columns.showColumn('updateTime')" />
-      <el-table-column label="操作" width="180">
+      <el-table-column prop="name" :label="$t('common.name')" align="center" :show-overflow-tooltip="true" />
+      <el-table-column prop="content" :label="$t('emailTplView.tplContent')" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('content')" />
+      <el-table-column prop="createBy" :label="$t('common.createBy')" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('createBy')" />
+      <el-table-column prop="createTime" :label="$t('common.createTime')" :show-overflow-tooltip="true" v-if="columns.showColumn('createTime')" />
+      <el-table-column prop="updateBy" :label="$t('common.updateBy')" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('updateBy')" />
+      <el-table-column prop="updateTime" :label="$t('common.updateTime')" :show-overflow-tooltip="true" v-if="columns.showColumn('updateTime')" />
+      <el-table-column :label="$t('btn.operate')" width="180">
         <template #default="scope">
           <el-button icon="view" size="small" type="primary" @click="handleOpenPre(scope.row)"></el-button>
           <el-button
             type="success"
             size="small"
             icon="edit"
-            title="编辑"
+            :title="$t('btn.edit')"
             v-hasPermi="['tool:emailtpl:edit']"
             @click="handleUpdate(scope.row)"></el-button>
           <el-button
             type="danger"
             size="small"
             icon="delete"
-            title="删除"
+            :title="$t('btn.delete')"
             v-hasPermi="['tool:emailtpl:delete']"
             @click="handleDelete(scope.row)"></el-button>
         </template>
@@ -66,13 +66,13 @@
       <el-form ref="formRef" :model="form" :rules="rules" label-width="100px">
         <el-row :gutter="20">
           <el-col :lg="24">
-            <el-form-item label="模板名称" prop="name">
-              <el-input v-model="form.name" placeholder="请输入模板名称" />
+            <el-form-item :label="$t('emailTplView.tplName')" prop="name">
+              <el-input v-model="form.name" :placeholder="$t('emailTplView.tplNamePh')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="24">
-            <el-form-item label="模板内容" prop="content">
+            <el-form-item :label="$t('emailTplView.tplContent')" prop="content">
               <editor v-model="form.content" v-if="open" />
             </el-form-item>
           </el-col>
@@ -84,7 +84,7 @@
       </template>
     </zr-dialog>
 
-    <zr-dialog title="预览" draggable v-model="openPreview" width="580px">
+    <zr-dialog :title="$t('common.preview')" draggable v-model="openPreview" width="580px">
       <template v-if="info">
         <div style="text-align: center" class="mb10">{{ info.name }}</div>
         <div v-html="info.content"></div>
@@ -112,11 +112,11 @@ const queryParams = reactive({
   name: undefined
 })
 const columns = ref([
-  { visible: true, prop: 'content', label: '模板内容' },
-  { visible: true, prop: 'createBy', label: '创建人' },
-  { visible: true, prop: 'createTime', label: '创建时间' },
-  { visible: false, prop: 'updateBy', label: '更新人' },
-  { visible: false, prop: 'updateTime', label: '更新时间' }
+  { visible: true, prop: 'content', label: proxy.$t('emailTplView.tplContent') },
+  { visible: true, prop: 'createBy', label: proxy.$t('common.createBy') },
+  { visible: true, prop: 'createTime', label: proxy.$t('common.createTime') },
+  { visible: false, prop: 'updateBy', label: proxy.$t('common.updateBy') },
+  { visible: false, prop: 'updateTime', label: proxy.$t('common.updateTime') }
 ])
 const total = ref(0)
 const dataList = ref([])
@@ -170,8 +170,8 @@ const state = reactive({
   multiple: true,
   form: {},
   rules: {
-    name: [{ required: true, message: 'Name不能为空', trigger: 'blur' }],
-    content: [{ required: true, message: '模板内容不能为空', trigger: 'blur' }]
+    name: [{ required: true, message: proxy.$t('emailTplView.nameRequired'), trigger: 'blur' }],
+    content: [{ required: true, message: proxy.$t('emailTplView.contentRequired'), trigger: 'blur' }]
   },
   options: {}
 })
@@ -202,7 +202,7 @@ function reset() {
 function handleAdd() {
   reset()
   open.value = true
-  title.value = '添加邮件模板'
+  title.value = proxy.$t('emailTplView.addTitle')
   opertype.value = 1
 }
 // 修改按钮操作
@@ -213,7 +213,7 @@ function handleUpdate(row) {
     const { code, data } = res
     if (code == 200) {
       open.value = true
-      title.value = '修改邮件模板'
+      title.value = proxy.$t('emailTplView.editTitle')
       opertype.value = 2
 
       form.value = {
@@ -229,13 +229,13 @@ function submitForm() {
     if (valid) {
       if (form.value.id != undefined && opertype.value === 2) {
         updateEmailTpl(form.value).then((res) => {
-          proxy.$modal.msgSuccess('修改成功')
+          proxy.$modal.msgSuccess(proxy.$t('crud.editSuccess'))
           open.value = false
           getList()
         })
       } else {
         addEmailTpl(form.value).then((res) => {
-          proxy.$modal.msgSuccess('新增成功')
+          proxy.$modal.msgSuccess(proxy.$t('crud.addSuccess'))
           open.value = false
           getList()
         })
@@ -249,13 +249,13 @@ function handleDelete(row) {
   const Ids = row.id || ids.value
 
   proxy
-    .$confirm('是否确认删除参数编号为"' + Ids + '"的数据项？')
+    .$confirm(proxy.$t('crud.deleteConfirm', { id: Ids }))
     .then(function () {
       return delEmailTpl(Ids)
     })
     .then(() => {
       getList()
-      proxy.$modal.msgSuccess('删除成功')
+      proxy.$modal.msgSuccess(proxy.$t('crud.deleteSuccess'))
     })
 }
 

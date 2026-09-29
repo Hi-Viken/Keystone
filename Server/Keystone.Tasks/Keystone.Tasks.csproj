@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommonRelyOn\CommonRelyOn.csproj" />
+    <ProjectReference Include="..\Keystone.Model\Keystone.Model.csproj" />
+    <ProjectReference Include="..\Keystone.ServiceCore\Keystone.ServiceCore.csproj" />
+  </ItemGroup>
+
+</Project>

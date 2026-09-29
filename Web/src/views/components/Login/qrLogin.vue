@@ -22,7 +22,7 @@ function generateCode() {
   clearQr()
   var uuid = getUuid()
 
-  document.getElementById('imgContainer').innerHTML = '正在生成中...'
+  document.getElementById('imgContainer').innerHTML = proxy.$t('login.qrGenerating')
   generateQrcode({ uuid, deviceId: visitorId.value }).then((res) => {
     const { code, data } = res
     document.getElementById('imgContainer').innerHTML = ''
@@ -42,7 +42,7 @@ function generateCode() {
         const { code, data } = res
         if (data.status == -1) {
           clearQr()
-          document.getElementById('imgContainer').innerHTML = '二维码已过期'
+          document.getElementById('imgContainer').innerHTML = proxy.$t('login.qrExpired')
         } else if (data.status == 2) {
           userStore
             .scanLogin(data)

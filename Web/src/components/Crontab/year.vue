@@ -1,11 +1,11 @@
 <template>
   <el-form size="small">
     <el-form-item>
-      <el-radio :label="1" v-model="radioValue"> 不填，允许的通配符[, - * /] </el-radio>
+      <el-radio :label="1" v-model="radioValue"> {{ $t('crontab.yearWildcard') }} </el-radio>
     </el-form-item>
 
     <el-form-item>
-      <el-radio :label="2" v-model="radioValue"> 每年 </el-radio>
+      <el-radio :label="2" v-model="radioValue"> {{ $t('crontab.everyYear') }} </el-radio>
     </el-form-item>
 
     <!-- <el-form-item>
@@ -26,8 +26,8 @@
 
     <el-form-item>
       <el-radio :label="5" v-model="radioValue">
-        指定
-        <el-select clearable v-model="checkboxList" placeholder="可多选" multiple :multiple-limit="8">
+        {{ $t('crontab.specify') }}
+        <el-select clearable v-model="checkboxList" :placeholder="$t('crontab.multiSelect')" multiple :multiple-limit="8">
           <el-option v-for="item in 9" :key="item" :value="item - 1 + fullYear" :label="item - 1 + fullYear" />
         </el-select>
       </el-radio>

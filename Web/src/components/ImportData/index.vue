@@ -13,12 +13,12 @@
       :on-success="handleFileSuccess"
       :on-error="handleFileError"
       :auto-upload="true">
-      <el-button type="primary" icon="Upload">上传文件</el-button>
+      <el-button type="primary" icon="Upload">{{ $t('importData.uploadFile') }}</el-button>
 
       <template #tip>
         <div class="el-upload__tip text-center">
-          <span>仅允许导入xls、xlsx格式文件。</span>
-          <el-link type="primary" @click="importTemplate" icon="Bottom"> 下载模板 </el-link>
+          <span>{{ $t('importData.formatTip') }}</span>
+          <el-link type="primary" @click="importTemplate" icon="Bottom"> {{ $t('importData.downloadTemplate') }} </el-link>
         </div>
       </template>
     </el-upload>
@@ -63,13 +63,13 @@ const handleFileSuccess = (response, file, fileList) => {
   proxy.$refs['uploadRef'].handleRemove(file)
 
   if (code != 200) {
-    proxy.$modal.msgError('导入数据失败,原因：' + msg)
+    proxy.$modal.msgError(proxy.$t('importData.importFailed') + msg)
   } else {
     emit('success', response)
   }
 }
 const handleFileError = function (error) {
-  proxy.$modal.msgError('导入数据失败,原因：' + error)
+  proxy.$modal.msgError(proxy.$t('importData.importFailed') + error)
 }
 function importTemplate() {
   proxy.downFile(props.templateUrl)

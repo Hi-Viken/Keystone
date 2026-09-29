@@ -2,15 +2,15 @@
   <div class="app-container">
     <el-form :model="queryParams" label-position="left" inline ref="queryForm" v-show="showSearch" @submit.prevent>
       <el-form-item label="" prop="storeType">
-        <el-radio-group v-model="queryParams.storeType" @change="handleQuery" placeholder="请选择存储类型">
-          <el-radio-button value=""> 全部 </el-radio-button>
+        <el-radio-group v-model="queryParams.storeType" @change="handleQuery" :placeholder="$t('fileView.storeTypePh')">
+          <el-radio-button value=""> {{ $t('common.all') }} </el-radio-button>
           <el-radio-button v-for="item in storeTypeOptions" :key="item.dictValue" :value="item.dictValue">
             {{ item.dictLabel }}
           </el-radio-button>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="存储分类" prop="classifyType">
-        <el-select clearable v-model="queryParams.classifyType" placeholder="请选择存储分类">
+      <el-form-item :label="$t('fileView.classifyType')" prop="classifyType">
+        <el-select clearable v-model="queryParams.classifyType" :placeholder="$t('fileView.classifyTypePh')">
           <el-option v-for="item in classifyTypeOptions" :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary)">{{ item.dictValue }}</span>
@@ -18,16 +18,16 @@
         </el-select>
       </el-form-item>
       <el-form-item label="" prop="fileId">
-        <el-input v-model="queryParams.fileId" placeholder="请输入文件id" clearable />
+        <el-input v-model="queryParams.fileId" :placeholder="$t('fileView.fileIdPh')" clearable />
       </el-form-item>
       <el-form-item label="">
         <el-date-picker
           v-model="dateRangeAddTime"
           type="daterange"
           range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          placeholder="请选择上传时间"
+          :start-placeholder="$t('common.startDate')"
+          :end-placeholder="$t('common.endDate')"
+          :placeholder="$t('fileView.uploadTimePh')"
           :shortcuts="dateOptions"></el-date-picker>
       </el-form-item>
 
@@ -54,19 +54,19 @@
     <!-- 数据区域 -->
     <el-table :data="dataList" v-loading="loading" ref="table" border highlight-current-row @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50" align="center" />
-      <el-table-column prop="id" label="文件id" width="150" :show-overflow-tooltip="true">
+      <el-table-column prop="id" :label="$t('fileView.fileId')" width="150" :show-overflow-tooltip="true">
         <template #default="scope">
           <el-button text size="small" type="success" @click="handleView(scope.row)">
             {{ scope.row.id }}
           </el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="fileName" label="文件名" align="left" width="180" :show-overflow-tooltip="true">
+      <el-table-column prop="fileName" :label="$t('fileView.fileName')" align="left" width="180" :show-overflow-tooltip="true">
         <template #default="scope">
           <el-link type="primary" :href="scope.row.accessUrl" target="_blank">{{ scope.row.fileName }}</el-link>
         </template>
       </el-table-column>
-      <el-table-column prop="accessUrl" align="center" label="预览图" width="80">
+      <el-table-column prop="accessUrl" align="center" :label="$t('fileView.previewImg')" width="80">
         <template #default="{ row }">
           <el-image
             preview-teleported
@@ -82,14 +82,14 @@
           </el-image>
         </template>
       </el-table-column>
-      <el-table-column prop="fileSize" label="文件大小" align="center" :show-overflow-tooltip="true" />
-      <el-table-column prop="fileExt" label="扩展名" align="center" :show-overflow-tooltip="true" width="80px" />
+      <el-table-column prop="fileSize" :label="$t('fileView.fileSize')" align="center" :show-overflow-tooltip="true" />
+      <el-table-column prop="fileExt" :label="$t('fileView.fileExt')" align="center" :show-overflow-tooltip="true" width="80px" />
       <!-- <el-table-column prop="storeType" label="存储类型" align="center">
         <template #default="scope">
           <dict-tag :options="storeTypeOptions" :value="parseInt(scope.row.storeType)" />
         </template>
       </el-table-column> -->
-      <el-table-column prop="classifyType" label="存储分类" align="center" width="100px">
+      <el-table-column prop="classifyType" :label="$t('fileView.classifyType')" align="center" width="100px">
         <template #default="scope">
           <!-- <dict-tag :options="classifyTypeOptions" :value="scope.row.classifyType" /> -->
           <el-select
@@ -98,30 +98,30 @@
             @change="handleClassifyChange(scope.row)"
             size="small"
             style="width: 90px"
-            placeholder="选择分类">
+            :placeholder="$t('fileView.selectClassify')">
             <el-option v-for="item in classifyTypeOptions" :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue"></el-option>
           </el-select>
         </template>
       </el-table-column>
-      <el-table-column prop="storePath" label="存储目录"></el-table-column>
-      <el-table-column prop="create_by" label="操作人" align="center" />
-      <el-table-column prop="create_time" label="创建日期" align="center">
+      <el-table-column prop="storePath" :label="$t('fileView.storePath')"></el-table-column>
+      <el-table-column prop="create_by" :label="$t('fileView.operator')" align="center" />
+      <el-table-column prop="create_time" :label="$t('common.createTime')" align="center">
         <template #default="{ row }">
           {{ showTime(row.create_time) }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="110">
+      <el-table-column :label="$t('btn.operate')" align="center" width="110">
         <template #default="scope">
           <el-button
             text
             size="small"
             icon="download"
-            title="下载"
+            :title="$t('btn.download')"
             v-hasPermi="['tool:file:download']"
             v-if="scope.row.storeType == 1"
             @click="handleDown(scope.row)"></el-button>
-          <el-button class="copy-btn-main" icon="document-copy" title="复制" text size="small" @click="copyText(scope.row.accessUrl)"> </el-button>
-          <el-button v-hasPermi="['tool:file:delete']" title="删除" text size="small" icon="delete" @click="handleDelete(scope.row)"> </el-button>
+          <el-button class="copy-btn-main" icon="document-copy" :title="$t('btn.copy')" text size="small" @click="copyText(scope.row.accessUrl)"> </el-button>
+          <el-button v-hasPermi="['tool:file:delete']" :title="$t('btn.delete')" text size="small" icon="delete" @click="handleDelete(scope.row)"> </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -131,8 +131,8 @@
       <el-form ref="formRef" :model="form" :rules="rules" label-width="90px" label-position="left">
         <el-row>
           <el-col :lg="24">
-            <el-form-item label="存储类型" prop="storeType">
-              <el-radio-group v-model="form.storeType" placeholder="请选择存储类型">
+            <el-form-item :label="$t('fileView.storeType')" prop="storeType">
+              <el-radio-group v-model="form.storeType" :placeholder="$t('fileView.storeTypePh')">
                 <el-radio-button v-for="item in storeTypeOptions" :key="item.dictValue" :value="parseInt(item.dictValue)">
                   {{ item.dictLabel }}
                 </el-radio-button>
@@ -140,8 +140,8 @@
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item label="文件名规则" prop="fileNameType">
-              <el-radio-group v-model="form.fileNameType" placeholder="请选择文件名存储类型">
+            <el-form-item :label="$t('fileView.fileNameRule')" prop="fileNameType">
+              <el-radio-group v-model="form.fileNameType" :placeholder="$t('fileView.fileNameTypePh')">
                 <el-radio-button v-for="item in fileNameTypeOptions" :key="item.dictValue" :value="parseInt(item.dictValue)">
                   {{ item.dictLabel }}
                 </el-radio-button>
@@ -150,15 +150,15 @@
           </el-col>
 
           <el-col :lg="24">
-            <el-form-item label="存储目录" prop="storePath">
+            <el-form-item :label="$t('fileView.storePath')" prop="storePath">
               <template #label>
                 <span>
-                  <el-tooltip content="文件目录不填则默认使用本地上传格式：yyyy/MMdd" placement="top">
+                  <el-tooltip :content="$t('fileView.storePathTip')" placement="top">
                     <el-icon :size="15">
                       <questionFilled />
                     </el-icon>
                   </el-tooltip>
-                  存储目录
+                  {{ $t('fileView.storePath') }}
                 </span>
               </template>
               <!-- <el-input v-model="form.storePath" placeholder="请输入文件目录，默认yyyy/MMdd格式" clearable="" auto-complete="" /> -->
@@ -170,15 +170,15 @@
                 filterable
                 default-first-option
                 :reserve-keyword="false"
-                placeholder="请输入文件目录，默认yyyy/MMdd格式">
+                :placeholder="$t('fileView.storePathPh')">
                 <el-option v-for="item in saveDirOptions" :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue" />
               </el-select>
             </el-form-item>
           </el-col>
 
           <el-col :lg="24" v-if="form.fileNameType == 2">
-            <el-form-item label="自定文件名" prop="fileName">
-              <el-input v-model="form.fileName" placeholder="请输入文件名" clearable="" />
+            <el-form-item :label="$t('fileView.customFileName')" prop="fileName">
+              <el-input v-model="form.fileName" :placeholder="$t('fileView.fileNamePh')" clearable="" />
             </el-form-item>
           </el-col>
           <el-col :lg="24">
@@ -206,47 +206,47 @@
       <el-form ref="form" :model="formView" :rules="rules" label-width="90px" label-position="left">
         <el-row>
           <el-col :lg="12">
-            <el-form-item label="存储分类">
+            <el-form-item :label="$t('fileView.classifyType')">
               <dict-tag :options="classifyTypeOptions" :value="formView.classifyType" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="源文件名">{{ formView.realName }}</el-form-item>
+            <el-form-item :label="$t('fileView.realName')">{{ formView.realName }}</el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="文件类型">
+            <el-form-item :label="$t('fileView.fileType')">
               <el-tag>{{ formView.fileType }}</el-tag>
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="扩展名">
+            <el-form-item :label="$t('fileView.fileExt')">
               <el-tag>{{ formView.fileExt }}</el-tag>
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="文件名">{{ formView.fileName }}</el-form-item>
+            <el-form-item :label="$t('fileView.fileName')">{{ formView.fileName }}</el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="存储目录">{{ formView.storePath }}</el-form-item>
+            <el-form-item :label="$t('fileView.storePath')">{{ formView.storePath }}</el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="文件大小">{{ formView.fileSize }}</el-form-item>
+            <el-form-item :label="$t('fileView.fileSize')">{{ formView.fileSize }}</el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="创建人">{{ formView.create_by }}</el-form-item>
+            <el-form-item :label="$t('common.createBy')">{{ formView.create_by }}</el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="二维码">
+            <el-form-item :label="$t('fileView.qrCode')">
               <div ref="imgContainerRef" id="imgContainer" class="qrCode"></div>
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="预览">
+            <el-form-item :label="$t('common.preview')">
               <el-image :src="formView.accessUrl" fit="contain" style="width: 100px"></el-image>
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item label="访问路径">
+            <el-form-item :label="$t('fileView.accessUrl')">
               {{ formView.accessUrl }}
               <el-button class="copy-btn-main" icon="document-copy" text @click="copyText(formView.accessUrl)">
                 {{ $t('btn.copy') }}
@@ -254,7 +254,7 @@
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item label="存储路径">
+            <el-form-item :label="$t('fileView.storeUrl')">
               <div>
                 {{ formView.fileUrl }}
               </div>
@@ -292,15 +292,16 @@ const uploadRef = ref(null)
 // 上传时间时间范围
 const dateRangeAddTime = ref([])
 // 存储类型选项列表
+const { proxy } = getCurrentInstance()
 const storeTypeOptions = ref([
-  { dictLabel: '本地存储', dictValue: 1 },
-  { dictLabel: '阿里云存储', dictValue: 2 }
+  { dictLabel: proxy.$t('fileView.localStorage'), dictValue: 1 },
+  { dictLabel: proxy.$t('fileView.aliyunStorage'), dictValue: 2 }
 ])
 //文件名产生选项列表
 const fileNameTypeOptions = ref([
-  { dictLabel: '原文件名', dictValue: 1 },
-  { dictLabel: '自定义', dictValue: 2 },
-  { dictLabel: '自动生成', dictValue: 3 }
+  { dictLabel: proxy.$t('fileView.originalName'), dictValue: 1 },
+  { dictLabel: proxy.$t('fileView.custom'), dictValue: 2 },
+  { dictLabel: proxy.$t('fileView.autoGenerate'), dictValue: 3 }
 ])
 // 存储目录前缀
 const saveDirOptions = ref([
@@ -323,21 +324,21 @@ const state = reactive({
     accessUrl: [
       {
         required: true,
-        message: '上传文件不能为空',
+        message: proxy.$t('fileView.fileRequired'),
         trigger: 'blur'
       }
     ],
     storeType: [
       {
         required: true,
-        message: '存储类型不能为空',
+        message: proxy.$t('fileView.storeTypeRequired'),
         trigger: 'blur'
       }
     ],
     fileName: [
       {
         required: true,
-        message: '文件名不能为空',
+        message: proxy.$t('fileView.fileNameRequired'),
         trigger: 'blur'
       }
     ]
@@ -350,7 +351,6 @@ const state = reactive({
   }
 })
 const { queryParams, form, rules } = toRefs(state)
-const { proxy } = getCurrentInstance()
 const uploadData = ref()
 // 查询数据
 function getList() {
@@ -408,7 +408,7 @@ function handleQuery() {
 function handleAdd() {
   reset()
   open.value = true
-  title.value = '上传文件'
+  title.value = proxy.$t('fileView.uploadTitle')
   // form.value.storeType = queryParams.storeType
 }
 /** 删除按钮操作 */
@@ -416,13 +416,13 @@ function handleDelete(row) {
   const Ids = row.id || ids.value
 
   proxy
-    .$confirm('是否确认删除参数编号为"' + Ids + '"的数据项？')
+    .$confirm(proxy.$t('crud.deleteConfirm', { id: Ids }))
     .then(function () {
       return delSysfile(Ids)
     })
     .then(() => {
       handleQuery()
-      proxy.$modal.msgSuccess('删除成功')
+      proxy.$modal.msgSuccess(proxy.$t('crud.deleteSuccess'))
     })
     .catch(() => {})
 }
@@ -480,16 +480,16 @@ const { copy, isSupported } = useClipboard()
 const copyText = async (val) => {
   if (isSupported) {
     copy(val)
-    proxy.$modal.msgSuccess('复制成功！')
+    proxy.$modal.msgSuccess(proxy.$t('common.copySuccess'))
   } else {
-    proxy.$modal.msgError('当前浏览器不支持')
+    proxy.$modal.msgError(proxy.$t('common.browserNotSupport'))
   }
 }
 function handleClassifyChange(row) {
   console.log(row)
 
   updateSysfile(row).then(() => {
-    proxy.$modal.msgSuccess('修改成功')
+    proxy.$modal.msgSuccess(proxy.$t('crud.editSuccess'))
   })
 }
 handleQuery()

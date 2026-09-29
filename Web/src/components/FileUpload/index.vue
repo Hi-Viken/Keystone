@@ -22,19 +22,19 @@
         <el-icon class="el-icon--upload">
           <upload-filled />
         </el-icon>
-        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__text">{{ $t('upload.dragHere') }}<em>{{ $t('upload.clickUpload') }}</em></div>
       </template>
       <!-- 上传按钮 -->
-      <el-button type="primary" icon="upload" v-if="!drag">选取文件</el-button>
+      <el-button type="primary" icon="upload" v-if="!drag">{{ $t('upload.selectFile') }}</el-button>
       <!-- 上传提示 -->
       <template v-slot:tip>
         <div class="el-upload__tip" v-if="showTip">
           <slot name="tip">
             <template v-if="fileSize">
-              大小不超过 <b class="text-danger">{{ fileSize }}MB</b>
+              {{ $t('upload.sizeLimit') }} <b class="text-danger">{{ fileSize }}MB</b>
             </template>
             <template v-if="fileType">
-              格式为 <b class="text-danger">{{ fileType.join('/') }}</b>
+              {{ $t('upload.formatLimit') }} <b class="text-danger">{{ fileType.join('/') }}</b>
             </template>
           </slot>
         </div>
@@ -48,7 +48,7 @@
           {{ file.name }}
         </el-link>
         <div class="ele-upload-list__item-content-action" v-if="!disabled">
-          <el-link :underline="false" @click="handleDelete(index)" type="danger">删除</el-link>
+          <el-link :underline="false" @click="handleDelete(index)" type="danger">{{ $t('btn.delete') }}</el-link>
         </div>
       </li>
     </transition-group>
@@ -150,7 +150,7 @@ function handleBeforeUpload(file) {
       return false
     })
     if (!isTypeOk) {
-      proxy.$modal.msgError(`文件格式不正确, 请上传${props.fileType.join('/')}格式文件!`)
+      proxy.$modal.msgError(proxy.$t('upload.wrongFormat') + props.fileType.join('/') + '!')
       return false
     }
   }
@@ -158,23 +158,23 @@ function handleBeforeUpload(file) {
   if (props.fileSize) {
     const isLt = file.size / 1024 / 1024 < props.fileSize
     if (!isLt) {
-      proxy.$modal.msgError(`上传文件大小不能超过 ${props.fileSize} MB!`)
+      proxy.$modal.msgError(proxy.$t('upload.sizeExceed') + props.fileSize + ' MB!')
       return false
     }
   }
-  proxy.$modal.loading('正在上传文件，请稍候...')
+  proxy.$modal.loading(proxy.$t('upload.uploading'))
   number.value++
   return true
 }
 
 // 文件个数超出
 function handleExceed() {
-  proxy.$modal.msgError(`上传文件数量不能超过 ${props.limit} 个!`)
+  proxy.$modal.msgError(proxy.$t('upload.exceedLimit') + props.limit)
 }
 
 // 上传失败
 function handleUploadError(err) {
-  proxy.$modal.msgError('上传失败')
+  proxy.$modal.msgError(proxy.$t('upload.uploadFailed'))
   proxy.$modal.closeLoading()
 }
 
@@ -182,7 +182,7 @@ function handleUploadError(err) {
 function handleUploadSuccess(response, uploadFile) {
   if (response.code != 200) {
     fileList.value = []
-    proxy.$modal.msgError(`上传失败，原因:${response.msg}!`)
+    proxy.$modal.msgError(proxy.$t('upload.uploadFailedReason') + response.msg + '!')
     proxy.$modal.closeLoading()
     return
   }

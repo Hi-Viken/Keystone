@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch">
-      <el-form-item label="部门名称" prop="deptName">
-        <el-input v-model="queryParams.deptName" placeholder="请输入部门名称" @keyup.enter="handleQuery" />
+      <el-form-item :label="$t('deptView.deptName')" prop="deptName">
+        <el-input v-model="queryParams.deptName" :placeholder="$t('deptView.deptNamePh')" @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="状态" prop="status">
-        <el-select v-model="queryParams.status" placeholder="部门状态">
+      <el-form-item :label="$t('common.status')" prop="status">
+        <el-select v-model="queryParams.status" :placeholder="$t('deptView.deptStatus')">
           <el-option v-for="dict in statusOptions" :key="dict.dictValue" :label="dict.dictLabel" :value="dict.dictValue" />
         </el-select>
       </el-form-item>
@@ -33,24 +33,24 @@
       row-key="deptId"
       :default-expand-all="isExpandAll"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-      <el-table-column prop="deptName" label="部门名称" width="240"></el-table-column>
-      <el-table-column prop="deptId" label="部门id"></el-table-column>
-      <el-table-column prop="leader" label="负责人" width="100"></el-table-column>
-      <el-table-column prop="phone" label="联系电话" width="120"></el-table-column>
-      <el-table-column prop="email" label="邮箱" width="120"></el-table-column>
-      <el-table-column prop="userNum" label="部门人数" width="100"></el-table-column>
-      <el-table-column prop="orderNum" label="排序"></el-table-column>
-      <el-table-column label="状态" align="center" prop="status">
+      <el-table-column prop="deptName" :label="$t('deptView.deptName')" width="240"></el-table-column>
+      <el-table-column prop="deptId" :label="$t('deptView.deptId')"></el-table-column>
+      <el-table-column prop="leader" :label="$t('deptView.leader')" width="100"></el-table-column>
+      <el-table-column prop="phone" :label="$t('deptView.phone')" width="120"></el-table-column>
+      <el-table-column prop="email" :label="$t('common.email')" width="120"></el-table-column>
+      <el-table-column prop="userNum" :label="$t('deptView.userNum')" width="100"></el-table-column>
+      <el-table-column prop="orderNum" :label="$t('common.sort')"></el-table-column>
+      <el-table-column :label="$t('common.status')" align="center" prop="status">
         <template #default="scope">
           <dict-tag :options="statusOptions" :value="scope.row.status" />
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="200">
+      <el-table-column :label="$t('common.createTime')" align="center" prop="createTime" width="200">
         <template #default="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="200">
+      <el-table-column :label="$t('btn.operate')" width="200">
         <template #default="scope">
           <el-button text size="small" icon="edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:dept:update']">
             {{ $t('btn.edit') }}
@@ -76,7 +76,7 @@
       <el-form ref="formRef" :model="form" :rules="rules" label-width="80px">
         <el-row :gutter="20">
           <el-col :lg="24" v-if="form.parentId !== 0">
-            <el-form-item label="上级部门" prop="parentId">
+            <el-form-item :label="$t('deptView.parentDept')" prop="parentId">
               <!-- <el-tree-select
                 v-model="form.parentId"
                 :data="deptOptions"
@@ -89,7 +89,7 @@
                 class="w100"
                 :options="deptOptions"
                 :props="{ checkStrictly: true, value: 'deptId', label: 'deptName', emitPath: false }"
-                placeholder="请选择上级菜单"
+                :placeholder="$t('deptView.selectParentMenu')"
                 clearable
                 v-model="form.parentId">
                 <template #default="{ node, data }">
@@ -100,32 +100,32 @@
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="部门名称" prop="deptName">
-              <el-input v-model="form.deptName" placeholder="请输入部门名称" />
+            <el-form-item :label="$t('deptView.deptName')" prop="deptName">
+              <el-input v-model="form.deptName" :placeholder="$t('deptView.deptNamePh')" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="显示排序" prop="orderNum">
+            <el-form-item :label="$t('deptView.showSort')" prop="orderNum">
               <el-input-number v-model="form.orderNum" controls-position="right" :min="0" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="负责人" prop="leader">
-              <el-input v-model="form.leader" placeholder="请输入负责人" maxlength="20" />
+            <el-form-item :label="$t('deptView.leader')" prop="leader">
+              <el-input v-model="form.leader" :placeholder="$t('deptView.leaderPh')" maxlength="20" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="联系电话" prop="phone">
-              <el-input v-model="form.phone" placeholder="请输入联系电话" maxlength="11" />
+            <el-form-item :label="$t('deptView.phone')" prop="phone">
+              <el-input v-model="form.phone" :placeholder="$t('deptView.phonePh')" maxlength="11" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="邮箱" prop="email">
-              <el-input v-model="form.email" placeholder="请输入邮箱" maxlength="50" />
+            <el-form-item :label="$t('common.email')" prop="email">
+              <el-input v-model="form.email" :placeholder="$t('deptView.emailPh')" maxlength="50" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="部门状态">
+            <el-form-item :label="$t('deptView.deptStatus')">
               <el-radio-group v-model="form.status">
                 <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{ dict.dictLabel }}</el-radio>
               </el-radio-group>
@@ -166,25 +166,26 @@ const queryParams = reactive({
   deptName: undefined,
   status: undefined
 })
+const { proxy } = getCurrentInstance()
 const state = reactive({
   // 表单参数
   form: {},
   // 表单校验
   rules: {
     // parentId: [{ required: true, message: '上级部门不能为空', trigger: 'blur' }],
-    deptName: [{ required: true, message: '部门名称不能为空', trigger: 'blur' }],
-    orderNum: [{ required: true, message: '显示排序不能为空', trigger: 'blur' }],
+    deptName: [{ required: true, message: proxy.$t('deptView.deptNameRequired'), trigger: 'blur' }],
+    orderNum: [{ required: true, message: proxy.$t('deptView.sortRequired'), trigger: 'blur' }],
     email: [
       {
         type: 'email',
-        message: '请输入正确的邮箱地址',
+        message: proxy.$t('common.emailInvalid'),
         trigger: ['blur', 'change']
       }
     ],
     phone: [
       {
         pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-        message: '请输入正确的手机号码',
+        message: proxy.$t('common.phoneInvalid'),
         trigger: 'blur'
       }
     ]
@@ -192,7 +193,6 @@ const state = reactive({
 })
 const formRef = ref()
 const { form, rules } = toRefs(state)
-const { proxy } = getCurrentInstance()
 /** 查询部门列表 */
 function getList() {
   loading.value = true
@@ -236,7 +236,7 @@ function handleAdd(row) {
     form.value.parentId = row.deptId
   }
   open.value = true
-  title.value = '添加部门'
+  title.value = proxy.$t('crud.addTitle')
   listDept().then((response) => {
     deptOptions.value = proxy.handleTree(response.data, 'deptId')
   })
@@ -247,7 +247,7 @@ function handleUpdate(row) {
   getDept(row.deptId).then((response) => {
     form.value = response.data
     open.value = true
-    title.value = '修改部门'
+    title.value = proxy.$t('crud.editTitle')
   })
   listDeptExcludeChild(row.deptId).then((response) => {
     deptOptions.value = proxy.handleTree(response.data, 'deptId')
@@ -259,13 +259,13 @@ function submitForm() {
     if (valid) {
       if (form.value.deptId != undefined) {
         updateDept(form.value).then((response) => {
-          proxy.$modal.msgSuccess('修改成功')
+          proxy.$modal.msgSuccess(proxy.$t('crud.editSuccess'))
           open.value = false
           getList()
         })
       } else {
         addDept(form.value).then((response) => {
-          proxy.$modal.msgSuccess('新增成功')
+          proxy.$modal.msgSuccess(proxy.$t('crud.addSuccess'))
           open.value = false
           getList()
         })
@@ -276,9 +276,9 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   proxy
-    .$confirm('是否确认删除名称为"' + row.deptName + '"的数据项?', '警告', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    .$confirm(proxy.$t('crud.deleteByNameConfirm', { name: row.deptName }), proxy.$t('common.warning'), {
+      confirmButtonText: proxy.$t('common.confirm'),
+      cancelButtonText: proxy.$t('common.cancel'),
       type: 'warning'
     })
     .then(function () {
@@ -286,7 +286,7 @@ function handleDelete(row) {
     })
     .then(() => {
       getList()
-      proxy.$modal.msgSuccess('删除成功')
+      proxy.$modal.msgSuccess(proxy.$t('crud.deleteSuccess'))
     })
 }
 //展开/折叠操作

@@ -3,7 +3,7 @@
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch">
       <el-form-item :label="$t('m.parentMenu')" prop="parentId">
         <el-cascader class="w100" :options="menuQueryOptions"
-          :props="{ checkStrictly: true, value: 'menuId', label: 'menuName', emitPath: false }" placeholder="请选择上级菜单"
+          :props="{ checkStrictly: true, value: 'menuId', label: 'menuName', emitPath: false }" :placeholder="$t('menuView.selectParentMenu')"
           clearable v-model="queryParams.parentId">
           <template #default="{ node, data }">
             <span>{{ data.menuName }}</span>
@@ -12,16 +12,16 @@
         </el-cascader>
       </el-form-item>
       <el-form-item :label="$t('m.menuName')" prop="menuName">
-        <el-input v-model="queryParams.menuName" placeholder="请输入菜单名称" clearable @keyup.enter="handleQuery" />
+        <el-input v-model="queryParams.menuName" :placeholder="$t('menuView.menuNamePh')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <el-form-item :label="$t('m.menuState')" prop="status">
-        <el-select v-model="queryParams.status" placeholder="菜单状态" clearable>
+        <el-select v-model="queryParams.status" :placeholder="$t('menuView.menuStatusPh')" clearable>
           <el-option v-for="dict in options.sys_normal_disable" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('m.isShow')" prop="visible">
-        <el-select v-model="queryParams.visible" placeholder="显示状态" clearable>
+        <el-select v-model="queryParams.visible" :placeholder="$t('menuView.showStatusPh')" clearable>
           <el-option v-for="dict in options.sys_show_hide" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
         </el-select>
@@ -120,12 +120,12 @@
                 <el-dropdown-menu>
                   <div v-hasPermi="['system:menu:remove']">
                     <el-dropdown-item>
-                      <el-button icon="Delete" link @click="handleDelete(scope.row)">删除当前</el-button>
+                      <el-button icon="Delete" link @click="handleDelete(scope.row)">{{ $t('menuView.deleteCurrent') }}</el-button>
                     </el-dropdown-item>
                   </div>
                   <div v-hasPermi="['system:menu:remove']" class="mt10">
                     <el-dropdown-item>
-                      <el-button icon="Delete" type="danger" link @click="handleDeleteAll(scope.row)"> 删除所有 </el-button>
+                      <el-button icon="Delete" type="danger" link @click="handleDeleteAll(scope.row)"> {{ $t('menuView.deleteAll') }} </el-button>
                     </el-dropdown-item>
                   </div>
                 </el-dropdown-menu>
@@ -173,7 +173,7 @@ const state = reactive({
       { dictLabel: proxy.$t('m.menu'), dictValue: 'C' },
       { dictLabel: proxy.$t('m.directory'), dictValue: 'M' },
       { dictLabel: proxy.$t('m.button'), dictValue: 'F' },
-      { dictLabel: '按钮', dictValue: 'L' }
+      { dictLabel: proxy.$t('m.link'), dictValue: 'L' }
     ]
   }
 })
@@ -186,10 +186,10 @@ proxy.getDicts(dictParams).then((response) => {
 })
 // 列显隐信息
 const columns = ref([
-  { label: `路由地址`, visible: true, prop: 'path' },
-  { label: `路由参数`, visible: false, prop: 'query' },
-  { label: `添加时间`, visible: false, prop: 'createTime' },
-  { label: `排序`, visible: true, prop: 'orderNum' }
+  { label: proxy.$t('menuView.routePath'), visible: true, prop: 'path' },
+  { label: proxy.$t('menuView.routeQuery'), visible: false, prop: 'query' },
+  { label: proxy.$t('common.addTime'), visible: false, prop: 'createTime' },
+  { label: proxy.$t('common.sort'), visible: true, prop: 'orderNum' }
 ])
 
 let resizeObserver = null
@@ -264,27 +264,27 @@ function handleUpdate(row) {
 /** 删除按钮操作 */
 function handleDelete(row) {
   proxy.$modal
-    .confirm('是否确认删除名称为"' + row.menuName + '"的数据项?')
+    .confirm(proxy.$t('crud.deleteByNameConfirm', { name: row.menuName }))
     .then(function () {
       return delMenu(row.menuId)
     })
     .then(() => {
       // getList()
       refreshMenu(row.parentId)
-      proxy.$modal.msgSuccess('删除成功')
+      proxy.$modal.msgSuccess(proxy.$t('crud.deleteSuccess'))
     })
 }
 /** 删除按钮操作 */
 function handleDeleteAll(row) {
   proxy.$modal
-    .confirm('是否确认删除名称为"' + row.menuName + '"的所有数据项?')
+    .confirm(proxy.$t('menuView.deleteAllConfirm', { name: row.menuName }))
     .then(function () {
       return delAllMenu(row.menuId)
     })
     .then(() => {
       // getList()
       refreshMenu(row.parentId)
-      proxy.$modal.msgSuccess('删除成功')
+      proxy.$modal.msgSuccess(proxy.$t('crud.deleteSuccess'))
     })
 }
 // ******************自定义编辑 start **********************
@@ -308,14 +308,14 @@ function editCurrRow(rowId) {
 function handleChangeSort(info) {
   editIndex.value = -1
   proxy
-    .$confirm('是否保存数据?')
+    .$confirm(proxy.$t('menuView.confirmSave'))
     .then(function () {
       return changeSort({ value: info.orderNum, id: info.menuId })
     })
     .then(() => {
       handleQuery()
       refreshMenu(info.parentId)
-      proxy.$modal.msgSuccess('修改成功')
+      proxy.$modal.msgSuccess(proxy.$t('crud.editSuccess'))
     })
     .catch(() => {
       handleQuery()

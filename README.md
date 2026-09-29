@@ -1,6 +1,6 @@
 # Keystone
 
-> 视频监控 / 设备管理与后台系统（内部产品名 **SkyFrpPanel**）
+> 视频监控 / 设备管理与后台系统
 
 基于 [ZrAdmin.NET](https://gitee.com/izory/ZrAdminNetCore) 二开的后台管理系统，配套 Vue 3 前端与工业设备通信模块（Kep），并提供文件 / 材料管理相关的 SQLite 数据库脚本。
 
@@ -11,17 +11,17 @@ Keystone/
 ├── FileManagement.sql        # SQLite：文件管理表（支持多级目录）
 ├── Material.sql              # SQLite：材料表
 ├── MaterialType.sql          # SQLite：材料类型表（树形结构）
-├── Server/                   # 后端（.NET 10 / ASP.NET Core 解决方案 SkyFrpPanel.slnx）
-│   ├── SkyFrpPanel.Server/   # Web API 宿主（Program.cs / Kestrel / Swagger·Scalar）
-│   ├── SkyFrpPanel.Common/   # 公共组件（缓存、动态 Api、邮件、微信、Excel 等）
-│   ├── SkyFrpPanel.Infrastructure/ # 基础设施（鉴权、全局异常、缓存、扩展方法）
-│   ├── SkyFrpPanel.Model/    # 实体模型
-│   ├── SkyFrpPanel.Repository/ # 数据访问层
-│   ├── SkyFrpPanel.Service/  # 业务服务
-│   ├── SkyFrpPanel.ServiceCore/ # 核心服务（SqlSugar ORM、SignalR）
-│   ├── SkyFrpPanel.Tasks/     # 定时任务（Quartz.NET）
-│   ├── SkyFrpPanel.Mall/      # 商城模块
-│   ├── SkyFrpPanel.CodeGenerator/ # 代码生成器
+├── Server/                   # 后端（.NET 10 / ASP.NET Core 解决方案 Keystone.slnx）
+│   ├── Keystone.Server/   # Web API 宿主（Program.cs / Kestrel / Swagger·Scalar）
+│   ├── Keystone.Common/   # 公共组件（缓存、动态 Api、邮件、微信、Excel 等）
+│   ├── Keystone.Infrastructure/ # 基础设施（鉴权、全局异常、缓存、扩展方法）
+│   ├── Keystone.Model/    # 实体模型
+│   ├── Keystone.Repository/ # 数据访问层
+│   ├── Keystone.Service/  # 业务服务
+│   ├── Keystone.ServiceCore/ # 核心服务（SqlSugar ORM、SignalR）
+│   ├── Keystone.Tasks/     # 定时任务（Quartz.NET）
+│   ├── Keystone.Mall/      # 商城模块
+│   ├── Keystone.CodeGenerator/ # 代码生成器
 │   ├── CommonRelyOn/         # 公共依赖
 │   └── Kep/                  # 工业设备通信模块
 │       ├── KepServerCore/    # 服务端核心
@@ -30,7 +30,7 @@ Keystone/
 │       ├── KepDevSmartMeter/ # 智能电表设备
 │       ├── KepDevSwitch/     # 交换机设备（WinForms Demo）
 │       └── ZepCommon/        # 协议公共库（CRC、数据帧、环形缓冲、文件分片追踪）
-└── Web/                      # 前端（Vue 3 + Element Plus + Vite，SkyFrpPanel）
+└── Web/                      # 前端（Vue 3 + Element Plus + Vite，Keystone）
     ├── src/                  # 前端源码
     ├── package.json
     └── ...
@@ -57,14 +57,14 @@ Keystone/
 cd Server
 
 # 1. 还原依赖
-dotnet restore SkyFrpPanel.slnx
+dotnet restore Keystone.slnx
 
 # 2. 准备配置：appsettings.json 已被 gitignore（含数据库连接串等敏感信息），
 #    请使用你本地的 appsettings.json，或参考后端配置绑定自行创建，
 #    填入数据库连接串、Redis、JWT 等（切勿提交真实密钥）
 
 # 3. 启动 API（端口见 appsettings.json，开发环境常见为 8011）
-dotnet run --project SkyFrpPanel.Server
+dotnet run --project Keystone.Server
 ```
 
 ## 前端运行
@@ -111,7 +111,7 @@ sqlite3 keystone.db < MaterialType.sql
 - `appsettings.json`、`appsettings.*.json`（含数据库连接串等敏感配置）
 - `*.pfx`、`*.pem`、`*.key`、`*.crt`、`id_rsa*`（证书 / 私钥）
 - `Web/.env`、`Web/.env.*`（前端环境变量）
-- `Server/SkyFrpPanel.Server/wwwroot/uploads`、`avatar`、`export`（运行时上传与生成数据）
+- `Server/Keystone.Server/wwwroot/uploads`、`avatar`、`export`（运行时上传与生成数据）
 
 请在上线前自行准备上述配置，并妥善保管密钥。
 

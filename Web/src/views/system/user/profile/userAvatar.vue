@@ -28,7 +28,7 @@
       <el-col :lg="2" :md="2">
         <el-upload action="#" :http-request="requestUpload" :show-file-list="false" :before-upload="beforeUpload">
           <el-button>
-            选择
+            {{ $t('user.choose') }}
             <el-icon class="el-icon--right">
               <Upload />
             </el-icon>
@@ -48,7 +48,7 @@
         <el-button icon="RefreshRight" @click="rotateRight()"></el-button>
       </el-col>
       <el-col :lg="{ span: 2, offset: 6 }" :md="2">
-        <el-button type="primary" @click="uploadImg()">提 交</el-button>
+        <el-button type="primary" @click="uploadImg()">{{ $t('btn.submit') }}</el-button>
       </el-col>
     </el-row>
   </el-dialog>
@@ -71,7 +71,7 @@ export default {
 
     const open = ref(false)
     const visible = ref(false)
-    const title = ref('修改头像')
+    const title = ref(proxy.$t('user.modifyAvatar'))
     const fileName = ref('')
     //图片裁剪数据
     const options = reactive({
@@ -109,7 +109,7 @@ export default {
     /** 上传预处理 */
     function beforeUpload(file) {
       if (file.type.indexOf('image/') == -1) {
-        proxy.$modal.msgError('文件格式错误，请上传图片类型,如：JPG，PNG后缀的文件。')
+        proxy.$modal.msgError(proxy.$t('user.fileFormatError'))
       } else {
         fileName.value = file.name
         const reader = new FileReader()
@@ -129,7 +129,7 @@ export default {
           open.value = false
           options.img = response.data.imgUrl
           useStore.avatar = options.img
-          proxy.$modal.msgSuccess('修改成功')
+          proxy.$modal.msgSuccess(proxy.$t('crud.editSuccess'))
           visible.value = false
         })
       })

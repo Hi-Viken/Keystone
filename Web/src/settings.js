@@ -55,7 +55,7 @@ export default {
   /**
    * 版权信息
    */
-  copyright: 'Copyright ©2024 <a target="_black" href="http://www.izhaorui.cn">SkyFrpPanel</a> All Rights Reserved.',
+  copyright: 'Copyright ©2024 <a target="_black" href="http://vkin.cc">Keystone</a> All Rights Reserved.',
   /**
    * 是否显示底部栏
    */
@@ -67,7 +67,7 @@ export default {
   /**
    * 水印文案
    */
-  watermarkText: 'SkyFrpPanel',
+  watermarkText: 'Keystone',
   /**
    * 是否显示其他登录
    */
@@ -107,5 +107,5 @@ export default {
   /**
    * 前往通知地址
    */
-  noticeUrl: 'https://gitee.com/izory/ZrAdminNetCore'
+  noticeUrl: 'https://github.com/Hi-Viken/Keystone',
 }

@@ -1,19 +1,16 @@
-<h2 align="center"> SkyFrpPanel</h2>
+<h2 align="center"> Keystone</h2>
 
 <p align="center">
-	<a href="https://gitee.com/izory/ZrAdminNetCore"><img src="https://gitee.com/izory/ZrAdminNetCore/badge/star.svg?theme=dark"></a>
-	<a href="https://gitee.com/izory/ZrAdminNetCore/blob/master/LICENSE"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
+	<a href="https://github.com/Hi-Viken/Keystone"><img src="https://github.com/Hi-Viken/Keystone/badge/star.svg?theme=dark"></a>
+	<a href="https://github.com/Hi-Viken/Keystone/blob/master/LICENSE"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
 </p>
 
 ## 🍟 概述
 
 - 本仓库为前端技术栈 [Vue3](https://v3.cn.vuejs.org) + [Element Plus](https://element-plus.org/zh-CN) + [Vite](https://cn.vitejs.dev) 版本。
-- 配套后端代码仓库地址[ZRAdmin.NET](https://gitee.com/izory/ZrAdminNetCore/) 版本。
+- 配套后端代码仓库地址[Keystone](https://github.com/Hi-Viken/Keystone/) 版本。
 - 前端采用 Vue3.0、Element UI Plus、vite、compisition api、Pinia 等。
 - 支持加载动态权限菜单，多方式轻松权限控制
-- 腾讯云秒杀场：[点我进入](https://curl.qcloud.com/4yEoRquq)。
-- 腾讯云优惠券：[点我领取](https://curl.qcloud.com/5J4nag8D)。
-- 七牛云通用云产品优惠券：[点我进入](https://s.qiniu.com/FzEfay)。
 
 ```
 如果对您有帮助，您可以点右上角 “Star” 收藏一下 ，这样作者才有继续免费下去的动力，谢谢！~
@@ -21,8 +18,8 @@
 
 ## 🍿 在线体验
 
-- 官方文档：http://www.izhaorui.cn
-- 体验地址：http://demo.izhaorui.cn/vue3
+- 官方文档：http://vkin.cc
+- 体验地址：http://demo.vkin.cc/vue3
 - 管理员：admin
 - 密 码：123456
 
@@ -95,9 +92,8 @@ yarn dev
 ## 🎀 捐赠
 
 如果这个项目对您有所帮助，请扫下方二维码打赏作者喝杯咖啡。
-<img src="https://gitee.com/izory/ZrAdminNetCore/raw/master/document/images/pay.jpg"/>
+<img src="https://github.com/Hi-Viken/Keystone/raw/master/document/images/pay.jpg"/>
 
 ## 源码地址
 
-- [Gitee](https://gitee.com/izory/ZrAdminNetCore/)
-- [Github](https://github.com/izhaorui/ZrAdmin.NET/)
+- [Github](https://github.com/Hi-Viken/Keystone/)

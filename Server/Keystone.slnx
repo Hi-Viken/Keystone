@@ -1,0 +1,12 @@
+<Solution>
+  <Project Path="CommonRelyOn/CommonRelyOn.csproj" />
+  <Project Path="Keystone.CodeGenerator/Keystone.CodeGenerator.csproj" />
+  <Project Path="Keystone.Common/Keystone.Common.csproj" />
+  <Project Path="Keystone.Infrastructure/Keystone.Infrastructure.csproj" />
+  <Project Path="Keystone.Mall/Keystone.Mall.csproj" />
+  <Project Path="Keystone.Model/Keystone.Model.csproj" />
+  <Project Path="Keystone.Repository/Keystone.Repository.csproj" />
+  <Project Path="Keystone.Server/Keystone.Server.csproj" />
+  <Project Path="Keystone.ServiceCore/Keystone.ServiceCore.csproj" />
+  <Project Path="Keystone.Tasks/Keystone.Tasks.csproj" />
+</Solution>

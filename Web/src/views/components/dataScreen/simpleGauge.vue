@@ -3,14 +3,16 @@
 </template>
 <script setup>
 import * as echarts from 'echarts'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const chartsRef = ref(null)
 
-const options = {
+const getOptions = () => ({
   tooltip: {
     formatter: '{a} <br/>{b} : {c}%'
   },
   title: {
-    text: '空气指标',
+    text: t('dataScreen.airMetrics'),
     // 文字属性设置
     textStyle: {
       color: '#00e4ff'
@@ -35,12 +37,12 @@ const options = {
       ]
     }
   ]
-}
+})
 
 let chart = null
 const initChart = () => {
   const chart = echarts.init(chartsRef.value)
-  chart.setOption(options)
+  chart.setOption(getOptions())
   return chart
 }
 onMounted(() => {

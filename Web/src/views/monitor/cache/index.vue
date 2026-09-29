@@ -5,7 +5,7 @@
         <el-card>
           <template #header>
             <div class="card-header">
-              <span>基本信息</span>
+              <span>{{ $t('cacheView.basicInfo') }}</span>
             </div>
           </template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
@@ -13,25 +13,25 @@
               <tbody>
                 <tr>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell">Redis版本</div>
+                    <div class="cell">{{ $t('cacheView.redisVersion') }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="cache.info">{{ cache.info.redis_version }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell">运行模式</div>
+                    <div class="cell">{{ $t('cacheView.runMode') }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="cache.info">{{ cache.info.redis_mode == 'standalone' ? '单机' : '集群' }}</div>
+                    <div class="cell" v-if="cache.info">{{ cache.info.redis_mode == 'standalone' ? $t('cacheView.standalone') : $t('cacheView.cluster') }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell">端口</div>
+                    <div class="cell">{{ $t('cacheView.port') }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="cache.info">{{ cache.info.tcp_port }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell">客户端数</div>
+                    <div class="cell">{{ $t('cacheView.clients') }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="cache.info">{{ cache.info.connected_clients }}</div>
@@ -39,25 +39,25 @@
                 </tr>
                 <tr>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell">运行时间(天)</div>
+                    <div class="cell">{{ $t('cacheView.uptime') }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="cache.info">{{ cache.info.uptime_in_days }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell">使用内存</div>
+                    <div class="cell">{{ $t('cacheView.usedMemory') }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="cache.info">{{ cache.info.used_memory_human }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell">使用CPU</div>
+                    <div class="cell">{{ $t('cacheView.usedCPU') }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="cache.info">{{ parseFloat(cache.info.used_cpu_user_children).toFixed(2) }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell">内存配置</div>
+                    <div class="cell">{{ $t('cacheView.memoryConfig') }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="cache.info">{{ cache.info.maxmemory_human }}</div>
@@ -65,25 +65,25 @@
                 </tr>
                 <tr>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell">AOF是否开启</div>
+                    <div class="cell">{{ $t('cacheView.aofEnabled') }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell" v-if="cache.info">{{ cache.info.aof_enabled == '0' ? '否' : '是' }}</div>
+                    <div class="cell" v-if="cache.info">{{ cache.info.aof_enabled == '0' ? $t('common.no') : $t('common.yes') }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell">RDB是否成功</div>
+                    <div class="cell">{{ $t('cacheView.rdbSuccess') }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="cache.info">{{ cache.info.rdb_last_bgsave_status }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell">Key数量</div>
+                    <div class="cell">{{ $t('cacheView.keyCount') }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="cache.dbSize">{{ cache.dbSize }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
-                    <div class="cell">网络入口/出口</div>
+                    <div class="cell">{{ $t('cacheView.networkIO') }}</div>
                   </td>
                   <td class="el-table__cell is-leaf">
                     <div class="cell" v-if="cache.info">
@@ -101,7 +101,7 @@
         <el-card>
           <template #header>
             <div class="card-header">
-              <span>命令统计</span>
+              <span>{{ $t('cacheView.commandStats') }}</span>
             </div>
           </template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
@@ -114,17 +114,17 @@
         <el-card>
           <template #header>
             <div class="card-header">
-              <span>内存消耗</span>
+              <span>{{ $t('cacheView.memoryUsage') }}</span>
             </div>
           </template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
             <gauge
-              name="内存消耗"
+              :name="$t('cacheView.memoryUsage')"
               :max="100"
               :data="[
                 {
                   value: (parseFloat(cache.info.used_memory_human) / parseFloat(cache.info.total_system_memory_human)).toFixed(2),
-                  name: '内存消耗',
+                  name: $t('cacheView.memoryUsage'),
                 },
               ]" />
           </div>
@@ -134,11 +134,11 @@
         <el-card>
           <template #header>
             <div class="card-header">
-              <span>使用CPU</span>
+              <span>{{ $t('cacheView.cpuUsage') }}</span>
             </div>
           </template>
           <div class="el-table el-table--enable-row-hover el-table--medium">
-            <gauge name="CPU" :max="100" :data="[{ value: parseFloat(cache.info.used_cpu_user_children * 100).toFixed(0), name: 'CPU消耗' }]" />
+            <gauge name="CPU" :max="100" :data="[{ value: parseFloat(cache.info.used_cpu_user_children * 100).toFixed(0), name: $t('cacheView.cpuUsage') }]" />
           </div>
         </el-card>
       </el-col>
@@ -175,7 +175,7 @@ function getList() {
       },
       series: [
         {
-          name: '命令',
+          name: proxy.$t('cacheView.command'),
           type: 'pie',
           roseType: 'radius',
           radius: [15, 95],

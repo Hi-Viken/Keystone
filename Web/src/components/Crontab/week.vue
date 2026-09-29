@@ -1,16 +1,16 @@
 <template>
   <el-form size="small">
     <el-form-item>
-      <el-radio v-model="radioValue" :label="1"> 周，允许的通配符[, - * ? / L #] </el-radio>
+      <el-radio v-model="radioValue" :label="1"> {{ $t('crontab.weekWildcard') }} </el-radio>
     </el-form-item>
 
     <el-form-item>
-      <el-radio v-model="radioValue" :label="2"> 不指定 </el-radio>
+      <el-radio v-model="radioValue" :label="2"> {{ $t('crontab.notSpecified') }} </el-radio>
     </el-form-item>
 
     <el-form-item>
       <el-radio v-model="radioValue" :label="3">
-        周期从
+        {{ $t('crontab.cycleFrom') }}
         <el-select clearable v-model="cycle01">
           <el-option v-for="(item, index) of weekList" :key="index" :label="item.value" :value="item.key" :disabled="item.key === 7">{{
             item.value
@@ -27,8 +27,8 @@
 
     <el-form-item>
       <el-radio v-model="radioValue" :label="4">
-        第
-        <el-input-number v-model="average01" :min="1" :max="4" /> 周的
+        {{ $t('crontab.nth') }}
+        <el-input-number v-model="average01" :min="1" :max="4" /> {{ $t('crontab.weekOf') }}
         <el-select clearable v-model="average02">
           <el-option v-for="item in weekList" :key="item.key" :label="item.value" :value="item.key" />
         </el-select>
@@ -37,7 +37,7 @@
 
     <el-form-item>
       <el-radio v-model="radioValue" :label="5">
-        本月最后一个
+        {{ $t('crontab.lastOfMonth') }}
         <el-select clearable v-model="weekday">
           <el-option v-for="item in weekList" :key="item.key" :label="item.value" :value="item.key" />
         </el-select>
@@ -46,8 +46,8 @@
 
     <el-form-item>
       <el-radio v-model="radioValue" :label="6">
-        指定
-        <el-select class="multiselect" clearable v-model="checkboxList" placeholder="可多选" multiple :multiple-limit="6">
+        {{ $t('crontab.specify') }}
+        <el-select class="multiselect" clearable v-model="checkboxList" :placeholder="$t('crontab.multiSelect')" multiple :multiple-limit="6">
           <el-option v-for="item in weekList" :key="item.key" :label="item.value" :value="item.key" />
         </el-select>
       </el-radio>
@@ -56,6 +56,7 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n'
 const emit = defineEmits(['update'])
 const props = defineProps({
   cron: {
@@ -75,6 +76,7 @@ const props = defineProps({
     default: () => {}
   }
 })
+const { t } = useI18n()
 const radioValue = ref(2)
 const cycle01 = ref(2)
 const cycle02 = ref(3)
@@ -83,14 +85,14 @@ const average02 = ref(2)
 const weekday = ref(2)
 const checkboxList = ref([])
 const checkCopy = ref([2])
-const weekList = ref([
-  { key: 1, value: '星期日' },
-  { key: 2, value: '星期一' },
-  { key: 3, value: '星期二' },
-  { key: 4, value: '星期三' },
-  { key: 5, value: '星期四' },
-  { key: 6, value: '星期五' },
-  { key: 7, value: '星期六' }
+const weekList = computed(() => [
+  { key: 1, value: t('crontab.sunday') },
+  { key: 2, value: t('crontab.monday') },
+  { key: 3, value: t('crontab.tuesday') },
+  { key: 4, value: t('crontab.wednesday') },
+  { key: 5, value: t('crontab.thursday') },
+  { key: 6, value: t('crontab.friday') },
+  { key: 7, value: t('crontab.saturday') }
 ])
 const cycleTotal = computed(() => {
   cycle01.value = props.check(cycle01.value, 1, 6)

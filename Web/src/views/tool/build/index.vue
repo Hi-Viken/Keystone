@@ -1,11 +1,11 @@
 <template>
   <div>
     <svg-icon name="build" />
-    如有需要，请前往
+    {{ $t('buildView.needHelp') }}
     <a href="https://gitee.com/gavinzhulei/vue-form-making" target="_blank">
       https://gitee.com/gavinzhulei/vue-form-making
     </a>
-    自行集成
+    {{ $t('buildView.selfIntegrate') }}
   </div>
 </template>
 <style>

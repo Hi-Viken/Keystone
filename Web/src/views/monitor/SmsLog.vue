@@ -6,25 +6,25 @@
 <template>
   <div>
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
-      <el-form-item label="用户id" prop="userid">
-        <el-input v-model.number="queryParams.userid" placeholder="请输入用户id" />
+      <el-form-item :label="$t('smsLogView.userId')" prop="userid">
+        <el-input v-model.number="queryParams.userid" :placeholder="$t('smsLogView.inputUserId')" />
       </el-form-item>
-      <el-form-item label="手机号" prop="phoneNum">
-        <el-input v-model.number="queryParams.phoneNum" placeholder="请输入手机号" />
+      <el-form-item :label="$t('smsLogView.phoneNum')" prop="phoneNum">
+        <el-input v-model.number="queryParams.phoneNum" :placeholder="$t('smsLogView.inputPhoneNum')" />
       </el-form-item>
-      <el-form-item label="发送时间">
+      <el-form-item :label="$t('smsLogView.sendTime')">
         <el-date-picker
           v-model="dateRangeAddTime"
           type="datetimerange"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
+          :start-placeholder="$t('smsLogView.beginDate')"
+          :end-placeholder="$t('smsLogView.endDate')"
           value-format="YYYY-MM-DD HH:mm:ss"
           :default-time="defaultTime"
           :shortcuts="dateOptions">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="发送类型" prop="sendType">
-        <el-select clearable v-model="queryParams.sendType" placeholder="请选择发送类型">
+      <el-form-item :label="$t('smsLogView.sendType')" prop="sendType">
+        <el-select clearable v-model="queryParams.sendType" :placeholder="$t('smsLogView.selectSendType')">
           <el-option v-for="item in options.sendTypeOptions" :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary)">{{ item.dictValue }}</span>
@@ -55,25 +55,25 @@
       highlight-current-row
       @sort-change="sortChange">
       <el-table-column prop="id" label="Id" align="center" width="170" v-if="columns.showColumn('id')" />
-      <el-table-column prop="userid" label="用户id" align="center" v-if="columns.showColumn('userid')" />
-      <el-table-column prop="userIP" label="用户IP" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('userIP')" />
-      <el-table-column prop="location" label="位置" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('userIP')" />
-      <el-table-column prop="phoneNum" label="手机号" align="center" v-if="columns.showColumn('phoneNum')" />
-      <el-table-column prop="smsCode" label="短信验证码" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('smsCode')" />
-      <el-table-column prop="smsContent" label="短信内容" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('smsContent')" />
-      <el-table-column prop="addTime" label="发送时间" :show-overflow-tooltip="true" v-if="columns.showColumn('addTime')" />
-      <el-table-column prop="sendType" label="发送类型" align="center" v-if="columns.showColumn('sendType')">
+      <el-table-column prop="userid" :label="$t('smsLogView.userId')" align="center" v-if="columns.showColumn('userid')" />
+      <el-table-column prop="userIP" :label="$t('smsLogView.userIP')" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('userIP')" />
+      <el-table-column prop="location" :label="$t('smsLogView.location')" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('userIP')" />
+      <el-table-column prop="phoneNum" :label="$t('smsLogView.phoneNum')" align="center" v-if="columns.showColumn('phoneNum')" />
+      <el-table-column prop="smsCode" :label="$t('smsLogView.smsCode')" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('smsCode')" />
+      <el-table-column prop="smsContent" :label="$t('smsLogView.smsContent')" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('smsContent')" />
+      <el-table-column prop="addTime" :label="$t('smsLogView.sendTime')" :show-overflow-tooltip="true" v-if="columns.showColumn('addTime')" />
+      <el-table-column prop="sendType" :label="$t('smsLogView.sendType')" align="center" v-if="columns.showColumn('sendType')">
         <template #default="scope">
           <dict-tag :options="options.sendTypeOptions" :value="scope.row.sendType" />
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="60">
+      <el-table-column :label="$t('btn.operate')" width="60">
         <template #default="scope">
           <el-button
             type="danger"
             size="small"
             icon="delete"
-            title="删除"
+            :title="$t('btn.delete')"
             v-hasPermi="['smscodelog:delete']"
             @click="handleDelete(scope.row)"></el-button>
         </template>
@@ -101,13 +101,13 @@ const queryParams = reactive({
 })
 const columns = ref([
   { visible: true, prop: 'id', label: 'Id' },
-  { visible: true, prop: 'smsCode', label: '短信验证码' },
-  { visible: true, prop: 'userid', label: '用户id' },
-  { visible: true, prop: 'phoneNum', label: '手机号' },
-  { visible: true, prop: 'smsContent', label: '短信内容' },
-  { visible: true, prop: 'addTime', label: '发送时间' },
-  { visible: true, prop: 'userIP', label: '用户IP' },
-  { visible: true, prop: 'sendType', label: '发送类型' }
+  { visible: true, prop: 'smsCode', label: proxy.$t('smsLogView.smsCode') },
+  { visible: true, prop: 'userid', label: proxy.$t('smsLogView.userId') },
+  { visible: true, prop: 'phoneNum', label: proxy.$t('smsLogView.phoneNum') },
+  { visible: true, prop: 'smsContent', label: proxy.$t('smsLogView.smsContent') },
+  { visible: true, prop: 'addTime', label: proxy.$t('smsLogView.sendTime') },
+  { visible: true, prop: 'userIP', label: proxy.$t('smsLogView.userIP') },
+  { visible: true, prop: 'sendType', label: proxy.$t('smsLogView.sendType') }
 ])
 const total = ref(0)
 const dataList = ref([])
@@ -168,8 +168,8 @@ const state = reactive({
   options: {
     // 发送类型 选项列表 格式 eg:{ dictLabel: '标签', dictValue: '0'}
     sendTypeOptions: [
-      { dictLabel: '登录', dictValue: '0' },
-      { dictLabel: '绑定', dictValue: '1' }
+      { dictLabel: proxy.$t('smsLogView.sendTypeLogin'), dictValue: '0' },
+      { dictLabel: proxy.$t('smsLogView.sendTypeBind'), dictValue: '1' }
     ]
   }
 })
@@ -181,21 +181,21 @@ function handleDelete(row) {
   const Ids = row.id || ids.value
 
   proxy
-    .$confirm('是否确认删除参数编号为"' + Ids + '"的数据项？')
+    .$confirm(proxy.$t('smsLogView.deleteConfirm', { ids: Ids }))
     .then(function () {
       return delSmscodeLog(Ids)
     })
     .then(() => {
       getList()
-      proxy.$modal.msgSuccess('删除成功')
+      proxy.$modal.msgSuccess(proxy.$t('crud.deleteSuccess'))
     })
 }
 // 导出按钮操作
 function handleExport() {
   proxy
-    .$confirm('是否确认导出短信验证码记录数据项?', '警告', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    .$confirm(proxy.$t('smsLogView.exportConfirm'), proxy.$t('common.tips'), {
+      confirmButtonText: proxy.$t('common.ok'),
+      cancelButtonText: proxy.$t('common.cancel'),
       type: 'warning'
     })
     .then(async () => {

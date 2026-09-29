@@ -27,10 +27,10 @@
         <div class="el-upload__tip" v-if="showTip">
           <slot name="tip">
             <template v-if="fileSize">
-              大小不超过 <b class="text-danger">{{ fileSize }}MB</b>
+              {{ $t('upload.sizeLimit') }} <b class="text-danger">{{ fileSize }}MB</b>
             </template>
             <template v-if="fileType">
-              格式为 <b class="text-danger">{{ fileType.join('/') }}</b>
+              {{ $t('upload.formatLimit') }} <b class="text-danger">{{ fileType.join('/') }}</b>
             </template>
           </slot>
         </div>
@@ -39,18 +39,18 @@
 
     <el-dialog v-model="dialogVisible" append-to-body>
       <el-form label-width="100px">
-        <el-form-item label="预览">
+        <el-form-item :label="$t('upload.preview')">
           <el-image style="display: block; max-width: 50%" :src="dialogImageUrl">
             <template #error>
-              <div class="image-slot">加载失败</div>
+              <div class="image-slot">{{ $t('upload.loadFailed') }}</div>
             </template>
           </el-image>
         </el-form-item>
 
-        <el-form-item label="访问路径">
+        <el-form-item :label="$t('upload.accessPath')">
           <el-link type="warning" :href="dialogImageUrl" target="_blank">{{ dialogImageUrl }}</el-link>
           <el-button type="danger" text icon="document-copy" plain class="ml10" v-clipboard:success="copySuccess" v-clipboard:copy="dialogImageUrl"
-            >复制</el-button
+            >{{ $t('btn.copy') }}</el-button
           >
         </el-form-item>
       </el-form>
@@ -146,7 +146,7 @@ function handleRemove(file, files) {
 // 上传成功回调
 function handleUploadSuccess(res) {
   if (res.code != 200) {
-    proxy.$modal.msgError(`上传失败，原因:${res.msg}!`)
+    proxy.$modal.msgError(proxy.$t('upload.uploadFailedReason') + res.msg + '!')
     proxy.$modal.closeLoading()
     fileList.value = fileList.value.slice(0, fileList.value.length - 1)
     return
@@ -178,28 +178,28 @@ function handleBeforeUpload(file) {
     isImg = file.type.indexOf('image') > -1
   }
   if (!isImg) {
-    proxy.$modal.msgError(`文件格式不正确, 请上传${props.fileType.join('/')}图片格式文件!`)
+    proxy.$modal.msgError(proxy.$t('upload.wrongImageFormat') + props.fileType.join('/') + '!')
     return false
   }
   if (props.fileSize) {
     const isLt = file.size / 1024 / 1024 < props.fileSize
     if (!isLt) {
-      proxy.$modal.msgError(`上传头像图片大小不能超过 ${props.fileSize} MB!`)
+      proxy.$modal.msgError(proxy.$t('upload.imageSizeExceed') + props.fileSize + ' MB!')
       return false
     }
   }
-  proxy.$modal.loading('正在上传图片，请稍候...')
+  proxy.$modal.loading(proxy.$t('upload.uploadingImage'))
   number.value++
 }
 
 // 文件个数超出
 function handleExceed() {
-  proxy.$modal.msgError(`上传文件数量不能超过 ${props.limit} 个!`)
+  proxy.$modal.msgError(proxy.$t('upload.exceedLimit') + props.limit)
 }
 
 // 上传失败
 function handleUploadError() {
-  proxy.$modal.msgError('上传图片失败')
+  proxy.$modal.msgError(proxy.$t('upload.imageUploadFailed'))
   proxy.$modal.closeLoading()
 }
 
@@ -221,7 +221,7 @@ function listToString(list, separator) {
   return strs != '' ? strs.substr(0, strs.length - 1) : ''
 }
 function copySuccess() {
-  proxy.$modal.msgSuccess('复制成功')
+  proxy.$modal.msgSuccess(proxy.$t('common.copySuccess'))
 }
 </script>
 <style>

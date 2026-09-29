@@ -3,11 +3,13 @@
 </template>
 <script setup>
 import * as echarts from 'echarts'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const chartsRef = ref(null)
 
-const options = {
+const getOptions = () => ({
   title: {
-    text: '在线人数统计',
+    text: t('dataScreen.onlineStats'),
     // 文字属性设置
     textStyle: {
       color: '#00e4ff'
@@ -51,7 +53,7 @@ const options = {
       }
     },
     type: 'category',
-    data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+    data: [t('dataScreen.mon'), t('dataScreen.tue'), t('dataScreen.wed'), t('dataScreen.thu'), t('dataScreen.fri'), t('dataScreen.sat'), t('dataScreen.sun')],
     axisLabel: {
       // 设置坐标轴的 文字样式
       color: '#bbdaff',
@@ -65,7 +67,7 @@ const options = {
   },
   series: [
     {
-      name: '在线人数',
+      name: t('dataScreen.onlineCount'),
       itemStyle: {
         color: 'orange',
         lineStyle: {
@@ -83,12 +85,12 @@ const options = {
       animationEasing: 'cubicInOut'
     }
   ]
-}
+})
 
 let chart = null
 const initChart = () => {
   const chart = echarts.init(chartsRef.value)
-  chart.setOption(options)
+  chart.setOption(getOptions())
   return chart
 }
 onMounted(() => {

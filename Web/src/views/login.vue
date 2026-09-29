@@ -4,7 +4,7 @@
     <div class="login">
       <h3 class="title">{{ defaultSettings.title }}</h3>
 
-      <LangSelect title="多语言设置" class="langSet" />
+      <LangSelect :title="$t('login.langSetting')" class="langSet" />
 
       <div style="padding: 0 25px 5px 25px">
         <el-tabs v-model="loginType" @tab-click="handleLoginType">
@@ -46,7 +46,7 @@
           <el-button :loading="loading" size="default" round type="primary" style="width: 100%"
             @click.prevent="handleLogin">
             <span v-if="!loading">{{ $t('login.btnLogin') }}</span>
-            <span v-else>登 录 中...</span>
+            <span v-else>{{ $t('login.logging') }}</span>
           </el-button>
         </el-form-item>
 
@@ -99,9 +99,9 @@ const loginForm = ref({
   uuid: ''
 })
 const loginRules = {
-  username: [{ required: true, trigger: 'blur', message: '请输入您的账号' }],
-  password: [{ required: true, trigger: 'blur', message: '请输入您的密码' }],
-  code: [{ required: true, trigger: 'change', message: '请输入验证码' }]
+  username: [{ required: true, trigger: 'blur', message: proxy.$t('login.account') }],
+  password: [{ required: true, trigger: 'blur', message: proxy.$t('login.password') }],
+  code: [{ required: true, trigger: 'change', message: proxy.$t('login.captcha') }]
 }
 const loginType = computed({
   get: () => userStore.loginType,
@@ -135,8 +135,8 @@ watch(
 
 function getStatusInfo(status) {
   return status === '0'
-    ? { icon: '✅', text: '成功', color: '#67c23a' }
-    : { icon: '❌', text: '失败', color: '#f56c6c' }
+    ? { icon: '✅', text: proxy.$t('login.success'), color: '#67c23a' }
+    : { icon: '❌', text: proxy.$t('login.fail'), color: '#f56c6c' }
 }
 
 function handleLogin() {
@@ -172,11 +172,11 @@ function handleLogin() {
 
               const notifyMessage = `
         <div style="padding: 10px 0; line-height: 2;">
-          <div style="font-size: 15px; font-weight: 600; color: #303133;">欢迎回来！</div>
+          <div style="font-size: 15px; font-weight: 600; color: #303133;">${proxy.$t('login.welcomeBack')}</div>
 
           <!-- 本次登录信息 -->
           <div style="margin-top: 8px;">
-            <span style="color: #606266; font-size: 13px;">本次登录：</span>
+            <span style="color: #606266; font-size: 13px;">${proxy.$t('login.currentLogin')}</span>
             <span style="color: #303133;">${loginInfo.loginTime}</span>
             <span style="margin: 0 8px; color: #909399;">|</span>
             <span style="color: #303133;">${loginInfo.ipaddr}</span>
@@ -192,7 +192,7 @@ function handleLogin() {
           <!-- 上次登录信息（有数据时显示） -->
           ${loginInfo.lastLoginTime ? `
             <div style="margin-top: 6px;">
-              <span style="color: #606266; font-size: 13px;">上次登录：</span>
+              <span style="color: #606266; font-size: 13px;">${proxy.$t('login.lastLogin')}</span>
               <span style="color: #303133;">${loginInfo.lastLoginTime}</span>
               <span style="margin: 0 8px; color: #909399;">|</span>
               <span style="color: #303133;">${loginInfo.lastIpaddr}</span>
@@ -204,13 +204,13 @@ function handleLogin() {
                 (${loginInfo.lastLocation})
               </span>
             </div>
-          ` : '<div style="margin-top: 6px; color: #606266; font-size: 13px;">✨ 欢迎首次登录！</div>'}
+          ` : `<div style="margin-top: 6px; color: #606266; font-size: 13px;">✨ ${proxy.$t('login.welcomeFirstLogin')}</div>`}
         </div>
       `
 
               setTimeout(() => {
                 ElNotification.success({
-                  title: '登录成功',
+                  title: proxy.$t('login.loginSuccess'),
                   message: notifyMessage,
                   duration: 0,
                   dangerouslyUseHTMLString: true, // 允许渲染HTML（展示多行信息）
@@ -271,7 +271,7 @@ function getCookie() {
   }
 }
 function handleForgetPwd() {
-  proxy.$modal.msg('请联系管理员')
+  proxy.$modal.msg(proxy.$t('login.contactAdmin'))
 }
 
 function handleLoginType(t) {

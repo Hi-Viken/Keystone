@@ -3,14 +3,16 @@
 </template>
 <script setup>
 import * as echarts from 'echarts'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 const chartsRef = ref(null)
 
-const options = {
+const getOptions = () => ({
   tooltip: {
     trigger: 'item'
   },
   title: {
-    text: '数据来源',
+    text: t('dataScreen.dataSource'),
     // 文字属性设置
     textStyle: {
       color: '#00e4ff'
@@ -28,7 +30,7 @@ const options = {
   },
   series: [
     {
-      name: '访问来源',
+      name: t('dataScreen.visitSource'),
       type: 'pie',
       radius: ['40%', '70%'],
       avoidLabelOverlap: false,
@@ -52,20 +54,20 @@ const options = {
         show: false
       },
       data: [
-        { value: 1048, name: '搜索引擎' },
-        { value: 735, name: '直接访问' },
-        { value: 580, name: '电子邮件' },
-        { value: 484, name: '其他' },
-        { value: 300, name: '广告点击' }
+        { value: 1048, name: t('dataScreen.searchEngine') },
+        { value: 735, name: t('dataScreen.directVisit') },
+        { value: 580, name: t('dataScreen.email') },
+        { value: 484, name: t('dataScreen.other') },
+        { value: 300, name: t('dataScreen.adClick') }
       ]
     }
   ]
-}
+})
 
 let chart = null
 const initChart = () => {
   const chart = echarts.init(chartsRef.value)
-  chart.setOption(options)
+  chart.setOption(getOptions())
   return chart
 }
 onMounted(() => {

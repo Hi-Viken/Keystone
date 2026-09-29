@@ -6,7 +6,7 @@
         <el-avatar :size="52" :src="userStore.avatar" class="hero-avatar">{{ userInitial }}</el-avatar>
         <div class="hero-text">
           <div class="hero-title">{{ greeting }}，{{ displayName }}</div>
-          <div class="hero-desc">欢迎回到 {{ systemName }} 控制台，当前 {{ onlineStat }} 人在线</div>
+          <div class="hero-desc">{{ $t('console.welcomeBack') }} {{ systemName }} {{ $t('console.consoleLabel') }}，{{ $t('console.currently') }} {{ onlineStat }} {{ $t('console.peopleOnline') }}</div>
         </div>
       </div>
       <div class="hero-right">
@@ -15,7 +15,7 @@
           <span class="hero-time">{{ currentTime }}</span>
         </div>
         <el-tag :type="runEnvType" effect="dark" round>{{ runEnv }}</el-tag>
-        <el-tooltip content="刷新数据" placement="bottom">
+        <el-tooltip :content="$t('console.refreshData')" placement="bottom">
           <el-button :icon="Refresh" circle :loading="refreshing" @click="handleRefresh" />
         </el-tooltip>
       </div>
@@ -36,7 +36,7 @@
                 <component :is="item.up ? 'CaretTop' : 'CaretBottom'" />
               </el-icon>
               <span>{{ Math.abs(item.rate) }}%</span>
-              <span class="stat-tips">较昨日</span>
+              <span class="stat-tips">{{ $t('console.vsYesterday') }}</span>
             </div>
           </div>
         </div>
@@ -49,10 +49,10 @@
         <el-card shadow="never" class="box-card">
           <template #header>
             <div class="card-header">
-              <span class="card-title">访问趋势</span>
+              <span class="card-title">{{ $t('console.visitTrend') }}</span>
               <el-radio-group v-model="trendRange" size="small">
-                <el-radio-button value="7">近 7 天</el-radio-button>
-                <el-radio-button value="30">近 30 天</el-radio-button>
+                <el-radio-button value="7">{{ $t('console.last7Days') }}</el-radio-button>
+                <el-radio-button value="30">{{ $t('console.last30Days') }}</el-radio-button>
               </el-radio-group>
             </div>
           </template>
@@ -63,8 +63,8 @@
         <el-card shadow="never" class="box-card">
           <template #header>
             <div class="card-header">
-              <span class="card-title">模块访问占比</span>
-              <span class="card-tip">近 7 天</span>
+              <span class="card-title">{{ $t('console.moduleVisitRatio') }}</span>
+              <span class="card-tip">{{ $t('console.last7Days') }}</span>
             </div>
           </template>
           <div ref="moduleRef" class="chart-box" />
@@ -79,29 +79,29 @@
           <template #header>
             <div class="card-header">
               <span class="card-title">
-                在线用户
+                {{ $t('console.onlineUsers') }}
                 <el-tag size="small" type="success" effect="plain" round>{{ onlineUsers.length }}</el-tag>
               </span>
-              <el-button link type="primary" :icon="View" @click="go('/monitor/onlineuser')">查看全部</el-button>
+              <el-button link type="primary" :icon="View" @click="go('/monitor/onlineuser')">{{ $t('console.viewAll') }}</el-button>
             </div>
           </template>
           <el-table :data="onlineUsers" border stripe size="small">
             <el-table-column type="index" label="#" width="55" align="center" />
-            <el-table-column prop="userName" label="用户名" min-width="90" align="center" />
-            <el-table-column prop="deptName" label="部门" min-width="90" align="center" />
-            <el-table-column prop="ipaddr" label="登录 IP" min-width="120" align="center" />
-            <el-table-column prop="browser" label="浏览器" min-width="100" align="center" />
-            <el-table-column prop="os" label="操作系统" min-width="110" align="center" />
-            <el-table-column prop="loginTime" label="登录时间" min-width="150" align="center" />
-            <el-table-column label="在线时长" min-width="90" align="center">
+            <el-table-column prop="userName" :label="$t('console.userName')" min-width="90" align="center" />
+            <el-table-column prop="deptName" :label="$t('console.dept')" min-width="90" align="center" />
+            <el-table-column prop="ipaddr" :label="$t('console.loginIp')" min-width="120" align="center" />
+            <el-table-column prop="browser" :label="$t('console.browser')" min-width="100" align="center" />
+            <el-table-column prop="os" :label="$t('console.os')" min-width="110" align="center" />
+            <el-table-column prop="loginTime" :label="$t('console.loginTime')" min-width="150" align="center" />
+            <el-table-column :label="$t('console.onlineDuration')" min-width="90" align="center">
               <template #default="scope">
-                <el-tag size="small" effect="plain">{{ scope.row.onlineTime }} 分钟</el-tag>
+                <el-tag size="small" effect="plain">{{ scope.row.onlineTime }} {{ $t('console.minutes') }}</el-tag>
               </template>
             </el-table-column>
-            <el-table-column label="操作" width="120" align="center">
+            <el-table-column :label="$t('dict.operate')" width="120" align="center">
               <template #default="scope">
-                <el-button link type="primary" :icon="ChatDotRound" @click="mockAction(`私信 ${scope.row.userName}`)">私信</el-button>
-                <el-button link type="danger" :icon="SwitchButton" @click="mockAction(`强退 ${scope.row.userName}`)">强退</el-button>
+                <el-button link type="primary" :icon="ChatDotRound" @click="mockAction(`${$t('console.privateMsg')} ${scope.row.userName}`)">{{ $t('console.privateMsg') }}</el-button>
+                <el-button link type="danger" :icon="SwitchButton" @click="mockAction(`${$t('console.forceLogout')} ${scope.row.userName}`)">{{ $t('console.forceLogout') }}</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -112,8 +112,8 @@
         <el-card shadow="never" class="box-card">
           <template #header>
             <div class="card-header">
-              <span class="card-title">服务器资源</span>
-              <el-tag size="small" type="success" effect="plain" round>运行正常</el-tag>
+              <span class="card-title">{{ $t('console.serverResource') }}</span>
+              <el-tag size="small" type="success" effect="plain" round>{{ $t('console.runningNormal') }}</el-tag>
             </div>
           </template>
           <div class="resource-list">
@@ -134,10 +134,10 @@
             </div>
           </div>
           <el-descriptions :column="2" border size="small" class="resource-desc">
-            <el-descriptions-item label="运行天数">128 天</el-descriptions-item>
-            <el-descriptions-item label="平均负载">32%</el-descriptions-item>
-            <el-descriptions-item label="数据库">MySQL 8.0</el-descriptions-item>
-            <el-descriptions-item label="缓存">Redis 7.2</el-descriptions-item>
+            <el-descriptions-item :label="$t('console.runningDays')">128 {{ $t('console.days') }}</el-descriptions-item>
+            <el-descriptions-item :label="$t('console.avgLoad')">32%</el-descriptions-item>
+            <el-descriptions-item :label="$t('console.database')">MySQL 8.0</el-descriptions-item>
+            <el-descriptions-item :label="$t('console.cache')">Redis 7.2</el-descriptions-item>
           </el-descriptions>
         </el-card>
       </el-col>
@@ -149,29 +149,29 @@
         <el-card shadow="never" class="box-card">
           <template #header>
             <div class="card-header">
-              <span class="card-title">最近操作日志</span>
-              <el-button link type="primary" :icon="View" @click="go('/monitor/operlog')">查看全部</el-button>
+              <span class="card-title">{{ $t('console.recentOperLog') }}</span>
+              <el-button link type="primary" :icon="View" @click="go('/monitor/operlog')">{{ $t('console.viewAll') }}</el-button>
             </div>
           </template>
           <el-table :data="operLogs" border stripe size="small">
-            <el-table-column prop="time" label="操作时间" min-width="150" align="center" />
-            <el-table-column prop="userName" label="操作人" min-width="90" align="center" />
-            <el-table-column prop="module" label="所属模块" min-width="90" align="center" />
-            <el-table-column prop="operType" label="操作类型" min-width="90" align="center">
+            <el-table-column prop="time" :label="$t('console.operTime')" min-width="150" align="center" />
+            <el-table-column prop="userName" :label="$t('console.operator')" min-width="90" align="center" />
+            <el-table-column prop="module" :label="$t('console.module')" min-width="90" align="center" />
+            <el-table-column prop="operType" :label="$t('console.operType')" min-width="90" align="center">
               <template #default="scope">
                 <el-tag size="small" :type="operTagType[scope.row.operType] || 'info'" effect="light">
                   {{ scope.row.operType }}
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="ipaddr" label="操作 IP" min-width="120" align="center" />
-            <el-table-column label="耗时" min-width="80" align="center">
+            <el-table-column prop="ipaddr" :label="$t('console.operIp')" min-width="120" align="center" />
+            <el-table-column :label="$t('console.duration')" min-width="80" align="center">
               <template #default="scope">{{ scope.row.cost }} ms</template>
             </el-table-column>
-            <el-table-column label="状态" min-width="80" align="center">
+            <el-table-column :label="$t('console.status')" min-width="80" align="center">
               <template #default="scope">
                 <el-tag size="small" :type="scope.row.success ? 'success' : 'danger'" effect="plain">
-                  {{ scope.row.success ? '成功' : '失败' }}
+                  {{ scope.row.success ? $t('console.success') : $t('console.fail') }}
                 </el-tag>
               </template>
             </el-table-column>
@@ -183,8 +183,8 @@
         <el-card shadow="never" class="box-card">
           <template #header>
             <div class="card-header">
-              <span class="card-title">实时动态</span>
-              <span class="card-tip">最近 5 条</span>
+              <span class="card-title">{{ $t('console.realtimeActivity') }}</span>
+              <span class="card-tip">{{ $t('console.last5') }}</span>
             </div>
           </template>
           <el-timeline class="activity-list">
@@ -210,8 +210,8 @@
         <el-card shadow="never" class="box-card">
           <template #header>
             <div class="card-header">
-              <span class="card-title">快捷入口</span>
-              <span class="card-tip">点击卡片进入对应功能</span>
+              <span class="card-title">{{ $t('console.shortcuts') }}</span>
+              <span class="card-tip">{{ $t('console.shortcutTip') }}</span>
             </div>
           </template>
           <div class="shortcut-wrap">
@@ -235,7 +235,7 @@
         <el-card shadow="never" class="box-card">
           <template #header>
             <div class="card-header">
-              <span class="card-title">系统信息</span>
+              <span class="card-title">{{ $t('console.systemInfo') }}</span>
               <span class="card-tip">{{ runEnv }}</span>
             </div>
           </template>
@@ -285,19 +285,19 @@ const userStore = useUserStore()
 
 const pad = (value) => String(value).padStart(2, '0')
 const systemName = defaultSettings.title
-const runEnv = import.meta.env.MODE === 'production' ? '生产环境' : '开发环境'
+const runEnv = import.meta.env.MODE === 'production' ? proxy.$t('console.envProduction') : proxy.$t('console.envDevelopment')
 const runEnvType = import.meta.env.MODE === 'production' ? 'danger' : 'warning'
 const techStack = ['Vue 3', 'Vite 6', 'Element Plus', 'Pinia', 'ECharts 5', 'ASP.NET Core', 'SqlSugar', 'SignalR']
 
-const displayName = computed(() => userStore.name || userStore.userName || '管理员')
+const displayName = computed(() => userStore.name || userStore.userName || proxy.$t('console.admin'))
 const userInitial = computed(() => displayName.value.charAt(0).toUpperCase())
 const greeting = computed(() => {
   const hour = new Date().getHours()
-  if (hour < 6) return '凌晨好'
-  if (hour < 12) return '上午好'
-  if (hour < 14) return '中午好'
-  if (hour < 18) return '下午好'
-  return '晚上好'
+  if (hour < 6) return proxy.$t('console.greetingEarly')
+  if (hour < 12) return proxy.$t('console.greetingMorning')
+  if (hour < 14) return proxy.$t('console.greetingNoon')
+  if (hour < 18) return proxy.$t('console.greetingAfternoon')
+  return proxy.$t('console.greetingEvening')
 })
 
 const currentDate = ref('')
@@ -305,19 +305,19 @@ const currentTime = ref('')
 let clockTimer = null
 const updateClock = () => {
   const now = new Date()
-  currentDate.value = `${now.getFullYear()}年${pad(now.getMonth() + 1)}月${pad(now.getDate())}日`
+  currentDate.value = proxy.$t('console.dateFormat', { y: now.getFullYear(), m: pad(now.getMonth() + 1), d: pad(now.getDate()) })
   currentTime.value = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`
 }
 
-const statList = ref([
-  { label: '用户总数', value: 1286, unit: ' 人', icon: markRaw(User), color: '#409eff', rate: 12.5, up: true },
-  { label: '今日新增', value: 46, unit: ' 人', icon: markRaw(TrendCharts), color: '#67c23a', rate: 8.2, up: true },
-  { label: '在线用户', value: 128, unit: ' 人', icon: markRaw(Monitor), color: '#36cfc9', rate: 3.4, up: true },
-  { label: '接口调用', value: 52840, unit: ' 次', icon: markRaw(DataLine), color: '#e6a23c', rate: 18.9, up: true },
-  { label: '异常请求', value: 37, unit: ' 次', icon: markRaw(Warning), color: '#f56c6c', rate: 6.4, up: false },
-  { label: '平均耗时', value: 128, unit: ' ms', icon: markRaw(Odometer), color: '#909399', rate: 4.1, up: false }
+const statList = computed(() => [
+  { label: proxy.$t('console.totalUsers'), value: 1286, unit: ' ' + proxy.$t('console.unitPeople'), icon: markRaw(User), color: '#409eff', rate: 12.5, up: true },
+  { label: proxy.$t('console.todayNew'), value: 46, unit: ' ' + proxy.$t('console.unitPeople'), icon: markRaw(TrendCharts), color: '#67c23a', rate: 8.2, up: true },
+  { label: proxy.$t('console.onlineUsers'), value: 128, unit: ' ' + proxy.$t('console.unitPeople'), icon: markRaw(Monitor), color: '#36cfc9', rate: 3.4, up: true },
+  { label: proxy.$t('console.apiCalls'), value: 52840, unit: ' ' + proxy.$t('console.unitTimes'), icon: markRaw(DataLine), color: '#e6a23c', rate: 18.9, up: true },
+  { label: proxy.$t('console.errorRequests'), value: 37, unit: ' ' + proxy.$t('console.unitTimes'), icon: markRaw(Warning), color: '#f56c6c', rate: 6.4, up: false },
+  { label: proxy.$t('console.avgDuration'), value: 128, unit: ' ms', icon: markRaw(Odometer), color: '#909399', rate: 4.1, up: false }
 ])
-const onlineStat = computed(() => statList.value.find((item) => item.label === '在线用户')?.value || 0)
+const onlineStat = computed(() => statList.value.find((item) => item.label === proxy.$t('console.onlineUsers'))?.value || 0)
 
 const trendRange = ref('7')
 const trendRef = ref(null)
@@ -351,14 +351,14 @@ const buildTrend = (days, base) => {
 }
 const trendData = computed(() => buildTrend(Number(trendRange.value), trendRange.value === '7' ? 3200 : 2900))
 
-const moduleData = [
-  { name: '系统管理', value: 4210 },
-  { name: '在线监控', value: 2860 },
-  { name: '代码生成', value: 1740 },
-  { name: '文件管理', value: 1320 },
-  { name: '邮件服务', value: 860 },
-  { name: '其他', value: 520 }
-]
+const moduleData = computed(() => [
+  { name: proxy.$t('console.modSystem'), value: 4210 },
+  { name: proxy.$t('console.modMonitor'), value: 2860 },
+  { name: proxy.$t('console.modCodeGen'), value: 1740 },
+  { name: proxy.$t('console.modFile'), value: 1320 },
+  { name: proxy.$t('console.modMail'), value: 860 },
+  { name: proxy.$t('console.modOther'), value: 520 }
+])
 
 const buildTrendOption = () => {
   const { labels, visit, visitor, api } = trendData.value
@@ -374,7 +374,7 @@ const buildTrendOption = () => {
       itemWidth: 10,
       itemHeight: 10,
       textStyle: { color: textColor, fontSize: 12 },
-      data: ['访问量', '独立访客', '接口调用']
+      data: [proxy.$t('console.chartVisits'), proxy.$t('console.chartUniqueVisitors'), proxy.$t('console.chartApiCalls')]
     },
     grid: { top: 40, left: 6, right: 6, bottom: 4, containLabel: true },
     xAxis: {
@@ -387,14 +387,14 @@ const buildTrendOption = () => {
     yAxis: [
       {
         type: 'value',
-        name: '人次',
+        name: proxy.$t('console.chartVisitsUnit'),
         nameTextStyle: { color: subTextColor, fontSize: 12 },
         axisLabel: { color: subTextColor, fontSize: 12 },
         splitLine: { lineStyle: { color: splitColor, type: 'dashed' } }
       },
       {
         type: 'value',
-        name: '接口',
+        name: proxy.$t('console.chartApiUnit'),
         nameTextStyle: { color: subTextColor, fontSize: 12 },
         axisLabel: { color: subTextColor, fontSize: 12 },
         splitLine: { show: false }
@@ -402,14 +402,14 @@ const buildTrendOption = () => {
     ],
     series: [
       {
-        name: '访问量',
+        name: proxy.$t('console.chartVisits'),
         type: 'bar',
         data: visit,
         barMaxWidth: 26,
         itemStyle: { color: colors[0], borderRadius: [4, 4, 0, 0] }
       },
       {
-        name: '独立访客',
+        name: proxy.$t('console.chartUniqueVisitors'),
         type: 'line',
         smooth: true,
         showSymbol: false,
@@ -418,7 +418,7 @@ const buildTrendOption = () => {
         itemStyle: { color: colors[1] }
       },
       {
-        name: '接口调用',
+        name: proxy.$t('console.chartApiCalls'),
         type: 'line',
         smooth: true,
         showSymbol: false,
@@ -437,7 +437,7 @@ const buildModuleOption = () => {
   const bgColor = cssVar('--el-bg-color', '#ffffff')
   return {
     color: palette(),
-    tooltip: { trigger: 'item', formatter: '{b}: {c} 次 ({d}%)' },
+    tooltip: { trigger: 'item', formatter: '{b}: {c} ' + proxy.$t('console.unitTimes') + ' ({d}%)' },
     legend: {
       bottom: 0,
       itemWidth: 10,
@@ -447,7 +447,7 @@ const buildModuleOption = () => {
     },
     series: [
       {
-        name: '模块访问占比',
+        name: proxy.$t('console.moduleVisitRatio'),
         type: 'pie',
         radius: ['42%', '66%'],
         center: ['50%', '44%'],
@@ -458,7 +458,7 @@ const buildModuleOption = () => {
           scaleSize: 6,
           label: { show: true, color: textColor, fontSize: 13, fontWeight: 600, formatter: '{b}\n{d}%' }
         },
-        data: moduleData
+        data: moduleData.value
       }
     ],
     graphic: {
@@ -466,7 +466,7 @@ const buildModuleOption = () => {
       left: 'center',
       top: '38%',
       style: {
-        text: `${moduleData.reduce((total, item) => total + item.value, 0)}\n访问总数`,
+        text: `${moduleData.value.reduce((total, item) => total + item.value, 0)}\n${proxy.$t('console.totalVisits')}`,
         textAlign: 'center',
         fill: subTextColor,
         fontSize: 12,
@@ -515,32 +515,32 @@ const activityList = [
   { time: '14:55:47', text: '生成了订单表实体代码', userName: 'wangwu', type: 'info', hollow: true }
 ]
 
-const resourceList = [
-  { label: 'CPU 使用率', text: '38%', percentage: 38, color: '#67c23a', icon: Cpu },
-  { label: '内存使用率', text: '62%', percentage: 62, color: '#409eff', icon: Monitor },
-  { label: '磁盘占用', text: '74%', percentage: 74, color: '#e6a23c', icon: Histogram },
-  { label: '带宽占用', text: '45%', percentage: 45, color: '#36cfc9', icon: PieChart }
-]
+const resourceList = computed(() => [
+  { label: proxy.$t('console.cpuUsage'), text: '38%', percentage: 38, color: '#67c23a', icon: Cpu },
+  { label: proxy.$t('console.memoryUsage'), text: '62%', percentage: 62, color: '#409eff', icon: Monitor },
+  { label: proxy.$t('console.diskUsage'), text: '74%', percentage: 74, color: '#e6a23c', icon: Histogram },
+  { label: proxy.$t('console.bandwidthUsage'), text: '45%', percentage: 45, color: '#36cfc9', icon: PieChart }
+])
 
-const shortcutList = [
-  { title: '用户管理', path: '/system/user', icon: User, color: '#409eff' },
-  { title: '角色管理', path: '/system/role', icon: Setting, color: '#67c23a' },
-  { title: '菜单管理', path: '/system/menu', icon: Position, color: '#e6a23c' },
-  { title: '在线用户', path: '/monitor/onlineuser', icon: Monitor, color: '#f56c6c' },
-  { title: '操作日志', path: '/monitor/operlog', icon: DocumentIcon, color: '#36cfc9' },
-  { title: '定时任务', path: '/monitor/job', icon: Timer, color: '#909399' },
-  { title: '代码生成', path: '/tool/gen', icon: DataLine, color: '#409eff' },
-  { title: '通知公告', path: '/system/notice', icon: Bell, color: '#e6a23c' }
-]
+const shortcutList = computed(() => [
+  { title: proxy.$t('console.shortcutUser'), path: '/system/user', icon: User, color: '#409eff' },
+  { title: proxy.$t('console.shortcutRole'), path: '/system/role', icon: Setting, color: '#67c23a' },
+  { title: proxy.$t('console.shortcutMenu'), path: '/system/menu', icon: Position, color: '#e6a23c' },
+  { title: proxy.$t('console.onlineUsers'), path: '/monitor/onlineuser', icon: Monitor, color: '#f56c6c' },
+  { title: proxy.$t('console.shortcutOperLog'), path: '/monitor/operlog', icon: DocumentIcon, color: '#36cfc9' },
+  { title: proxy.$t('console.shortcutJob'), path: '/monitor/job', icon: Timer, color: '#909399' },
+  { title: proxy.$t('console.shortcutCodeGen'), path: '/tool/gen', icon: DataLine, color: '#409eff' },
+  { title: proxy.$t('console.shortcutNotice'), path: '/system/notice', icon: Bell, color: '#e6a23c' }
+])
 
 const systemInfo = computed(() => [
-  { label: '系统名称', value: systemName },
-  { label: '框架版本', value: defaultSettings.version },
-  { label: '运行环境', value: runEnv },
-  { label: '访问地址', value: window.location.origin },
-  { label: '当前账号', value: userStore.userName || '-' },
-  { label: '拥有角色', value: userStore.roles.join('、') || '-' },
-  { label: '权限数量', value: `${userStore.permissions.length} 项` }
+  { label: proxy.$t('console.sysName'), value: systemName },
+  { label: proxy.$t('console.frameworkVersion'), value: defaultSettings.version },
+  { label: proxy.$t('console.runEnvLabel'), value: runEnv },
+  { label: proxy.$t('console.accessUrl'), value: window.location.origin },
+  { label: proxy.$t('console.currentAccount'), value: userStore.userName || '-' },
+  { label: proxy.$t('console.userRoles'), value: userStore.roles.join('、') || '-' },
+  { label: proxy.$t('console.permissionCount'), value: `${userStore.permissions.length} ${proxy.$t('console.unitItems')}` }
 ])
 
 const refreshing = ref(false)
@@ -554,16 +554,16 @@ const handleRefresh = () => {
   setTimeout(() => {
     refreshing.value = false
   }, 500)
-  proxy.$modal.msgSuccess('控制台数据已刷新')
+  proxy.$modal.msgSuccess(proxy.$t('console.refreshSuccess'))
 }
 
 const mockAction = (text) => {
-  proxy.$modal.msg(`${text}：演示页面暂未接入接口`)
+  proxy.$modal.msg(`${text}：${proxy.$t('console.demoNotConnected')}`)
 }
 
 const go = (path) => {
   if (!router.resolve(path).matched.some((item) => item.meta?.title)) {
-    proxy.$modal.msgWarning(`菜单 ${path} 尚未配置，请先在菜单管理中维护`)
+    proxy.$modal.msgWarning(proxy.$t('console.menuNotConfigured', { path }))
     return
   }
   if (path !== router.currentRoute.value.path) {

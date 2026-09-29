@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+  </ItemGroup>
+
+  <ItemGroup>
+   
+  </ItemGroup>
+
+  <ItemGroup>
+   
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ControlHub\Dto\" />
+    <Folder Include="ControlHub\Vo\" />
+    <Folder Include="File\Dto\" />
+    <Folder Include="File\Model\" />
+    <Folder Include="File\Vo\" />
+    <Folder Include="Public\Dto\" />
+    <Folder Include="System\ServerInfo\Model\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommonRelyOn\CommonRelyOn.csproj" />
+    <ProjectReference Include="..\Keystone.Infrastructure\Keystone.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

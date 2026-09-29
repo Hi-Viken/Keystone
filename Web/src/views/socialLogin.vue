@@ -5,9 +5,9 @@
 
       <div v-if="!loading" style="text-align: center; color: red" class="pb20">
         <el-result icon="warning" :sub-title="errorMsg"> </el-result>
-        <router-link class="link-type" :to="'/login'">返回{{ $t('login.btnLogin') }}</router-link>
+        <router-link class="link-type" :to="'/login'">{{ $t('login.returnTo') }}{{ $t('login.btnLogin') }}</router-link>
       </div>
-      <div v-else class="loading">登 录 中...</div>
+      <div v-else class="loading">{{ $t('login.logging') }}</div>
     </el-form>
 
     <!--  底部  -->
@@ -34,7 +34,7 @@ callbackQuery.value = getQueryObject()
 redirect.value = route.query.redirect
 authSource.value = route.query.authSource
 
-const errorMsg = ref('未获取到授权信息，请返回重新授权登录')
+const errorMsg = ref(proxy.$t('login.noAuthInfo'))
 
 if (callbackQuery.value && callbackQuery.value.state != null) {
   loading.value = true

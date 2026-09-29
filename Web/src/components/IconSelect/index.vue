@@ -1,6 +1,6 @@
 <template>
   <div class="icon-body">
-    <el-input v-model="iconName" style="position: relative" clearable placeholder="请输入图标名称" @clear="filterIcons" @input="filterIcons">
+    <el-input v-model="iconName" style="position: relative" clearable :placeholder="$t('iconSelect.inputName')" @clear="filterIcons" @input="filterIcons">
       <template #prefix>
         <el-icon class="el-input__icon">
           <search />
@@ -22,7 +22,7 @@
         </div>
         <div class="help text-muted mt5" @click="handleHelp">
           <svg-icon name="question"></svg-icon>
-          如何增加icon
+          {{ $t('iconSelect.howToAdd') }}
         </div>
       </el-tab-pane>
       <el-tab-pane label="Element-UI Icons" name="2">
@@ -33,10 +33,10 @@
           </div>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="网络图" name="3">
-        <el-input v-model="iconName" placeholder="请输入网络路径">
+      <el-tab-pane :label="$t('iconSelect.networkImage')" name="3">
+        <el-input v-model="iconName" :placeholder="$t('iconSelect.inputUrl')">
           <template #append>
-            <el-button type="primary" @click="selectedImgIcon()">确定</el-button>
+            <el-button type="primary" @click="selectedImgIcon()">{{ $t('common.ok') }}</el-button>
           </template>
         </el-input>
       </el-tab-pane>
@@ -85,7 +85,7 @@ function reset() {
   iconList.value = icons
 }
 function handleHelp() {
-  proxy.$modal.msg('请将svg图标放置在目录/src/assets/icons/svg里面')
+  proxy.$modal.msg(proxy.$t('iconSelect.svgHelp'))
 }
 defineExpose({
   reset

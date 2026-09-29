@@ -1,6 +1,6 @@
 <template>
   <div class="inner-link-container">
-    <div v-if="showLoading">加载中...</div>
+    <div v-if="showLoading">{{ $t('common.loading') }}</div>
     <iframe :id="iframeId" style="width: 100%; height: 100%" :src="src" ref="iframeRef" frameborder="no"></iframe>
   </div>
 </template>

@@ -1,35 +1,35 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true">
-      <el-form-item label="登录时间">
+      <el-form-item :label="$t('user.loginTime')">
         <el-date-picker
           v-model="dateRange"
           type="daterange"
           range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"></el-date-picker>
+          :start-placeholder="$t('common.startDate')"
+          :end-placeholder="$t('common.endDate')"></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="search" @click="handleQuery">搜索</el-button>
-        <el-button icon="refresh" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="search" @click="handleQuery">{{ $t('btn.search') }}</el-button>
+        <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
       </el-form-item>
     </el-form>
 
     <el-table v-loading="loading" :data="list" border>
-      <el-table-column label="IP地址" align="center" prop="ipaddr" width="130">
+      <el-table-column :label="$t('user.loginIp')" align="center" prop="ipaddr" width="130">
         <template #default="{ row }">
           <div>{{ row.ipaddr }}</div>
         </template>
       </el-table-column>
-      <el-table-column label="登录地点" align="center" prop="position" />
-      <el-table-column label="操作系统" align="center" prop="os" />
-      <el-table-column label="操作状态" align="center" prop="status" width="90">
+      <el-table-column :label="$t('user.loginLocation')" align="center" prop="position" />
+      <el-table-column :label="$t('user.os')" align="center" prop="os" />
+      <el-table-column :label="$t('user.operStatus')" align="center" prop="status" width="90">
         <template #default="{ row }">
           <dict-tag :options="statusOptions" :value="row.status"></dict-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作信息" align="center" prop="msg" />
-      <el-table-column label="登录日期" align="center" prop="loginTime" width="100">
+      <el-table-column :label="$t('user.operInfo')" align="center" prop="msg" />
+      <el-table-column :label="$t('user.loginDate')" align="center" prop="loginTime" width="100">
         <template #default="scope">
           <span>{{ showTime(scope.row.loginTime) }}</span>
         </template>

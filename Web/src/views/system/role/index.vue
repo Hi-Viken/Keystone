@@ -1,15 +1,15 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" v-show="showSearch" :inline="true">
-      <el-form-item label="角色名称" prop="roleName">
-        <el-input v-model="queryParams.roleName" placeholder="请输入角色名称" clearable @keyup.enter="handleQuery" />
+      <el-form-item :label="$t('roleView.roleName')" prop="roleName">
+        <el-input v-model="queryParams.roleName" :placeholder="$t('roleView.roleNamePh')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
       <!-- <el-form-item label="权限字符" prop="roleKey">
         <el-input v-model="queryParams.roleKey" placeholder="请输入权限字符" clearable  style="width: 240px" @keyup.enter.native="handleQuery" />
       </el-form-item> -->
-      <el-form-item label="状态" prop="status">
-        <el-select v-model="queryParams.status" placeholder="角色状态" clearable>
-          <el-option label="全部" :value="-1" />
+      <el-form-item :label="$t('common.status')" prop="status">
+        <el-select v-model="queryParams.status" :placeholder="$t('roleView.roleStatus')" clearable>
+          <el-option :label="$t('common.all')" :value="-1" />
           <el-option v-for="dict in statusOptions" :key="dict.dictValue" :label="dict.dictLabel" :value="dict.dictValue" />
         </el-select>
       </el-form-item>
@@ -27,12 +27,12 @@
     </el-row>
 
     <el-table v-loading="loading" :data="roleList" highlight-current-row @selection-change="handleSelectionChange">
-      <el-table-column label="编号" prop="roleId" width="80" />
-      <el-table-column label="名称" prop="roleName" />
-      <el-table-column label="显示顺序" prop="roleSort"></el-table-column>
-      <el-table-column label="权限字符" prop="roleKey" />
-      <el-table-column label="权限范围" prop="dataScope" :formatter="dataScopeFormat"></el-table-column>
-      <el-table-column label="状态" width="90">
+      <el-table-column :label="$t('common.no')" prop="roleId" width="80" />
+      <el-table-column :label="$t('common.name')" prop="roleName" />
+      <el-table-column :label="$t('roleView.showSort')" prop="roleSort"></el-table-column>
+      <el-table-column :label="$t('roleView.roleKey')" prop="roleKey" />
+      <el-table-column :label="$t('roleView.dataScope')" prop="dataScope" :formatter="dataScopeFormat"></el-table-column>
+      <el-table-column :label="$t('common.status')" width="90">
         <template #default="scope">
           <el-switch
             v-model="scope.row.status"
@@ -42,14 +42,14 @@
             @change="handleStatusChange(scope.row)"></el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="用户个数" align="center" prop="userNum" width="90">
+      <el-table-column :label="$t('roleView.userNum')" align="center" prop="userNum" width="90">
         <template #default="scope">
           <el-link type="primary" @click="handleAuthUser(scope.row)">{{ scope.row.userNum }}</el-link>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" prop="createTime" width="150" />
-      <el-table-column label="备注" align="center" prop="remark" width="150" :show-overflow-tooltip="true" />
-      <el-table-column label="操作" align="center" width="200">
+      <el-table-column :label="$t('common.createTime')" prop="createTime" width="150" />
+      <el-table-column :label="$t('common.remark')" align="center" prop="remark" width="150" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('btn.operate')" align="center" width="200">
         <template #default="scope">
           <div v-if="scope.row.roleKey != 'admin'">
             <el-button text icon="edit" :title="$t('btn.edit')" @click.stop="handleUpdate(scope.row)" v-hasPermi="['system:role:edit']">
@@ -70,7 +70,7 @@
                 <el-dropdown-menu>
                   <el-dropdown-item command="handleDataScope" icon="circle-check">{{ $t('menu.menuPermi') }}</el-dropdown-item>
                   <el-dropdown-item command="handleAuthUser" icon="user">{{ $t('menu.assignUsers') }}</el-dropdown-item>
-                  <el-dropdown-item command="handleExportMenu" icon="download">导出菜单</el-dropdown-item>
+                  <el-dropdown-item command="handleExportMenu" icon="download">{{ $t('roleView.exportMenu') }}</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -81,18 +81,18 @@
     <pagination v-show="total > 0" :total="total" v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" @pagination="getList" />
 
     <!-- 角色菜单弹框 -->
-    <zr-dialog title="角色权限分配" key="role" top="0vh" draggable="" v-model="showRoleScope" width="700px" @close="cancel">
+    <zr-dialog :title="$t('roleView.rolePermTitle')" key="role" top="0vh" draggable="" v-model="showRoleScope" width="700px" @close="cancel">
       <el-form :model="form" label-width="80px">
-        <el-form-item label="菜单搜索">
-          <el-input placeholder="请输入关键字进行过滤" v-model="searchText"></el-input>
+        <el-form-item :label="$t('roleView.menuSearch')">
+          <el-input :placeholder="$t('roleView.filterKeyword')" v-model="searchText"></el-input>
         </el-form-item>
-        <el-form-item label="权限字符">
+        <el-form-item :label="$t('roleView.permChar')">
           {{ form.roleKey }}
         </el-form-item>
-        <el-form-item label="菜单权限">
-          <el-checkbox v-model="menuExpand" @change="handleCheckedTreeExpand($event, 'menu')">展开/折叠</el-checkbox>
-          <el-checkbox v-model="menuNodeAll" @change="handleCheckedTreeNodeAll($event, 'menu')">全选/全不选</el-checkbox>
-          <el-checkbox v-model="form.menuCheckStrictly" @change="handleCheckedTreeConnect($event, 'menu')">父子联动</el-checkbox>
+        <el-form-item :label="$t('roleView.menuPerm')">
+          <el-checkbox v-model="menuExpand" @change="handleCheckedTreeExpand($event, 'menu')">{{ $t('btn.expand') }}/{{ $t('btn.collapse') }}</el-checkbox>
+          <el-checkbox v-model="menuNodeAll" @change="handleCheckedTreeNodeAll($event, 'menu')">{{ $t('roleView.selectAll') }}/{{ $t('roleView.unselectAll') }}</el-checkbox>
+          <el-checkbox v-model="form.menuCheckStrictly" @change="handleCheckedTreeConnect($event, 'menu')">{{ $t('roleView.parentChildLink') }}</el-checkbox>
           <el-tree
             class="tree-border"
             :data="menuOptions"
@@ -100,20 +100,19 @@
             ref="menuRef"
             node-key="id"
             :check-strictly="!form.menuCheckStrictly"
-            empty-text="加载中，请稍后"
-            highlight-current
+            :empty-text="$t('common.loading')"            highlight-current
             :filter-node-method="menuFilterNode"
             :props="{ children: 'children', label: 'label', class: customNodeClass }">
             <template #default="{ node, data }">
               <div class="custom-tree-node">
                 <span class="fl" :title="data.permission">{{ node.label }}</span>
                 <span class="fr ml10">
-                  <el-tag v-if="data.status == 1" type="danger">停用</el-tag>
+                  <el-tag v-if="data.status == 1" type="danger">{{ $t('common.disable') }}</el-tag>
                 </span>
               </div>
             </template>
           </el-tree>
-          <div style="color: red">请在菜单管理里面添加对应的菜单权限</div>
+          <div style="color: red">{{ $t('roleView.addMenuTip') }}</div>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -127,32 +126,32 @@
       <el-form ref="formRef" :model="form" :rules="rules" label-width="90px">
         <el-row>
           <el-col :lg="12">
-            <el-form-item label="角色名称" prop="roleName">
-              <el-input v-model="form.roleName" placeholder="请输入角色名称" />
+            <el-form-item :label="$t('roleView.roleName')" prop="roleName">
+              <el-input v-model="form.roleName" :placeholder="$t('roleView.roleNamePh')" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="权限字符" prop="roleKey">
+            <el-form-item :label="$t('roleView.roleKey')" prop="roleKey">
               <template #label>
                 <span>
-                  <el-tooltip content="使用： v-hasRole='['admin']'" placement="top">
+                  <el-tooltip :content="$t('roleView.roleKeyTip')" placement="top">
                     <el-icon :size="15">
                       <questionFilled />
                     </el-icon>
                   </el-tooltip>
-                  权限字符
+                  {{ $t('roleView.roleKey') }}
                 </span>
               </template>
-              <el-input v-model="form.roleKey" placeholder="请输入权限字符" />
+              <el-input v-model="form.roleKey" :placeholder="$t('roleView.roleKeyPh')" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="角色顺序" prop="roleSort">
+            <el-form-item :label="$t('roleView.roleSort')" prop="roleSort">
               <el-input-number v-model="form.roleSort" controls-position="right" :min="0" />
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="数据范围">
+            <el-form-item :label="$t('roleView.dataScopeLabel')">
               <el-select v-model="form.dataScope" @change="dataScopeSelectChange">
                 <el-option
                   v-for="item in dataScopeOptions"
@@ -163,19 +162,19 @@
             </el-form-item>
           </el-col>
           <el-col :lg="12">
-            <el-form-item label="状态">
+            <el-form-item :label="$t('common.status')">
               <el-radio-group v-model="form.status">
                 <el-radio v-for="dict in statusOptions" :key="dict.dictValue" :value="parseInt(dict.dictValue)">{{ dict.dictLabel }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item label="数据权限" v-show="form.dataScope == 2">
-              <el-checkbox v-model="deptExpand" @change="handleCheckedTreeExpand($event, 'dept')">展开/折叠</el-checkbox>
-              <el-checkbox v-model="deptNodeAll" @change="handleCheckedTreeNodeAll($event, 'dept')">全选/全不选</el-checkbox>
+            <el-form-item :label="$t('roleView.dataPerm')" v-show="form.dataScope == 2">
+              <el-checkbox v-model="deptExpand" @change="handleCheckedTreeExpand($event, 'dept')">{{ $t('btn.expand') }}/{{ $t('btn.collapse') }}</el-checkbox>
+              <el-checkbox v-model="deptNodeAll" @change="handleCheckedTreeNodeAll($event, 'dept')">{{ $t('roleView.selectAll') }}/{{ $t('roleView.unselectAll') }}</el-checkbox>
               <el-checkbox v-model="form.deptCheckStrictly" @change="handleCheckedTreeConnect($event, 'dept')">
-                父子联动
-                <el-tooltip content="勾选父节点是否同时选中子节点" placement="top">
+                {{ $t('roleView.parentChildLink') }}
+                <el-tooltip :content="$t('roleView.parentChildTip')" placement="top">
                   <el-icon :size="15">
                     <questionFilled />
                   </el-icon>
@@ -189,13 +188,13 @@
                 ref="deptRef"
                 node-key="id"
                 :check-strictly="!form.deptCheckStrictly"
-                empty-text="加载中，请稍候"
+                :empty-text="$t('common.loading')"
                 :props="defaultProps"></el-tree>
             </el-form-item>
           </el-col>
           <el-col :lg="24">
-            <el-form-item label="备注">
-              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+            <el-form-item :label="$t('common.remark')">
+              <el-input v-model="form.remark" type="textarea" :placeholder="$t('common.inputContent')"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -246,23 +245,23 @@ const showRoleScope = ref(false)
 const dataScopeOptions = ref([
   {
     dictValue: '1',
-    dictLabel: '全部'
+    dictLabel: proxy.$t('common.all')
   },
   {
     dictValue: '2',
-    dictLabel: '自定义'
+    dictLabel: proxy.$t('roleView.custom')
   },
   {
     dictValue: '3',
-    dictLabel: '本部门'
+    dictLabel: proxy.$t('roleView.thisDept')
   },
   {
     dictValue: '4',
-    dictLabel: '本部门及以下'
+    dictLabel: proxy.$t('roleView.thisDeptBelow')
   },
   {
     dictValue: '5',
-    dictLabel: '仅本人'
+    dictLabel: proxy.$t('roleView.selfOnly')
   }
 ])
 // 菜单列表
@@ -282,9 +281,9 @@ const searchText = ref('')
 const state = reactive({
   form: {},
   rules: {
-    roleName: [{ required: true, message: '角色名称不能为空', trigger: 'blur' }],
-    roleKey: [{ required: true, message: '权限字符不能为空', trigger: 'blur' }],
-    roleSort: [{ required: true, message: '角色顺序不能为空', trigger: 'blur' }]
+    roleName: [{ required: true, message: proxy.$t('roleView.roleNameRequired'), trigger: 'blur' }],
+    roleKey: [{ required: true, message: proxy.$t('roleView.roleKeyRequired'), trigger: 'blur' }],
+    roleSort: [{ required: true, message: proxy.$t('roleView.roleSortRequired'), trigger: 'blur' }]
   },
   defaultProps: {
     children: 'children',
@@ -352,19 +351,19 @@ function getRoleDeptTreeselect(roleId) {
 }
 // 角色状态修改
 function handleStatusChange(row) {
-  const text = row.status == '0' ? '启用' : '停用'
+  const text = row.status == '0' ? proxy.$t('common.normal') : proxy.$t('common.disable')
 
   proxy
-    .$confirm('确认要"' + text + '""' + row.roleName + '"角色吗?', '警告', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    .$confirm(proxy.$t('roleView.confirmStatusChange', { action: text, name: row.roleName }), proxy.$t('common.warning'), {
+      confirmButtonText: proxy.$t('common.confirm'),
+      cancelButtonText: proxy.$t('common.cancel'),
       type: 'warning'
     })
     .then(function () {
       return changeRoleStatus(row.roleId, row.status)
     })
     .then(() => {
-      proxy.$modal.msgSuccess(text + '成功')
+      proxy.$modal.msgSuccess(text + proxy.$t('common.successSuffix'))
     })
     .catch(function () {
       row.status = row.status == 0 ? 1 : 0
@@ -476,7 +475,7 @@ function handleAdd() {
   reset()
   getDeptTreeselect()
   open.value = true
-  title.value = '添加角色'
+  title.value = proxy.$t('crud.addTitle')
   showRoleScope.value = false
 }
 
@@ -489,7 +488,7 @@ function handleUpdate(row) {
   getRole(roleId).then((response) => {
     form.value = response.data
     open.value = true
-    title.value = '修改角色'
+    title.value = proxy.$t('crud.editTitle')
 
     nextTick(() => {
       roleDeptTreeselect.then((res) => {
@@ -543,7 +542,7 @@ function handleAuthUser(row) {
   if (hasPermi) {
     router.push({ path: '/system/roleusers', query: { roleId } })
   } else {
-    proxy.$modal.msgError('你没有权限访问')
+    proxy.$modal.msgError(proxy.$t('common.noPermission'))
   }
 }
 /** 提交按钮 */
@@ -554,7 +553,7 @@ function submitForm() {
         form.value.type = 'edit'
         form.value.deptIds = getDeptAllCheckedKeys()
         updateRole(form.value).then((response) => {
-          proxy.$modal.msgSuccess('修改成功')
+          proxy.$modal.msgSuccess(proxy.$t('crud.editSuccess'))
           open.value = false
           getList()
         })
@@ -564,7 +563,7 @@ function submitForm() {
         addRole(form.value).then((response) => {
           open.value = false
           if (response.code == 200) {
-            proxy.$modal.msgSuccess('新增成功')
+            proxy.$modal.msgSuccess(proxy.$t('crud.addSuccess'))
             getList()
           } else {
             proxy.$modal.msgError(response.msg)
@@ -580,12 +579,12 @@ function submitDataScope() {
   if (form.value.roleId != undefined) {
     form.value.menuIds = getMenuAllCheckedKeys()
     dataScope(form.value).then((response) => {
-      proxy.$modal.msgSuccess('修改成功')
+      proxy.$modal.msgSuccess(proxy.$t('crud.editSuccess'))
       getList()
       cancel()
     })
   } else {
-    proxy.$modal.msgError('请选择角色')
+    proxy.$modal.msgError(proxy.$t('roleView.selectRoleFirst'))
   }
 }
 
@@ -593,9 +592,9 @@ function submitDataScope() {
 function handleDelete(row) {
   const roleIds = row.roleId || ids.value
   proxy
-    .$confirm('是否确认删除角色编号为"' + roleIds + '"的数据项?', '警告', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    .$confirm(proxy.$t('crud.deleteConfirm', { id: roleIds }), proxy.$t('common.warning'), {
+      confirmButtonText: proxy.$t('common.confirm'),
+      cancelButtonText: proxy.$t('common.cancel'),
       type: 'warning'
     })
     .then(function () {
@@ -603,16 +602,16 @@ function handleDelete(row) {
     })
     .then(() => {
       getList()
-      proxy.$modal.msgSuccess('删除成功')
+      proxy.$modal.msgSuccess(proxy.$t('crud.deleteSuccess'))
     })
 }
 
 /** 导出按钮操作 */
 function handleExport() {
   proxy
-    .$confirm('是否确认导出所有角色数据项?', '警告', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    .$confirm(proxy.$t('roleView.confirmExportAll'), proxy.$t('common.warning'), {
+      confirmButtonText: proxy.$t('common.confirm'),
+      cancelButtonText: proxy.$t('common.cancel'),
       type: 'warning'
     })
     .then(function () {
@@ -625,9 +624,9 @@ function handleExport() {
 // 导出角色菜单
 function handleExportMenu(row) {
   proxy.$modal
-    .confirm('是否确认导出所有角色菜单数据项?', '警告', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    .confirm(proxy.$t('roleView.confirmExportMenu'), proxy.$t('common.warning'), {
+      confirmButtonText: proxy.$t('common.confirm'),
+      cancelButtonText: proxy.$t('common.cancel'),
       type: 'warning'
     })
     .then(async () => {

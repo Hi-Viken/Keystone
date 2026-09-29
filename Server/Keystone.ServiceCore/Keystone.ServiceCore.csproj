@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SkiaSharp" Version="2.88.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommonRelyOn\CommonRelyOn.csproj" />
+    <ProjectReference Include="..\Keystone.Common\Keystone.Common.csproj" />
+    <ProjectReference Include="..\Keystone.Repository\Keystone.Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\File\" />
+    <Folder Include="Services\IService\File\" />
+    <Folder Include="Services\System\IService\" />
+  </ItemGroup>
+
+</Project>

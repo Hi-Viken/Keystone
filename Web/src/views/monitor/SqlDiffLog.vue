@@ -6,26 +6,26 @@
 <template>
   <div>
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
-      <el-form-item label="表名" prop="tableName">
-        <el-input v-model="queryParams.tableName" placeholder="请输入表名" />
+      <el-form-item :label="$t('sqlDiffLogView.tableName')" prop="tableName">
+        <el-input v-model="queryParams.tableName" :placeholder="$t('sqlDiffLogView.inputTableName')" />
       </el-form-item>
-      <el-form-item label="差异类型" prop="diffType">
-        <el-select clearable v-model="queryParams.diffType" placeholder="请选择差异类型">
+      <el-form-item :label="$t('sqlDiffLogView.diffType')" prop="diffType">
+        <el-select clearable v-model="queryParams.diffType" :placeholder="$t('sqlDiffLogView.selectDiffType')">
           <el-option v-for="item in options.diffTypeOptions" :key="item.dictValue" :label="item.dictLabel" :value="item.dictValue">
             <span class="fl">{{ item.dictLabel }}</span>
             <span class="fr" style="color: var(--el-text-color-secondary)">{{ item.dictValue }}</span>
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="操作用户名" prop="userName">
-        <el-input v-model="queryParams.userName" placeholder="请输入操作用户名" />
+      <el-form-item :label="$t('sqlDiffLogView.userName')" prop="userName">
+        <el-input v-model="queryParams.userName" :placeholder="$t('sqlDiffLogView.inputUserName')" />
       </el-form-item>
-      <el-form-item label="操作时间">
+      <el-form-item :label="$t('sqlDiffLogView.operateTime')">
         <el-date-picker
           v-model="dateRangeAddTime"
           type="datetimerange"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
+          :start-placeholder="$t('sqlDiffLogView.beginDate')"
+          :end-placeholder="$t('sqlDiffLogView.endDate')"
           value-format="YYYY-MM-DD HH:mm:ss"
           :default-time="defaultTime"
           :shortcuts="dateOptions">
@@ -54,30 +54,30 @@
       header-cell-class-name="el-table-header-cell"
       highlight-current-row
       @sort-change="sortChange">
-      <el-table-column prop="pId" label="主键" align="center" v-if="columns.showColumn('pId')" width="150" />
-      <el-table-column prop="tableName" label="表名" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('tableName')" />
-      <el-table-column prop="diffType" label="操作类型" align="center" v-if="columns.showColumn('diffType')">
+      <el-table-column prop="pId" :label="$t('sqlDiffLogView.primaryKey')" align="center" v-if="columns.showColumn('pId')" width="150" />
+      <el-table-column prop="tableName" :label="$t('sqlDiffLogView.tableName')" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('tableName')" />
+      <el-table-column prop="diffType" :label="$t('sqlDiffLogView.operateType')" align="center" v-if="columns.showColumn('diffType')">
         <template #default="scope">
           <dict-tag :options="options.diffTypeOptions" :value="scope.row.diffType" />
         </template>
       </el-table-column>
       <el-table-column
         prop="businessData"
-        label="业务数据内容"
+        :label="$t('sqlDiffLogView.businessData')"
         align="center"
         :show-overflow-tooltip="true"
         v-if="columns.showColumn('businessData')" />
-      <el-table-column prop="sql" label="执行sql语句" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('sql')" />
-      <el-table-column prop="beforeData" label="变更前数据" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('beforeData')" />
-      <el-table-column prop="afterData" label="变更后数据" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('afterData')" />
-      <el-table-column prop="userName" label="操作用户名" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('userName')" />
-      <el-table-column prop="addTime" label="操作时间" :show-overflow-tooltip="true" v-if="columns.showColumn('addTime')" />
-      <el-table-column prop="configId" label="数据库配置id" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('configId')" />
-      <el-table-column label="操作" width="130">
+      <el-table-column prop="sql" :label="$t('sqlDiffLogView.execSql')" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('sql')" />
+      <el-table-column prop="beforeData" :label="$t('sqlDiffLogView.beforeData')" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('beforeData')" />
+      <el-table-column prop="afterData" :label="$t('sqlDiffLogView.afterData')" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('afterData')" />
+      <el-table-column prop="userName" :label="$t('sqlDiffLogView.userName')" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('userName')" />
+      <el-table-column prop="addTime" :label="$t('sqlDiffLogView.operateTime')" :show-overflow-tooltip="true" v-if="columns.showColumn('addTime')" />
+      <el-table-column prop="configId" :label="$t('sqlDiffLogView.configId')" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('configId')" />
+      <el-table-column :label="$t('btn.operate')" width="130">
         <template #default="scope">
-          <el-button text type="primary" icon="view" title="详情" @click="handlePreview(scope.row)">详细</el-button>
-          <el-button v-hasPermi="['sqldifflog:delete']" type="danger" icon="delete" title="删除" text @click="handleDelete(scope.row)"
-            >删除</el-button
+          <el-button text type="primary" icon="view" :title="$t('btn.details')" @click="handlePreview(scope.row)">{{ $t('btn.details') }}</el-button>
+          <el-button v-hasPermi="['sqldifflog:delete']" type="danger" icon="delete" :title="$t('btn.delete')" text @click="handleDelete(scope.row)"
+            >{{ $t('btn.delete') }}</el-button
           >
         </template>
       </el-table-column>
@@ -89,44 +89,44 @@
       <el-form ref="formRef" :model="form" label-width="100px">
         <el-row :gutter="20">
           <el-col :lg="12">
-            <el-form-item label="主键" prop="pId">
-              <el-input v-model.number="form.pId" placeholder="请输入主键" :disabled="opertype != 1" />
+            <el-form-item :label="$t('sqlDiffLogView.primaryKey')" prop="pId">
+              <el-input v-model.number="form.pId" :placeholder="$t('sqlDiffLogView.inputPrimaryKey')" :disabled="opertype != 1" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="表名" prop="tableName">
-              <el-input v-model="form.tableName" disabled placeholder="请输入表名" />
+            <el-form-item :label="$t('sqlDiffLogView.tableName')" prop="tableName">
+              <el-input v-model="form.tableName" disabled :placeholder="$t('sqlDiffLogView.inputTableName')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="24">
-            <el-form-item label="业务数据内容" prop="businessData">
-              <el-input type="textarea" v-model="form.businessData" placeholder="请输入业务数据内容" />
+            <el-form-item :label="$t('sqlDiffLogView.businessData')" prop="businessData">
+              <el-input type="textarea" v-model="form.businessData" :placeholder="$t('sqlDiffLogView.inputBusinessData')" />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="操作类型" prop="diffType">
+            <el-form-item :label="$t('sqlDiffLogView.operateType')" prop="diffType">
               <dict-tag :options="options.diffTypeOptions" :value="form.diffType"></dict-tag>
             </el-form-item>
           </el-col>
 
           <el-col :lg="24">
-            <el-form-item label="执行sql语句" prop="sql">
+            <el-form-item :label="$t('sqlDiffLogView.execSql')" prop="sql">
               <code class="hljs" v-html="highlightedCode(form.sql)"></code>
               <!-- <el-input type="textarea" v-model="form.sql" placeholder="请输入执行sql语句" /> -->
             </el-form-item>
           </el-col>
 
           <el-col :lg="24">
-            <el-form-item label="变更前数据" prop="beforeData">
+            <el-form-item :label="$t('sqlDiffLogView.beforeData')" prop="beforeData">
               <code class="hljs" v-html="highlightedCode(form.beforeData)"></code>
             </el-form-item>
           </el-col>
 
           <el-col :lg="24">
-            <el-form-item label="变更后数据">
+            <el-form-item :label="$t('sqlDiffLogView.afterData')">
               <code class="hljs" v-html="highlightedCode(form.afterData)"></code>
             </el-form-item>
           </el-col>
@@ -135,20 +135,20 @@
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="操作用户名" prop="userName">
-              <el-input v-model="form.userName" placeholder="请输入操作用户名" disabled />
+            <el-form-item :label="$t('sqlDiffLogView.userName')" prop="userName">
+              <el-input v-model="form.userName" :placeholder="$t('sqlDiffLogView.inputUserName')" disabled />
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="记录时间" prop="addTime">
-              <el-date-picker v-model="form.addTime" disabled type="datetime" :teleported="false" placeholder="选择日期时间"></el-date-picker>
+            <el-form-item :label="$t('sqlDiffLogView.recordTime')" prop="addTime">
+              <el-date-picker v-model="form.addTime" disabled type="datetime" :teleported="false" :placeholder="$t('sqlDiffLogView.selectDateTime')"></el-date-picker>
             </el-form-item>
           </el-col>
 
           <el-col :lg="12">
-            <el-form-item label="数据库配置id" prop="configId">
-              <el-input v-model="form.configId" disabled placeholder="请输入数据库配置id" />
+            <el-form-item :label="$t('sqlDiffLogView.configId')" prop="configId">
+              <el-input v-model="form.configId" disabled :placeholder="$t('sqlDiffLogView.inputConfigId')" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -181,16 +181,16 @@ const queryParams = reactive({
   addTime: undefined
 })
 const columns = ref([
-  { visible: true, prop: 'pId', label: '主键' },
-  { visible: true, prop: 'tableName', label: '表名' },
-  { visible: true, prop: 'businessData', label: '业务数据内容' },
-  { visible: true, prop: 'diffType', label: '差异类型' },
-  { visible: true, prop: 'sql', label: '执行sql语句' },
-  { visible: true, prop: 'beforeData', label: '变更前数据' },
-  { visible: true, prop: 'afterData', label: '变更后数据' },
-  { visible: true, prop: 'userName', label: '操作用户名' },
-  { visible: false, prop: 'addTime', label: '操作时间' },
-  { visible: false, prop: 'configId', label: '数据库配置id' }
+  { visible: true, prop: 'pId', label: proxy.$t('sqlDiffLogView.primaryKey') },
+  { visible: true, prop: 'tableName', label: proxy.$t('sqlDiffLogView.tableName') },
+  { visible: true, prop: 'businessData', label: proxy.$t('sqlDiffLogView.businessData') },
+  { visible: true, prop: 'diffType', label: proxy.$t('sqlDiffLogView.diffType') },
+  { visible: true, prop: 'sql', label: proxy.$t('sqlDiffLogView.execSql') },
+  { visible: true, prop: 'beforeData', label: proxy.$t('sqlDiffLogView.beforeData') },
+  { visible: true, prop: 'afterData', label: proxy.$t('sqlDiffLogView.afterData') },
+  { visible: true, prop: 'userName', label: proxy.$t('sqlDiffLogView.userName') },
+  { visible: false, prop: 'addTime', label: proxy.$t('sqlDiffLogView.operateTime') },
+  { visible: false, prop: 'configId', label: proxy.$t('sqlDiffLogView.configId') }
 ])
 const total = ref(0)
 const dataList = ref([])
@@ -292,13 +292,13 @@ function handleDelete(row) {
   const Ids = row.pId || ids.value
 
   proxy
-    .$confirm('是否确认删除参数编号为"' + Ids + '"的数据项？')
+    .$confirm(proxy.$t('sqlDiffLogView.deleteConfirm', { ids: Ids }))
     .then(function () {
       return delSqlDiffLog(Ids)
     })
     .then(() => {
       getList()
-      proxy.$modal.msgSuccess('删除成功')
+      proxy.$modal.msgSuccess(proxy.$t('crud.deleteSuccess'))
     })
     .catch(() => {})
 }
@@ -310,7 +310,7 @@ function handleDelete(row) {
 function handlePreview(row) {
   reset()
   open.value = true
-  title.value = '查看'
+  title.value = proxy.$t('btn.details')
   opertype.value = 3
   form.value = { ...row }
 }
@@ -318,9 +318,9 @@ function handlePreview(row) {
 // 导出按钮操作
 function handleExport() {
   proxy
-    .$confirm('是否确认导出数据差异日志数据项?', '警告', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    .$confirm(proxy.$t('sqlDiffLogView.exportConfirm'), proxy.$t('common.tips'), {
+      confirmButtonText: proxy.$t('common.ok'),
+      cancelButtonText: proxy.$t('common.cancel'),
       type: 'warning'
     })
     .then(async () => {

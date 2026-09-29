@@ -17,7 +17,7 @@ function onAuth(type) {
   switch (type) {
     default:
       // window.location.href = import.meta.env.VITE_APP_BASE_API + '/auth/Authorization?authSource=' + type
-      proxy.$modal.msg('接入请看文档https://www.izhaorui.cn/doc/backend/oauth.html')
+      proxy.$modal.msg(proxy.$t('login.oauthDocTip'))
       break
   }
 }

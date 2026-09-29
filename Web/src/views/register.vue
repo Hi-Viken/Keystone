@@ -5,7 +5,7 @@
       <el-form ref="registerFormRef" :model="registerForm" :rules="registerRules" class="login-form">
         <h3 class="title">{{ title }}</h3>
         <el-form-item prop="username">
-          <el-input v-model="registerForm.username" type="text" size="default" auto-complete="off" placeholder="账号">
+          <el-input v-model="registerForm.username" type="text" size="default" auto-complete="off" :placeholder="$t('register.account')">
             <template #prefix>
               <svg-icon name="user" />
             </template>
@@ -17,7 +17,7 @@
             type="password"
             size="default"
             auto-complete="off"
-            placeholder="密码"
+            :placeholder="$t('register.password')"
             @keyup.enter="handleRegister">
             <template #prefix>
               <svg-icon name="password" />
@@ -30,7 +30,7 @@
             type="password"
             size="default"
             auto-complete="off"
-            placeholder="确认密码"
+            :placeholder="$t('register.confirmPassword')"
             @keyup.enter="handleRegister">
             <template #prefix>
               <svg-icon name="password" />
@@ -42,7 +42,7 @@
             v-model="registerForm.code"
             auto-complete="off"
             size="default"
-            placeholder="验证码"
+            :placeholder="$t('register.captcha')"
             style="width: 63%"
             @keyup.enter="handleRegister">
             <template #prefix>
@@ -56,11 +56,11 @@
         <el-form-item style="width: 100%">
           <el-button :loading="loading" type="primary" size="default" round style="width: 100%" @click.prevent="handleRegister">
             <span v-if="!loading">{{ $t('login.register') }}</span>
-            <span v-else>注 册 中...</span>
+            <span v-else>{{ $t('register.registering') }}</span>
           </el-button>
         </el-form-item>
         <div style="text-align: center">
-          <router-link class="link-type" :to="'/login'">使用已有账户登录</router-link>
+          <router-link class="link-type" :to="'/login'">{{ $t('register.useExistingAccount') }}</router-link>
         </div>
       </el-form>
       <oauthLogin></oauthLogin>
@@ -94,35 +94,35 @@ const loading = ref(false)
 const captchaOnOff = ref(true)
 const equalToPassword = (rule, value, callback) => {
   if (registerForm.password !== value) {
-    callback(new Error('两次输入的密码不一致'))
+    callback(new Error(proxy.$t('register.passwordMismatch')))
   } else {
     callback()
   }
 }
 const registerRules = reactive({
   username: [
-    { required: true, trigger: 'blur', message: '请输入您的账号' },
+    { required: true, trigger: 'blur', message: proxy.$t('register.account') },
     {
       min: 5,
       max: 20,
-      message: '用户账号长度必须介于 5 和 20 之间',
+      message: proxy.$t('register.accountLength'),
       trigger: 'blur'
     }
   ],
   password: [
-    { required: true, trigger: 'blur', message: '请输入您的密码' },
+    { required: true, trigger: 'blur', message: proxy.$t('register.password') },
     {
       min: 5,
       max: 20,
-      message: '用户密码长度必须介于 6 和 20 之间',
+      message: proxy.$t('register.passwordLength'),
       trigger: 'blur'
     }
   ],
   confirmPassword: [
-    { required: true, trigger: 'blur', message: '请再次输入您的密码' },
+    { required: true, trigger: 'blur', message: proxy.$t('register.confirmPassword') },
     { required: true, validator: equalToPassword, trigger: 'blur' }
   ],
-  code: [{ required: true, trigger: 'change', message: '请输入验证码' }]
+  code: [{ required: true, trigger: 'change', message: proxy.$t('register.captcha') }]
 })
 const copyRight = computed(() => {
   return defaultSettings.copyright
@@ -146,7 +146,7 @@ function handleRegister() {
         .then((res) => {
           if (res.code == 200) {
             const username = registerForm.username
-            ElMessageBox.alert("<font color='red'>恭喜你，您的账号 " + username + ' 注册成功！</font>', '系统提示', {
+            ElMessageBox.alert("<font color='red'>" + proxy.$t('register.registerSuccess', { username }) + '</font>', proxy.$t('common.tips'), {
               dangerouslyUseHTMLString: true,
               type: 'success'
             })

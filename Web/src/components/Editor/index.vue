@@ -18,10 +18,11 @@ import { getToken } from '@/utils/auth'
 import useUserStore from '@/store/modules/user'
 const editorRef = shallowRef()
 const emit = defineEmits()
+const { proxy } = getCurrentInstance()
 const props = defineProps({
   placeholder: {
     type: String,
-    default: () => '请输入内容...'
+    default: '请输入内容...'
   },
   // 工具栏
   toolbarConfig: {

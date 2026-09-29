@@ -1,24 +1,24 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="参数名称" prop="configName">
-        <el-input v-model="queryParams.configName" placeholder="请输入参数名称" clearable @keyup.enter="handleQuery" />
+      <el-form-item :label="$t('configView.configName')" prop="configName">
+        <el-input v-model="queryParams.configName" :placeholder="$t('configView.configNamePh')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="参数键名" prop="configKey">
-        <el-input v-model="queryParams.configKey" placeholder="请输入参数键名" clearable @keyup.enter="handleQuery" />
+      <el-form-item :label="$t('configView.configKey')" prop="configKey">
+        <el-input v-model="queryParams.configKey" :placeholder="$t('configView.configKeyPh')" clearable @keyup.enter="handleQuery" />
       </el-form-item>
-      <el-form-item label="系统内置" prop="configType">
-        <el-select v-model="queryParams.configType" placeholder="系统内置" clearable>
+      <el-form-item :label="$t('configView.sysBuiltIn')" prop="configType">
+        <el-select v-model="queryParams.configType" :placeholder="$t('configView.sysBuiltIn')" clearable>
           <el-option v-for="dict in sysYesNoOptions" :key="dict.dictValue" :label="dict.dictLabel" :value="dict.dictValue" />
         </el-select>
       </el-form-item>
-      <el-form-item label="创建时间">
+      <el-form-item :label="$t('common.createTime')">
         <el-date-picker
           v-model="dateRange"
           type="daterange"
           range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"></el-date-picker>
+          :start-placeholder="$t('common.startDate')"
+          :end-placeholder="$t('common.endDate')"></el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="search" @click="handleQuery">{{ $t('btn.search') }}</el-button>
@@ -50,22 +50,22 @@
 
     <el-table v-loading="loading" :data="configList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="参数主键" align="center" prop="configId" />
-      <el-table-column label="参数名称" align="center" prop="configName" />
-      <el-table-column label="参数键名" align="center" prop="configKey" />
-      <el-table-column label="参数键值" align="center" prop="configValue" />
-      <el-table-column label="系统内置" align="center" prop="configType">
+      <el-table-column :label="$t('configView.configId')" align="center" prop="configId" />
+      <el-table-column :label="$t('configView.configName')" align="center" prop="configName" />
+      <el-table-column :label="$t('configView.configKey')" align="center" prop="configKey" />
+      <el-table-column :label="$t('configView.configValue')" align="center" prop="configValue" />
+      <el-table-column :label="$t('configView.sysBuiltIn')" align="center" prop="configType">
         <template #default="scope">
           <dict-tag :options="sysYesNoOptions" :value="scope.row.configType" />
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+      <el-table-column :label="$t('common.remark')" align="center" prop="remark" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('common.createTime')" align="center" prop="createTime" width="180">
         <template #default="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="160">
+      <el-table-column :label="$t('btn.operate')" align="center" width="160">
         <template #default="scope">
           <el-button size="small" text icon="edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:config:edit']">
             {{ $t('btn.edit') }}
@@ -82,22 +82,22 @@
     <!-- 添加或修改参数配置对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="formRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="参数名称" prop="configName">
-          <el-input v-model="form.configName" placeholder="请输入参数名称" />
+        <el-form-item :label="$t('configView.configName')" prop="configName">
+          <el-input v-model="form.configName" :placeholder="$t('configView.configNamePh')" />
         </el-form-item>
-        <el-form-item label="参数键名" prop="configKey">
-          <el-input v-model="form.configKey" placeholder="请输入参数键名" />
+        <el-form-item :label="$t('configView.configKey')" prop="configKey">
+          <el-input v-model="form.configKey" :placeholder="$t('configView.configKeyPh')" />
         </el-form-item>
-        <el-form-item label="参数键值" prop="configValue">
-          <el-input v-model="form.configValue" type="textarea" placeholder="请输入参数键值" />
+        <el-form-item :label="$t('configView.configValue')" prop="configValue">
+          <el-input v-model="form.configValue" type="textarea" :placeholder="$t('configView.configValuePh')" />
         </el-form-item>
-        <el-form-item label="系统内置" prop="configType">
+        <el-form-item :label="$t('configView.sysBuiltIn')" prop="configType">
           <el-radio-group v-model="form.configType">
             <el-radio-button v-for="dict in sysYesNoOptions" :key="dict.dictValue" :value="dict.dictValue">{{ dict.dictLabel }}</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+        <el-form-item :label="$t('common.remark')" prop="remark">
+          <el-input v-model="form.remark" type="textarea" :placeholder="$t('common.inputContent')" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -140,17 +140,17 @@ const queryParams = reactive({
   configKey: undefined,
   configType: undefined
 })
+const { proxy } = getCurrentInstance()
 const state = reactive({
   form: {},
   rules: {
-    configName: [{ required: true, message: '参数名称不能为空', trigger: 'blur' }],
-    configKey: [{ required: true, message: '参数键名不能为空', trigger: 'blur' }],
-    configValue: [{ required: true, message: '参数键值不能为空', trigger: 'blur' }]
+    configName: [{ required: true, message: proxy.$t('configView.configNameRequired'), trigger: 'blur' }],
+    configKey: [{ required: true, message: proxy.$t('configView.configKeyRequired'), trigger: 'blur' }],
+    configValue: [{ required: true, message: proxy.$t('configView.configValueRequired'), trigger: 'blur' }]
   }
 })
 const formRef = ref()
 const { form, rules } = toRefs(state)
-const { proxy } = getCurrentInstance()
 
 /** 查询参数列表 */
 function getList() {
@@ -193,7 +193,7 @@ function resetQuery() {
 function handleAdd() {
   reset()
   open.value = true
-  title.value = '添加参数'
+  title.value = proxy.$t('crud.addTitle')
 }
 // 多选框选中数据
 function handleSelectionChange(selection) {
@@ -208,7 +208,7 @@ function handleUpdate(row) {
   getConfig(configId).then((response) => {
     form.value = response.data
     open.value = true
-    title.value = '修改参数'
+    title.value = proxy.$t('crud.editTitle')
   })
 }
 /** 提交按钮 */
@@ -217,13 +217,13 @@ function submitForm() {
     if (valid) {
       if (form.value.configId != undefined) {
         updateConfig(form.value).then((response) => {
-          proxy.$modal.msgSuccess('修改成功')
+          proxy.$modal.msgSuccess(proxy.$t('crud.editSuccess'))
           open.value = false
           getList()
         })
       } else {
         addConfig(form.value).then((response) => {
-          proxy.$modal.msgSuccess('新增成功')
+          proxy.$modal.msgSuccess(proxy.$t('crud.addSuccess'))
           open.value = false
           getList()
         })
@@ -235,20 +235,20 @@ function submitForm() {
 function handleDelete(row) {
   const configIds = row.configId || ids.value
   proxy
-    .$confirm('是否确认删除参数编号为"' + configIds + '"的数据项？')
+    .$confirm(proxy.$t('crud.deleteConfirm', { id: configIds }))
     .then(function () {
       return delConfig(configIds)
     })
     .then(() => {
       getList()
-      proxy.$modal.msgSuccess('删除成功')
+      proxy.$modal.msgSuccess(proxy.$t('crud.deleteSuccess'))
     })
     .catch(() => {})
 }
 /** 刷新缓存按钮操作 */
 function handleRefreshCache() {
   refreshCache().then(() => {
-    proxy.$modal.msgSuccess('刷新成功')
+    proxy.$modal.msgSuccess(proxy.$t('configView.refreshSuccess'))
   })
 }
 proxy.getDicts('sys_yes_no').then((response) => {

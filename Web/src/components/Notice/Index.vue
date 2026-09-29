@@ -10,7 +10,7 @@
       <el-tabs v-model="noticeType">
         <el-tab-pane name="0">
           <template #label>
-            <el-badge :show-zero="false" :value="dotNumInfo.noticeNum"> 通知 </el-badge>
+            <el-badge :show-zero="false" :value="dotNumInfo.noticeNum"> {{ $t('notice.notification') }} </el-badge>
           </template>
           <div class="content-box">
             <el-scrollbar>
@@ -32,14 +32,14 @@
             <el-empty v-if="noticeList.length <= 0" :image-size="60"></el-empty>
           </div>
           <div class="foot-box">
-            <div class="read" @click="onAllReadClick" v-show="dotNumInfo.noticeNum > 0">标记当前页已读</div>
-            <div class="goNotice" @click="handleToNotice" v-if="settings.noticeUrl">前往通知中心</div>
+            <div class="read" @click="onAllReadClick" v-show="dotNumInfo.noticeNum > 0">{{ $t('notice.markPageRead') }}</div>
+            <div class="goNotice" @click="handleToNotice" v-if="settings.noticeUrl">{{ $t('notice.goToCenter') }}</div>
           </div>
         </el-tab-pane>
 
         <el-tab-pane name="1">
           <template #label>
-            <el-badge :show-zero="false" :value="dotNumInfo.chatNum"> 私信 </el-badge>
+            <el-badge :show-zero="false" :value="dotNumInfo.chatNum"> {{ $t('notice.privateMsg') }} </el-badge>
           </template>
           <div class="content-box">
             <el-scrollbar>
@@ -48,7 +48,7 @@
                 <div class="content">
                   <div class="title">
                     <span class="name">{{ item.fromUser.nickName }}</span>
-                    回复：{{ item.message }}
+                    {{ $t('notice.reply') }}{{ item.message }}
                   </div>
                   <div class="content-box-time">{{ formatTime(item.chatTime) }}</div>
                 </div>
@@ -57,12 +57,12 @@
             </el-scrollbar>
           </div>
           <div class="foot-box">
-            <div class="read" @click="onAllReadClick" v-if="dotNumInfo.chatNum > 0">标记当前页已读</div>
+            <div class="read" @click="onAllReadClick" v-if="dotNumInfo.chatNum > 0">{{ $t('notice.markPageRead') }}</div>
           </div>
         </el-tab-pane>
         <el-tab-pane name="2">
           <template #label>
-            <el-badge :show-zero="false" :value="dotNumInfo.sysMsgNum"> 系统 </el-badge>
+            <el-badge :show-zero="false" :value="dotNumInfo.sysMsgNum"> {{ $t('notice.system') }} </el-badge>
           </template>
 
           <div class="content-box">
@@ -78,14 +78,14 @@
                   <div class="content-box-time">{{ formatTime(dayjs(item.addTime).valueOf()) }}</div>
                 </div>
                 <div v-if="item.isRead == 0">
-                  <el-button text @click="handleRead(item)">已读</el-button>
+                  <el-button text @click="handleRead(item)">{{ $t('notice.read') }}</el-button>
                 </div>
               </div>
               <el-empty v-if="sysList.length <= 0" :image-size="60"></el-empty>
             </el-scrollbar>
           </div>
           <div class="foot-box">
-            <div class="read" @click="onAllReadClick" v-if="dotNumInfo.sysMsgNum > 0">标记当前页已读</div>
+            <div class="read" @click="onAllReadClick" v-if="dotNumInfo.sysMsgNum > 0">{{ $t('notice.markPageRead') }}</div>
           </div>
         </el-tab-pane>
       </el-tabs>

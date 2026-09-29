@@ -6,18 +6,18 @@
 <template>
   <div>
     <el-form :model="queryParams" label-position="right" inline ref="queryRef" v-show="showSearch" @submit.prevent>
-      <el-form-item label="用户id" prop="userId">
-        <el-input v-model.number="queryParams.userId" placeholder="请输入用户id" />
+      <el-form-item :label="$t('userOnlineLogView.userId')" prop="userId">
+        <el-input v-model.number="queryParams.userId" :placeholder="$t('userOnlineLogView.inputUserId')" />
       </el-form-item>
-      <el-form-item label="用户IP" prop="userIP">
-        <el-input v-model="queryParams.userIP" placeholder="请输入用户IP" />
+      <el-form-item :label="$t('userOnlineLogView.userIP')" prop="userIP">
+        <el-input v-model="queryParams.userIP" :placeholder="$t('userOnlineLogView.inputUserIP')" />
       </el-form-item>
-      <el-form-item label="结束时间">
+      <el-form-item :label="$t('userOnlineLogView.endTime')">
         <el-date-picker
           v-model="dateRangeAddTime"
           type="datetimerange"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
+          :start-placeholder="$t('userOnlineLogView.beginDate')"
+          :end-placeholder="$t('userOnlineLogView.endDate')"
           value-format="YYYY-MM-DD HH:mm:ss"
           :default-time="defaultTime"
           :shortcuts="dateOptions">
@@ -47,22 +47,22 @@
       highlight-current-row
       @sort-change="sortChange">
       <el-table-column prop="id" label="Id" v-if="columns.showColumn('id')" />
-      <el-table-column prop="userId" label="用户id" align="center" v-if="columns.showColumn('userId')" />
-      <el-table-column prop="nickName" label="用户昵称" align="center" />
-      <el-table-column prop="platform" label="登录平台" align="center" />
-      <el-table-column prop="onlineTime" label="在线时长(分)" align="center" v-if="columns.showColumn('onlineTime')" />
-      <el-table-column prop="todayOnlineTime" label="今日在线时长" align="center" v-if="columns.showColumn('onlineTime')" />
-      <el-table-column prop="addTime" label="结束时间" width="170" :show-overflow-tooltip="true" v-if="columns.showColumn('addTime')" />
-      <el-table-column prop="location" label="地址位置" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('location')" />
-      <el-table-column prop="userIP" label="用户IP" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('userIP')" />
-      <el-table-column prop="remark" label="备注" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')" />
-      <el-table-column label="操作" width="90" align="center">
+      <el-table-column prop="userId" :label="$t('userOnlineLogView.userId')" align="center" v-if="columns.showColumn('userId')" />
+      <el-table-column prop="nickName" :label="$t('userOnlineLogView.nickName')" align="center" />
+      <el-table-column prop="platform" :label="$t('userOnlineLogView.platform')" align="center" />
+      <el-table-column prop="onlineTime" :label="$t('userOnlineLogView.onlineTime')" align="center" v-if="columns.showColumn('onlineTime')" />
+      <el-table-column prop="todayOnlineTime" :label="$t('userOnlineLogView.todayOnlineTime')" align="center" v-if="columns.showColumn('onlineTime')" />
+      <el-table-column prop="addTime" :label="$t('userOnlineLogView.endTime')" width="170" :show-overflow-tooltip="true" v-if="columns.showColumn('addTime')" />
+      <el-table-column prop="location" :label="$t('userOnlineLogView.location')" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('location')" />
+      <el-table-column prop="userIP" :label="$t('userOnlineLogView.userIP')" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('userIP')" />
+      <el-table-column prop="remark" :label="$t('userOnlineLogView.remark')" align="center" :show-overflow-tooltip="true" v-if="columns.showColumn('remark')" />
+      <el-table-column :label="$t('btn.operate')" width="90" align="center">
         <template #default="scope">
           <el-button
             type="danger"
             size="small"
             icon="delete"
-            title="删除"
+            :title="$t('btn.delete')"
             v-hasPermi="['useronlinelog:delete']"
             @click="handleDelete(scope.row)"></el-button>
         </template>
@@ -88,12 +88,12 @@ const queryParams = reactive({
 })
 const columns = ref([
   { visible: false, prop: 'id', label: 'Id' },
-  { visible: true, prop: 'userId', label: '用户id' },
-  { visible: true, prop: 'onlineTime', label: '在线时长(分)' },
-  { visible: true, prop: 'addTime', label: '结束时间' },
-  { visible: true, prop: 'location', label: '地址位置' },
-  { visible: true, prop: 'userIP', label: '用户IP' },
-  { visible: true, prop: 'remark', label: '备注' }
+  { visible: true, prop: 'userId', label: proxy.$t('userOnlineLogView.userId') },
+  { visible: true, prop: 'onlineTime', label: proxy.$t('userOnlineLogView.onlineTime') },
+  { visible: true, prop: 'addTime', label: proxy.$t('userOnlineLogView.endTime') },
+  { visible: true, prop: 'location', label: proxy.$t('userOnlineLogView.location') },
+  { visible: true, prop: 'userIP', label: proxy.$t('userOnlineLogView.userIP') },
+  { visible: true, prop: 'remark', label: proxy.$t('userOnlineLogView.remark') }
 ])
 const total = ref(0)
 const dataList = ref([])
@@ -153,9 +153,9 @@ const state = reactive({
   multiple: true,
   form: {},
   rules: {
-    id: [{ required: true, message: 'Id不能为空', trigger: 'blur', type: 'number' }],
-    userId: [{ required: true, message: '用户id不能为空', trigger: 'blur', type: 'number' }],
-    onlineTime: [{ required: true, message: '在线时长(分)不能为空', trigger: 'blur', type: 'number' }]
+    id: [{ required: true, message: proxy.$t('userOnlineLogView.idRequired'), trigger: 'blur', type: 'number' }],
+    userId: [{ required: true, message: proxy.$t('userOnlineLogView.userIdRequired'), trigger: 'blur', type: 'number' }],
+    onlineTime: [{ required: true, message: proxy.$t('userOnlineLogView.onlineTimeRequired'), trigger: 'blur', type: 'number' }]
   },
   options: {}
 })
@@ -167,7 +167,7 @@ function handleDelete(row) {
   const Ids = row.id || ids.value
 
   proxy
-    .$confirm('是否确认删除参数编号为"' + Ids + '"的数据项？', '警告', {
+    .$confirm(proxy.$t('userOnlineLogView.deleteConfirm', { ids: Ids }), proxy.$t('common.tips'), {
       confirmButtonText: proxy.$t('common.ok'),
       cancelButtonText: proxy.$t('common.cancel'),
       type: 'warning'
@@ -177,16 +177,16 @@ function handleDelete(row) {
     })
     .then(() => {
       getList()
-      proxy.$modal.msgSuccess('删除成功')
+      proxy.$modal.msgSuccess(proxy.$t('crud.deleteSuccess'))
     })
 }
 
 // 导出按钮操作
 function handleExport() {
   proxy
-    .$confirm('是否确认导出用户在线时长数据项?', '警告', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    .$confirm(proxy.$t('userOnlineLogView.exportConfirm'), proxy.$t('common.tips'), {
+      confirmButtonText: proxy.$t('common.ok'),
+      cancelButtonText: proxy.$t('common.cancel'),
       type: 'warning'
     })
     .then(async () => {

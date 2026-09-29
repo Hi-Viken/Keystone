@@ -8,34 +8,34 @@
           value-format="YYYY-MM-DD"
           type="daterange"
           range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期">
+          :start-placeholder="$t('common.startDate')"
+          :end-placeholder="$t('common.endDate')">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="search" @click="handleQuery">搜索</el-button>
-        <el-button icon="refresh" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="search" @click="handleQuery">{{ $t('btn.search') }}</el-button>
+        <el-button icon="refresh" @click="resetQuery">{{ $t('btn.reset') }}</el-button>
       </el-form-item>
     </el-form>
 
     <el-table v-loading="loading" :data="list">
       <!-- <el-table-column label="编号" align="center" prop="operId" width="60px" :show-overflow-tooltip="true" /> -->
-      <el-table-column label="系统模块" align="center" prop="title" :show-overflow-tooltip="true" />
-      <el-table-column prop="businessType" label="业务类型" align="center">
+      <el-table-column :label="$t('user.sysModule')" align="center" prop="title" :show-overflow-tooltip="true" />
+      <el-table-column prop="businessType" :label="$t('user.businessType')" align="center">
         <template #default="scope">
           <dict-tag :options="options.sys_oper_type" :value="scope.row.businessType" />
         </template>
       </el-table-column>
       <!-- <el-table-column label="请求方式" align="center" prop="requestMethod" /> -->
-      <el-table-column label="操作地点" align="center" prop="operLocation" :show-overflow-tooltip="true" />
-      <el-table-column label="操作状态" align="center" prop="status">
+      <el-table-column :label="$t('user.operLocation')" align="center" prop="operLocation" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('user.operStatus')" align="center" prop="status">
         <template #default="{ row }">
           <dict-tag :options="options.sys_common_status" :value="row.status"></dict-tag>
         </template>
       </el-table-column>
 
       <!-- <el-table-column label="日志内容" align="center" prop="errorMsg" :show-overflow-tooltip="true" /> -->
-      <el-table-column label="操作日期" align="center" prop="operTime" width="180">
+      <el-table-column :label="$t('user.operDate')" align="center" prop="operTime" width="180">
         <template #default="scope">
           <span>{{ scope.row.operTime }}</span>
         </template>

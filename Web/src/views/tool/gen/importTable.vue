@@ -1,16 +1,16 @@
 <template>
-  <el-dialog title="导入表" v-model="visible" width="900px" top="5vh" append-to-body>
+  <el-dialog :title="$t('genImportView.title')" v-model="visible" width="900px" top="5vh" append-to-body>
     <el-form ref="queryRef" :inline="true" :rules="rules" :model="queryParams">
-      <el-form-item label="数据库" prop="dbName">
-        <el-select v-model="queryParams.dbName" clearable placeholder="请选择" @change="handleQuery">
+      <el-form-item :label="$t('genImportView.database')" prop="dbName">
+        <el-select v-model="queryParams.dbName" clearable :placeholder="$t('genImportView.selectDb')" @change="handleQuery">
           <el-option v-for="item in dbList" :key="item" :label="item" :value="item" />
         </el-select>
       </el-form-item>
-      <el-form-item label="表名">
-        <el-input v-model="queryParams.tableName" clearable placeholder="输入要查询的表名" />
+      <el-form-item :label="$t('genView.tableName')">
+        <el-input v-model="queryParams.tableName" clearable :placeholder="$t('genView.tableNamePh')" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="search" @click="handleQuery()">查询</el-button>
+        <el-button type="primary" icon="search" @click="handleQuery()">{{ $t('btn.search') }}</el-button>
       </el-form-item>
     </el-form>
     <el-row>
@@ -23,14 +23,14 @@
         :row-key="getRowKey"
         @selection-change="handleSelectionChange">
         <el-table-column type="selection" :reserve-selection="true" width="55"></el-table-column>
-        <el-table-column prop="name" label="表名" sortable="custom" width="380" />
-        <el-table-column prop="description" label="表描述" />
+        <el-table-column prop="name" :label="$t('genView.tableName')" sortable="custom" width="380" />
+        <el-table-column prop="description" :label="$t('genView.tableComment')" />
       </el-table>
       <pagination v-model:page="queryParams.pageNum" v-model:limit="queryParams.pageSize" v-model:total="total" @pagination="getList" />
     </el-row>
     <template #footer>
-      <el-button text @click="visible = false">取 消</el-button>
-      <el-button type="primary" :disabled="tables.length <= 0" @click="handleImportTable">确 定</el-button>
+      <el-button text @click="visible = false">{{ $t('btn.cancel') }}</el-button>
+      <el-button type="primary" :disabled="tables.length <= 0" @click="handleImportTable">{{ $t('btn.submit') }}</el-button>
     </template>
   </el-dialog>
 </template>
@@ -52,7 +52,7 @@ const queryParams = reactive({
   tableName: undefined
 })
 const rules = reactive({
-  dbName: [{ required: true, message: '请选择数据库名称', trigger: 'blur' }]
+  dbName: [{ required: true, message: proxy.$t('genImportView.dbNameRequired'), trigger: 'blur' }]
 })
 const emit = defineEmits(['ok'])
 

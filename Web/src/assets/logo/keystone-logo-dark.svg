@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 256" width="1024" height="256">
+  <g transform="translate(24,26) scale(0.1953)">
+    <!-- 内嵌图标：见 keystone-icon.svg -->
+    <image href="keystone-icon.svg" width="1024" height="1024"/>
+  </g>
+  <text x="330" y="130" font-family="Segoe UI, Arial, sans-serif" font-size="112" font-weight="700" fill="#FFFFFF">Keystone</text>
+  <text x="352" y="205" font-family="Segoe UI, Arial, sans-serif" font-size="34" letter-spacing="5.2" fill="#96B9EB">VIDEO & DEVICE PLATFORM</text>
+</svg>

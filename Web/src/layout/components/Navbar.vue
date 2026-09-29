@@ -112,17 +112,17 @@ function handleCommand(command) {
 const copyText = async (val) => {
   try {
     await toClipboard(val)
-    proxy.$modal.msgSuccess('复制成功！')
+    proxy.$modal.msgSuccess(proxy.$t('common.copySuccess'))
   } catch (e) {
     console.log(e)
-    proxy.$modal.msgError('当前浏览器不支持')
+    proxy.$modal.msgError(proxy.$t('common.browserNotSupport'))
   }
 }
 function logout() {
   proxy
     .$confirm(proxy.$t('layout.logOutConfirm'), proxy.$t('common.tips'), {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+      confirmButtonText: proxy.$t('common.ok'),
+      cancelButtonText: proxy.$t('common.cancel'),
       type: 'warning'
     })
     .then(() => {

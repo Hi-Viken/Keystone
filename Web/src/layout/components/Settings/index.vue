@@ -1,24 +1,24 @@
 <template>
-  <el-drawer v-model="showSettings" title="系统设置" :with-header="false" direction="rtl" size="330px">
+  <el-drawer v-model="showSettings" :title="$t('layout.systemSettings')" :with-header="false" direction="rtl" size="330px">
     <!-- <div class="setting-drawer-title">
       <h3 class="drawer-title">导航模式</h3>
     </div> -->
     <el-divider>{{ $t('layout.navMode') }}</el-divider>
     <div class="nav-wrap">
-      <el-tooltip content="左侧菜单" placement="bottom">
+      <el-tooltip :content="$t('layout.leftMenu')" placement="bottom">
         <div class="item left" @click="handleNavType(1)" :class="{ activeItem: navType == 1 }">
           <b></b>
           <b></b>
         </div>
       </el-tooltip>
 
-      <el-tooltip content="混合菜单" placement="bottom">
+      <el-tooltip :content="$t('layout.mixMenu')" placement="bottom">
         <div class="item mix" @click="handleNavType(2)" :class="{ activeItem: navType == 2 }">
           <b></b>
           <b></b>
         </div>
       </el-tooltip>
-      <el-tooltip content="顶部菜单" placement="bottom">
+      <el-tooltip :content="$t('layout.topMenu')" placement="bottom">
         <div class="item top" @click="handleNavType(3)" :class="{ activeItem: navType == 3 }">
           <b></b>
           <b></b>
@@ -311,7 +311,7 @@ function handleNavType(val) {
   settingsStore.changeSetting({ key: 'navType', value: val })
 }
 function saveSetting() {
-  proxy.$modal.loading('正在保存到本地，请稍候...')
+  proxy.$modal.loading(proxy.$t('layout.savingLocal'))
   // let layoutSetting = {
   //   topNav: storeSettings.value.topNav,
   //   tagsView: storeSettings.value.tagsView,
@@ -330,7 +330,7 @@ function saveSetting() {
   setTimeout('window.location.reload()', 200)
 }
 function resetSetting() {
-  proxy.$modal.loading('正在清除设置缓存并刷新，请稍候...')
+  proxy.$modal.loading(proxy.$t('layout.clearingCache'))
   localStorage.removeItem('layout-setting')
   setTimeout('window.location.reload()', 1000)
 }

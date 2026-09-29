@@ -1,42 +1,42 @@
 <template>
   <el-form size="small">
     <el-form-item>
-      <el-radio v-model="radioValue" :label="1"> 日，允许的通配符[, - * ? / L W] </el-radio>
+      <el-radio v-model="radioValue" :label="1"> {{ $t('crontab.dayWildcard') }} </el-radio>
     </el-form-item>
 
     <el-form-item>
-      <el-radio v-model="radioValue" :label="2"> 不指定 </el-radio>
+      <el-radio v-model="radioValue" :label="2"> {{ $t('crontab.notSpecified') }} </el-radio>
     </el-form-item>
 
     <el-form-item>
       <el-radio v-model="radioValue" :label="3">
-        周期从
-        <el-input-number v-model="cycle01" :min="1" :max="30" /> - <el-input-number v-model="cycle02" :min="cycle01 + 1" :max="31" /> 日
+        {{ $t('crontab.cycleFrom') }}
+        <el-input-number v-model="cycle01" :min="1" :max="30" /> - <el-input-number v-model="cycle02" :min="cycle01 + 1" :max="31" /> {{ $t('crontab.dayUnit') }}
       </el-radio>
     </el-form-item>
 
     <el-form-item>
       <el-radio v-model="radioValue" :label="4">
-        从
-        <el-input-number v-model="average01" :min="1" :max="30" /> 号开始，每
-        <el-input-number v-model="average02" :min="1" :max="31 - average01" /> 日执行一次
+        {{ $t('crontab.from') }}
+        <el-input-number v-model="average01" :min="1" :max="30" /> {{ $t('crontab.dayOfMonthStart') }}
+        <el-input-number v-model="average02" :min="1" :max="31 - average01" /> {{ $t('crontab.dayOfMonthExecute') }}
       </el-radio>
     </el-form-item>
 
     <el-form-item>
       <el-radio v-model="radioValue" :label="5">
-        每月
-        <el-input-number v-model="workday" :min="1" :max="31" /> 号最近的那个工作日
+        {{ $t('crontab.everyMonth') }}
+        <el-input-number v-model="workday" :min="1" :max="31" /> {{ $t('crontab.nearestWorkday') }}
       </el-radio>
     </el-form-item>
 
     <el-form-item>
-      <el-radio v-model="radioValue" :label="6"> 本月最后一天 </el-radio>
+      <el-radio v-model="radioValue" :label="6"> {{ $t('crontab.lastDayOfMonth') }} </el-radio>
     </el-form-item>
 
     <el-form-item>
-      <el-radio v-model="radioValue" :label="7"> 指定 </el-radio>
-      <el-select clearable v-model="checkboxList" placeholder="可多选" multiple :multiple-limit="10">
+      <el-radio v-model="radioValue" :label="7"> {{ $t('crontab.specify') }} </el-radio>
+      <el-select clearable v-model="checkboxList" :placeholder="$t('crontab.multiSelect')" multiple :multiple-limit="10">
         <el-option v-for="item in 31" :key="item" :label="item" :value="item" />
       </el-select>
     </el-form-item>

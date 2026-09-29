@@ -5,7 +5,7 @@
         <template v-for="item in conversionMsgList">
           <div class="talk_item talk_primary" v-if="item.self">
             <div class="head">
-              <el-avatar shape="square"> 我 </el-avatar>
+              <el-avatar shape="square">{{ $t('msgList.me') }}</el-avatar>
             </div>
             <div class="content">
               <div class="bubble">{{ item.message }}</div>
@@ -25,10 +25,10 @@
     </div>
     <div class="talk_bottom">
       <div class="talk_area">
-        <textarea class="textarea" placeholder="请输入聊天内容" @keyup.enter="handleSend" v-model="content"></textarea>
+        <textarea class="textarea" :placeholder="$t('msgList.inputPlaceholder')" @keyup.enter="handleSend" v-model="content"></textarea>
 
         <div class="talk_btn">
-          <el-button type="success" size="default" @click="handleSend">发送</el-button>
+          <el-button type="success" size="default" @click="handleSend">{{ $t('msgList.send') }}</el-button>
         </div>
       </div>
     </div>
@@ -51,7 +51,7 @@ const scrollWrapper = computed(() => proxy.$refs.scrollContainer?.$refs.wrapRef)
 
 function handleSend() {
   if (content.value.trim().length <= 0) {
-    proxy.$modal.msgError('请输入聊天内容')
+    proxy.$modal.msgError(proxy.$t('msgList.inputRequired'))
     return
   }
   var obj = {
@@ -65,7 +65,7 @@ function handleSend() {
       scrollBottom()
     })
     .catch(() => {
-      proxy.$modal.msgError('发送失败')
+      proxy.$modal.msgError(proxy.$t('msgList.sendFailed'))
     })
 }
 /**

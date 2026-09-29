@@ -8,7 +8,7 @@
               class="w100"
               :options="menuOptions"
               :props="{ checkStrictly: true, value: 'menuId', label: 'menuName', emitPath: false }"
-              placeholder="请选择上级菜单"
+              :placeholder="$t('menuForm.selectParentMenu')"
               clearable
               v-model="form.parentId">
               <template #default="{ node, data }">
@@ -30,14 +30,14 @@
         </el-col>
         <el-col :lg="12">
           <el-form-item :label="$t('m.menuName')" prop="menuName">
-            <el-input v-model="form.menuName" placeholder="请输入菜单名称" />
+            <el-input v-model="form.menuName" :placeholder="$t('menuForm.inputMenuName')" />
           </el-form-item>
         </el-col>
         <el-col :lg="12">
-          <el-form-item label="菜单名" prop="menuNameKey">
+          <el-form-item :label="$t('menuForm.menuNameLabel')" prop="menuNameKey">
             <template #label>
               <span>
-                <el-tooltip content="多语言翻译key：eg：menu.system，不需要多语言的可不用填写" placement="top">
+                <el-tooltip :content="$t('menuForm.menuNameKeyTip')" placement="top">
                   <el-icon :size="15">
                     <questionFilled />
                   </el-icon>
@@ -45,14 +45,14 @@
                 {{ $t('m.menuNameKey') }}
               </span>
             </template>
-            <el-input v-model="form.menuNameKey" placeholder="请输入菜单名翻译key" />
+            <el-input v-model="form.menuNameKey" :placeholder="$t('menuForm.inputMenuNameKey')" />
           </el-form-item>
         </el-col>
         <el-col :lg="12" v-if="form.menuType != 'F'">
           <el-form-item :label="$t('m.icon')" prop="icon">
             <el-popover placement="bottom-start" :width="540" trigger="click">
               <template #reference>
-                <el-input v-model="form.icon" placeholder="点击选择图标" readonly>
+                <el-input v-model="form.icon" :placeholder="$t('menuForm.selectIcon')" readonly>
                   <template #prefix>
                     <svg-icon v-if="form.icon" :name="form.icon" />
                     <el-icon v-else>
@@ -74,7 +74,7 @@
           <el-form-item prop="path">
             <template #label>
               <span>
-                <el-tooltip content="访问的路由地址，如：`user`，如外网地址需内链访问则以`http(s)://`开头" placement="top">
+                <el-tooltip :content="$t('menuForm.routePathTip')" placement="top">
                   <el-icon :size="15">
                     <questionFilled />
                   </el-icon>
@@ -82,14 +82,14 @@
                 {{ $t('m.routePath') }}
               </span>
             </template>
-            <el-input v-model="form.path" placeholder="请输入路由地址"> </el-input>
+            <el-input v-model="form.path" :placeholder="$t('menuForm.inputRoutePath')"> </el-input>
           </el-form-item>
         </el-col>
         <el-col :lg="12" v-if="!['F', 'M', 'L'].includes(form.menuType)">
           <el-form-item prop="component">
             <template #label>
               <span>
-                <el-tooltip content="访问的组件路径，如：`system/user/index`，默认在`views`目录下" placement="top">
+                <el-tooltip :content="$t('menuForm.componentPathTip')" placement="top">
                   <el-icon :size="15">
                     <questionFilled />
                   </el-icon>
@@ -97,7 +97,7 @@
                 {{ $t('m.componentPath') }}
               </span>
             </template>
-            <el-input v-model="form.component" placeholder="请输入组件路径">
+            <el-input v-model="form.component" :placeholder="$t('menuForm.inputComponentPath')">
               <template #prepend>
                 <span style="width: 40px">src/views/</span>
               </template>
@@ -106,10 +106,10 @@
         </el-col>
         <el-col :lg="12">
           <el-form-item>
-            <el-input v-model="form.perms" placeholder="请输入权限标识" maxlength="100" />
+            <el-input v-model="form.perms" :placeholder="$t('menuForm.inputPermission')" maxlength="100" />
             <template #label>
               <span>
-                <el-tooltip content="控制器中定义的权限字符，如：[ActionPermissionFilter(Permission = 'system:user:delete')])" placement="top">
+                <el-tooltip :content="$t('menuForm.permissionTip')" placement="top">
                   <el-icon :size="15">
                     <questionFilled />
                   </el-icon>
@@ -121,15 +121,15 @@
         </el-col>
         <el-col :lg="12" v-if="form.menuType == 'C'">
           <el-form-item>
-            <el-input v-model="form.query" placeholder="请输入路由参数" maxlength="255" />
+            <el-input v-model="form.query" :placeholder="$t('menuForm.inputRouteQuery')" maxlength="255" />
             <template #label>
               <span>
-                <el-tooltip content='访问路由的默认传递参数，如：`{"id": 1, "name": "ry"}`' placement="top">
+                <el-tooltip :content="$t('menuForm.routeQueryTip')" placement="top">
                   <el-icon :size="15">
                     <questionFilled />
                   </el-icon>
                 </el-tooltip>
-                路由参数
+                {{ $t('menuForm.routeQuery') }}
               </span>
             </template>
           </el-form-item>
@@ -139,7 +139,7 @@
           <el-form-item>
             <template #label>
               <span>
-                <el-tooltip content="选择是外链则路由地址需要以`http(s)://`开头" placement="top">
+                <el-tooltip :content="$t('menuForm.isFrameTip')" placement="top">
                   <el-icon :size="15">
                     <questionFilled />
                   </el-icon>
@@ -157,7 +157,7 @@
           <el-form-item prop="isCache">
             <template #label>
               <span>
-                <el-tooltip content="选择是则会被`keep-alive`缓存，需要匹配组件的`name`和地址保持一致" placement="top">
+                <el-tooltip :content="$t('menuForm.isCacheTip')" placement="top">
                   <el-icon :size="15">
                     <questionFilled />
                   </el-icon>
@@ -176,7 +176,7 @@
           <el-form-item prop="visible">
             <template #label>
               <span>
-                <el-tooltip content="选择隐藏则路由将不会出现在侧边栏，但仍然可以访问" placement="top">
+                <el-tooltip :content="$t('menuForm.isShowTip')" placement="top">
                   <el-icon :size="15">
                     <questionFilled />
                   </el-icon>
@@ -193,7 +193,7 @@
           <el-form-item>
             <template #label>
               <span>
-                <el-tooltip content="选择停用则路由将不会出现在侧边栏，也不能被访问" placement="top">
+                <el-tooltip :content="$t('menuForm.menuStateTip')" placement="top">
                   <el-icon :size="15">
                     <questionFilled />
                   </el-icon>
@@ -231,15 +231,15 @@ const props = defineProps({
 const state = reactive({
   form: {},
   rules: {
-    menuName: [{ required: true, message: '菜单名称不能为空', trigger: 'blur' }],
-    menuNameKey: [{ pattern: /^[A-Za-z].+$/, message: '输入格式不正确', trigger: 'blur' }],
-    orderNum: [{ required: true, message: '菜单顺序不能为空', trigger: 'blur' }],
+    menuName: [{ required: true, message: proxy.$t('menuForm.menuNameRequired'), trigger: 'blur' }],
+    menuNameKey: [{ pattern: /^[A-Za-z].+$/, message: proxy.$t('menuForm.inputFormatIncorrect'), trigger: 'blur' }],
+    orderNum: [{ required: true, message: proxy.$t('menuForm.orderNumRequired'), trigger: 'blur' }],
     path: [
-      { required: false, message: '路由地址不能为空', trigger: 'blur' },
-      { pattern: /^[/A-Za-z].+$/, message: '输入格式不正确，字母开头', trigger: 'blur' }
+      { required: false, message: proxy.$t('menuForm.routePathRequired'), trigger: 'blur' },
+      { pattern: /^[/A-Za-z].+$/, message: proxy.$t('menuForm.pathFormatIncorrect'), trigger: 'blur' }
     ],
-    visible: [{ required: true, message: '显示状态不能为空', trigger: 'blur' }],
-    component: [{ required: true, message: '组件地址不能为空', trigger: 'blur' }]
+    visible: [{ required: true, message: proxy.$t('menuForm.visibleRequired'), trigger: 'blur' }],
+    component: [{ required: true, message: proxy.$t('menuForm.componentRequired'), trigger: 'blur' }]
   },
   sys_show_hide: [],
   sys_normal_disable: []
@@ -308,7 +308,7 @@ function submitForm() {
     if (valid) {
       if (form.value.menuId != undefined) {
         updateMenu(form.value).then(() => {
-          proxy.$modal.msgSuccess('修改成功')
+          proxy.$modal.msgSuccess(proxy.$t('common.updateSuccess'))
           open.value = false
 
           emit('success', form.value.parentId)
@@ -316,7 +316,7 @@ function submitForm() {
         })
       } else {
         addMenu(form.value).then(() => {
-          proxy.$modal.msgSuccess('新增成功')
+          proxy.$modal.msgSuccess(proxy.$t('common.addSuccess'))
           open.value = false
           // refreshMenu(form.value.parentId)
           emit('success', form.value.parentId)

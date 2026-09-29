@@ -33,7 +33,7 @@ const langOptions = ref([
 ])
 
 function handleLanguageChange(lang) {
-  proxy.$modal.loading('正在设置语言，请稍候...')
+  proxy.$modal.loading(proxy.$t('layout.settingLang'))
   appStore.setLang(lang)
   setTimeout('window.location.reload()', 1000)
 }

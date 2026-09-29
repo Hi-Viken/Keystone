@@ -6,7 +6,7 @@
 <script>
 export default {
   setup() {
-    const url = ref("https://gitee.com/izory/ZrAdminNetCore");
+    const url = ref("https://github.com/Hi-Viken/Keystone");
 
     function goto() {
       window.open(url.value);

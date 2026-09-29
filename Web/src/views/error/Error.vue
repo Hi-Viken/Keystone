@@ -2,11 +2,11 @@
   <div class="errPage-container">
     <el-row>
       <el-col :span="12">
-        <h1 class="text-jumbo text-ginormous">提示!</h1>
+        <h1 class="text-jumbo text-ginormous">{{ $t('error.tip') }}</h1>
         <h3 class="text-danger">{{ msgObj.msg }}</h3>
         <!-- <h6>{{ msgObj }}</h6> -->
         <div class="list-unstyled">
-          <router-link to="/"> 回首页 </router-link>
+          <router-link to="/"> {{ $t('error.returnHome') }} </router-link>
         </div>
       </el-col>
       <el-col :span="12">

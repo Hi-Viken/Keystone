@@ -31,8 +31,8 @@
             </el-tooltip>
           </span>
           <template v-else-if="item.type == colType.actions">
-            <el-button link type="primary" icon="edit" @click="handleEdit(scope)">编辑</el-button>
-            <el-button link type="danger" icon="delete" @click="handleDelete(scope)">删除</el-button>
+            <el-button link type="primary" icon="edit" @click="handleEdit(scope)">{{ $t('btn.edit') }}</el-button>
+            <el-button link type="danger" icon="delete" @click="handleDelete(scope)">{{ $t('btn.delete') }}</el-button>
           </template>
           <DictTag v-else-if="item.type == colType.dict" :options="dicts[item.dictType]" :value="scope.row[item.prop]"></DictTag>
 

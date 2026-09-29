@@ -1,16 +1,16 @@
 <template>
   <div class="app-container">
     <el-form :inline="true" @submit.prevent>
-      <el-form-item label="角色名">
+      <el-form-item :label="$t('roleusersView.roleName')">
         <el-input v-model="roleUserQueryParams.roleName" disabled />
       </el-form-item>
-      <el-form-item label="角色字符串">
+      <el-form-item :label="$t('roleusersView.roleKey')">
         <el-input v-model="roleUserQueryParams.roleKey" disabled />
       </el-form-item>
-      <el-form-item label="用户名">
+      <el-form-item :label="$t('roleusersView.userName')">
         <el-input
           v-model="roleUserQueryParams.userName"
-          placeholder="请输入用户名称"
+          :placeholder="$t('roleusersView.userNamePh')"
           clearable
           prefix-icon="search"
           @keyup.enter="searchRoleUser" />
@@ -46,16 +46,16 @@
       stripe
       border>
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column prop="userId" align="center" label="用户Id" width="150" />
-      <el-table-column prop="userName" align="center" label="用户名" width="150" />
-      <el-table-column prop="nickName" align="center" label="用户昵称" width="150" />
-      <el-table-column prop="status" align="center" label="账号状态" width="110">
+      <el-table-column prop="userId" align="center" :label="$t('roleusersView.userId')" width="150" />
+      <el-table-column prop="userName" align="center" :label="$t('roleusersView.userName')" width="150" />
+      <el-table-column prop="nickName" align="center" :label="$t('roleusersView.nickName')" width="150" />
+      <el-table-column prop="status" align="center" :label="$t('roleusersView.accountStatus')" width="110">
         <template #default="scope">
           <dict-tag :options="statusOptions" :value="scope.row.status" />
         </template>
       </el-table-column>
-      <el-table-column prop="remark" :show-overflow-tooltip="true" align="center" label="备注" />
-      <el-table-column align="center" label="操作">
+      <el-table-column prop="remark" :show-overflow-tooltip="true" align="center" :label="$t('common.remark')" />
+      <el-table-column align="center" :label="$t('btn.operate')">
         <template #default="scope">
           <el-button
             text
@@ -76,12 +76,12 @@
       @pagination="getRoleUser" />
 
     <!-- 添加或修改菜单对话框 -->
-    <el-dialog title="添加用户" v-model="open" append-to-body @close="cancel">
+    <el-dialog :title="$t('roleusersView.addUserTitle')" v-model="open" append-to-body @close="cancel">
       <el-form :inline="true" @submit.prevent>
         <el-form-item>
           <el-input
             v-model="userQueryParams.userName"
-            placeholder="请输入用户名称"
+            :placeholder="$t('roleusersView.userNamePh')"
             clearable
             prefix-icon="search"
             @keyup.enter="handleSearchRoleUser" />
@@ -99,10 +99,10 @@
             border
             :height="tableHeight * 0.5">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column prop="userId" align="center" label="用户编号" width="150" />
-            <el-table-column prop="userName" align="center" label="用户名称" width="150" />
-            <el-table-column prop="nickName" align="center" label="用户昵称" width="150" />
-            <el-table-column prop="status" align="center" label="用户状态">
+            <el-table-column prop="userId" align="center" :label="$t('roleusersView.userId')" width="150" />
+            <el-table-column prop="userName" align="center" :label="$t('roleusersView.userName')" width="150" />
+            <el-table-column prop="nickName" align="center" :label="$t('roleusersView.nickName')" width="150" />
+            <el-table-column prop="status" align="center" :label="$t('roleusersView.userStatus')">
               <template #default="scope">
                 <dict-tag :options="statusOptions" :value="scope.row.status" />
               </template>
@@ -210,13 +210,13 @@ function handleCancelSelectionChange(selection) {
 // 批量删除角色用户
 function cancelAuthUserAll() {
   if (delSelections.value.length === 0) {
-    proxy.$modal.msgError('请选择要删除的用户')
+    proxy.$modal.msgError(proxy.$t('roleusersView.selectUserToDelete'))
     return
   }
   proxy
-    .$confirm('是否确认删除选中的 ' + delSelections.value.length + ' 条数据?', '警告', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    .$confirm(proxy.$t('crud.batchDeleteConfirm', { count: delSelections.value.length }), proxy.$t('common.warning'), {
+      confirmButtonText: proxy.$t('common.confirm'),
+      cancelButtonText: proxy.$t('common.cancel'),
       type: 'warning'
     })
     .then(() => {
@@ -226,7 +226,7 @@ function cancelAuthUserAll() {
       }).then((response) => {
         if (response.code === 200) {
           proxy.$message({
-            message: '成功删除' + response.data + '条数据',
+            message: proxy.$t('roleusersView.deleteSuccess', { count: response.data }),
             type: 'success'
           })
           getRoleUser()
@@ -246,7 +246,7 @@ function handleCancelPerm(row) {
   }).then((response) => {
     if (response.code === 200) {
       proxy.$message({
-        message: '成功删除' + response.data + '条数据',
+        message: proxy.$t('roleusersView.deleteSuccess', { count: response.data }),
         type: 'success'
       })
       getRoleUser()
@@ -276,7 +276,7 @@ function handleGetUserTable() {
 // 新增用户角色
 function handleSubmit() {
   if (addSelections.value.length <= 0) {
-    proxy.$modal.msgError('请选择要添加的用户')
+    proxy.$modal.msgError(proxy.$t('roleusersView.selectUserToAdd'))
     return
   }
   createRoleUsers({
@@ -285,7 +285,7 @@ function handleSubmit() {
   }).then((response) => {
     if (response.code === 200) {
       proxy.$message({
-        message: '成功添加' + response.data + '条数据',
+        message: proxy.$t('roleusersView.addSuccess', { count: response.data }),
         type: 'success'
       })
       getRoleUser()

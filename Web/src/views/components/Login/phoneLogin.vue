@@ -32,7 +32,7 @@
     <el-form-item style="width: 100%" :style="{ 'margin-top': captchaOnOff == 'off' ? '40px' : '' }">
       <el-button :loading="loading" size="default" round type="primary" style="width: 100%" @click.prevent="handleLogin">
         <span v-if="!loading">{{ $t('login.btnLogin') }}</span>
-        <span v-else>登 录 中...</span>
+        <span v-else>{{ $t('login.loginLoading') }}</span>
       </el-button>
     </el-form-item>
   </el-form>
@@ -54,9 +54,9 @@ const loginForm = ref({
 })
 
 const loginRules = {
-  phoneNum: [{ required: true, trigger: 'blur', message: '请输入手机号码', pattern: /^1\d{10}$/ }],
-  phoneCode: [{ required: true, trigger: 'blur', message: '请输入短信验证码' }],
-  code: [{ required: true, trigger: 'change', message: '请输入验证码' }]
+  phoneNum: [{ required: true, trigger: 'blur', message: proxy.$t('login.phoneNumRequired'), pattern: /^1\d{10}$/ }],
+  phoneCode: [{ required: true, trigger: 'blur', message: proxy.$t('login.phoneCodeRequired') }],
+  code: [{ required: true, trigger: 'change', message: proxy.$t('login.captchaRequired') }]
 }
 const loginType = ref(1)
 const codeUrl = ref('')

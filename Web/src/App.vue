@@ -57,9 +57,9 @@ watch(
 )
 
 
-console.log('🎉源码地址: https://gitee.com/izory/ZrAdminNetCore')
-console.log('📖官方文档：http://www.izhaorui.cn')
-console.log('💰打赏作者：http://www.izhaorui.cn/doc/support.html')
-console.log('📱移动端体验：http://www.izhaorui.cn/h5')
+console.log('🎉源码地址: https://github.com/Hi-Viken/Keystone')
+console.log('📖官方文档：http://vkin.cc')
+console.log('💰打赏作者：http://vkin.cc/doc/support.html')
+console.log('📱移动端体验：http://demo.vkin.cc/h5')
 </script>
 <style lang="scss" scoped></style>
